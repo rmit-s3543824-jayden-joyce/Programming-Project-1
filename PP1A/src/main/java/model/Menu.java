@@ -2,10 +2,20 @@ package model;
 
 public class Menu {
 
-	public Boolean login()
+	FileTools fileTool = new FileTools();
+
+	public Boolean login(String username, String password)
 	{
+		User user = fileTool.LoadPlayer(username);
 		
-		return false;
+		if (user.password.equals(password))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
 	public Boolean register()
