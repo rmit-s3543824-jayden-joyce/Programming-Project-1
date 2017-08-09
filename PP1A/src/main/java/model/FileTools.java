@@ -66,6 +66,6 @@ public class FileTools {
 			e.printStackTrace();
 		}
 		
-		return splitString;
+		return null;
 	}
 }
