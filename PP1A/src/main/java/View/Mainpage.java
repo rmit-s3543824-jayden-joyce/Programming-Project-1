@@ -7,6 +7,7 @@ import java.util.Map;
 
 import model.Menu;
 import spark.ModelAndView;
+import spark.Request;
 import spark.template.velocity.VelocityTemplateEngine;
 
 public class Mainpage {
@@ -36,16 +37,8 @@ public class Mainpage {
 		});
 		
 		get("/redirectUser", (req, res) -> {
-			Map<String, Object> model = new HashMap<>();
-			
-			String username	= req.queryParams("username");
-			String password	= req.queryParams("password");
-			
-			if(Menu.login(username, password))
-				model.put("template", "user.vtl");
-			else
-				model.put("template", "login.vtl");
-			
+			Map<String, Object> model = testLogin(req);
+						
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
 		});
 		
@@ -53,6 +46,28 @@ public class Mainpage {
 			Map<String, Object> model = new HashMap<>();
 			
 			model.put("template", "register.vtl");
+			
+			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
+		});
+		
+		get("/regSuccess", (req, res) -> {
+			Map<String, Object> model = new HashMap<>();
+			
+			String userName = req.queryParams("username");
+			String firstName = req.queryParams("firstname");
+			String lastName = req.queryParams("lastname");
+			int age = Integer.parseInt(req.queryParams("age"));
+			String password = req.queryParams("password");
+			String confirmPassword = req.queryParams("confirmpassword");
+			
+			if(Menu.register(userName, firstName, lastName, age, password, confirmPassword))
+			{
+				model.put("template", "user.vtl");
+			}
+			else
+			{
+				model.put("template", "register.vtl");
+			}
 			
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
 		});
@@ -72,5 +87,19 @@ public class Mainpage {
 			
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
 		});
+	}
+	
+	public static Map<String, Object> testLogin(Request req){
+		Map<String, Object> model = new HashMap<>();
+		
+		String username	= req.queryParams("username");
+		String password	= req.queryParams("password");
+		
+		if(Menu.login(username, password))
+			model.put("template", "user.vtl");
+		else
+			model.put("template", "login.vtl");
+		
+		return model;		
 	}
 }

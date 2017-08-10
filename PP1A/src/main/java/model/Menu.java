@@ -6,7 +6,7 @@ public class Menu {
 
 	//11082017 change filetools and login class to static
 	static FileTools fileTool = new FileTools();
-	Validate valTool = new Validate();
+	static Validate valTool = new Validate();
 
 	public static Boolean login(String username, String password)
 	{
@@ -22,7 +22,7 @@ public class Menu {
 		}
 	}
 	
-	public boolean register(String user_ID, String user_fname, 
+	public static boolean register(String user_ID, String user_fname, 
 			                String user_lname, int age,
 			                String password, String pwConfirm) throws IOException{
 		//User input validation --> See Validae Class
