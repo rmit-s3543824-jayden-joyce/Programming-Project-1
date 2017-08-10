@@ -1,7 +1,9 @@
 package model;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class FileTools {
@@ -67,5 +69,23 @@ public class FileTools {
 		}
 		
 		return splitString;
+	}
+	
+	//convert to CVS format
+	public String toCVS(User player){
+		String cvsString = null;
+		cvsString = player.user_ID + "," + 
+					player.password + "," + 
+					player.user_fname + "," + 
+					player.user_lname + "," +
+					player.age;
+		return cvsString;
+	}
+	//write to end of file (Append to File)
+	public void playerToFile(User player) throws IOException{
+		FileWriter fw =  new FileWriter(USER_DATA_FILE,true);
+		BufferedWriter bw = new BufferedWriter(fw);
+		
+		bw.write(toCVS(player));
 	}
 }
