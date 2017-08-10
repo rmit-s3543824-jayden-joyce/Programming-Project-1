@@ -3,14 +3,18 @@ package model;
 import java.io.IOException;
 
 public class Menu {
+	FileTools fileTool = new FileTools();
+	Validate valTool = new Validate();
 
-	//11082017 change filetools and login class to static
-	static FileTools fileTool = new FileTools();
-	static Validate valTool = new Validate();
-
-	public static Boolean login(String username, String password)
+	public Boolean login(String username, String password)
 	{
 		User user = fileTool.LoadPlayer(username);
+		
+		//if input user name does not exist
+		if (user == null)
+		{
+			return false;
+		}
 		
 		if (user.getPassword().equals(password))
 		{
@@ -22,7 +26,7 @@ public class Menu {
 		}
 	}
 	
-	public static boolean register(String user_ID, String user_fname, 
+	public boolean register(String user_ID, String user_fname, 
 			                String user_lname, int age,
 			                String password, String pwConfirm) throws IOException{
 		//User input validation --> See Validae Class
