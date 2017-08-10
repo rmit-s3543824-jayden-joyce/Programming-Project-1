@@ -1,6 +1,6 @@
 model\FileTools.class
-model\Menu.class
 model\Validate.class
+model\Menu.class
 View\Mainpage.class
 model\Transaction.class
 model\TradingAcc.class
