@@ -2,11 +2,11 @@ package model;
 
 public abstract class User {
 
-	String user_ID;
-	String user_fname;
-	String user_lname;
-	int age;
-	String password;
+	private String user_ID;
+	private String user_fname;
+	private String user_lname;
+	private int age;
+	private String password;
 
 	public User(String user_ID, String password, String firstName, String lastName, int age)
 	{
@@ -17,4 +17,28 @@ public abstract class User {
 		this.password = password;
 	}
 	
+	public String getID()
+	{
+		return user_ID;
+	}
+	
+	public String getFName()
+	{
+		return user_fname;
+	}
+	
+	public String getLName()
+	{
+		return user_lname;
+	}
+	
+	public int getAge()
+	{
+		return age;
+	}
+	
+	public String getPassword()
+	{
+		return password;
+	}
 }

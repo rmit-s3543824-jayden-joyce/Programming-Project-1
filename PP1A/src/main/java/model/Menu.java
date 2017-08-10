@@ -11,7 +11,7 @@ public class Menu {
 	{
 		User user = fileTool.LoadPlayer(username);
 		
-		if (user.password.equals(password))
+		if (user.getPassword().equals(password))
 		{
 			return true;
 		}

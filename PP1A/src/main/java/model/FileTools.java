@@ -68,17 +68,17 @@ public class FileTools {
 			e.printStackTrace();
 		}
 		
-		return splitString;
+		return null;
 	}
 	
 	//convert to CVS format
 	public String toCVS(User player){
 		String cvsString = null;
-		cvsString = player.user_ID + "," + 
-					player.password + "," + 
-					player.user_fname + "," + 
-					player.user_lname + "," +
-					player.age;
+		cvsString = player.getID() + "," + 
+					player.getPassword() + "," + 
+					player.getFName() + "," + 
+					player.getLName() + "," +
+					player.getAge();
 		return cvsString;
 	}
 	//write to end of file (Append to File)
