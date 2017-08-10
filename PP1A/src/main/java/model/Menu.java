@@ -4,10 +4,11 @@ import java.io.IOException;
 
 public class Menu {
 
-	FileTools fileTool = new FileTools();
+	//11082017 change filetools and login class to static
+	static FileTools fileTool = new FileTools();
 	Validate valTool = new Validate();
 
-	public Boolean login(String username, String password)
+	public static Boolean login(String username, String password)
 	{
 		User user = fileTool.LoadPlayer(username);
 		

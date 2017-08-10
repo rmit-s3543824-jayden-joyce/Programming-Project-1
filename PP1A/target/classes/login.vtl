@@ -1,6 +1,20 @@
 <!--This is the login page-->
 
-<p>This is the login page</p>
+<h>This is the login page</h>
+
+<form action='/redirectUser'  method="post">
+	<label for="username">Username</label>
+    <input type="text" id="username" name="username">
+    <br>
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password">
+    
+    <button type="submit">Login</button>
+</form>
+
+<!--
 <p><a href='/admin'>Admin</a></p>
 <p><a href='/user'>User</a></p>
+-->
+
 <p><a href='/'>Back</a></p>

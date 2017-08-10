@@ -5,6 +5,7 @@ import static spark.Spark.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import model.Menu;
 import spark.ModelAndView;
 import spark.template.velocity.VelocityTemplateEngine;
 
@@ -34,6 +35,20 @@ public class Mainpage {
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
 		});
 		
+		get("/redirectUser", (req, res) -> {
+			Map<String, Object> model = new HashMap<>();
+			
+			String username	= req.queryParams("username");
+			String password	= req.queryParams("password");
+			
+			if(Menu.login(username, password))
+				model.put("template", "user.vtl");
+			else
+				model.put("template", "login.vtl");
+			
+			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
+		});
+		
 		get("/register", (req, res) -> {
 			Map<String, Object> model = new HashMap<>();
 			
@@ -58,24 +73,4 @@ public class Mainpage {
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
 		});
 	}
-
-	public static void registerPage() {
-		// TODO Auto-generated method stub
-		get("/register", (req, res) -> ""
-        		+ "This is the registerPage");
-	}
-	
-	public static void loginPage() {
-		// TODO Auto-generated method stub
-		
-		//button to userPage
-		//button to adminPage
-	}
-	
-	public static void adminPage() {
-		// TODO Auto-generated method stub
-		get("/admin", (req, res) -> ""
-        		+ "This is the adminPage");
-	}
-
 }
