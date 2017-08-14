@@ -11,6 +11,13 @@ public class Menu {
 	{
 		User user = fileTool.LoadPlayer(username);
 		
+		//if input user name does not exist
+		if (user == null)
+		{
+			return false;
+		}
+		
+		//if input user name found, check password
 		if (user.getPassword().equals(password))
 		{
 			return true;
