@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Player extends User{
 	
@@ -45,7 +46,6 @@ public class Player extends User{
 					continue;
 				}
 				//writing unedited line
-				bw.write(line + "\r\n");
 			}
 			
 			br.close();
@@ -66,10 +66,12 @@ public class Player extends User{
 	
 	//Opening a new trading account with initial balance
 	public TradingAcc openTradeAcc(String user_ID){
-		TradingAcc newAcc = new TradingAcc(user_ID);
-		System.out.println("Successfully Open a Trading Account!");
-		newAcc.currBal = newAcc.INIT_BAL;
 		
+		TradingAcc newAcc = new TradingAcc(user_ID);
+		newAcc.setCurrBal(newAcc.INIT_BAL);
+		newAcc.setSharesOwned(new ArrayList<Shares>());
+		
+		System.out.println("Successfully Open a Trading Account!");		
 		return newAcc;
 	}
 	

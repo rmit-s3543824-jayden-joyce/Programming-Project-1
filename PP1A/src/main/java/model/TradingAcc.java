@@ -5,8 +5,9 @@ import java.util.ArrayList;
 
 public class TradingAcc {
 	public static final BigDecimal INIT_BAL = new BigDecimal(1000000);
-	String user_ID;
-	BigDecimal currBal;
+	private String user_ID;
+	private BigDecimal currBal;
+	private ArrayList<Shares> sharesOwned;
 	
 	public TradingAcc(String user_ID){
 		this.user_ID = user_ID;
@@ -39,5 +40,14 @@ public class TradingAcc {
 	public BigDecimal setCurrBal(BigDecimal newBal){
 		currBal = newBal;
 		return currBal;
+	}
+	
+	public ArrayList<Shares> getSharesOwned(){
+		return sharesOwned;
+	}
+	
+	public ArrayList<Shares> setSharesOwned(ArrayList<Shares> newShares){
+		sharesOwned = newShares;
+		return sharesOwned;
 	}
 }
