@@ -1,16 +1,22 @@
 <!--This is the login page-->
 
-<h>This is the login page</h>
+<h1 class="cText" >Login</h1>
 
+<div class="center" align="center">
 <form action='/redirectUser'>
-	<label for="username">Username</label>
-    <input type="text" id="username" name="username">
-    <br>
-    <label for="password">Password</label>
-    <input type="password" id="password" name="password">
-    
+	<table>
+		<tr>
+			<td>Username</td>
+			<td><input type="text" id="username" name="username"required></td>
+		</tr>
+		<tr>
+			<td>Password</td>
+			<td><input type="password" id="password" name="password" required></td>
+		</tr>
+	</table>
     <button type="submit">Login</button>
 </form>
+</div>
 
 <!--
 <p><a href='/admin'>Admin</a></p>

@@ -8,6 +8,7 @@ import java.util.Map;
 import model.Menu;
 import spark.ModelAndView;
 import spark.Request;
+import spark.Spark;
 import spark.template.velocity.VelocityTemplateEngine;
 
 public class Mainpage {
@@ -15,6 +16,8 @@ public class Mainpage {
 	
 	//this class is used to test for Velocity template
 	public static void helloWorld(){
+		staticFiles.location("/public");
+		
 		get("/", (req, res) -> {
 			Map<String, Object> model = new HashMap<>();
 			

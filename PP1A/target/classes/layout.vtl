@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Stock Market Simulator</title>		
+		<title>Stock Market Simulator</title>
+		<link rel="stylesheet" href="layout.css">	
 	</head>
 	
 	<body>
-		<!--begin inner template-->
-		<div class="container">
-			#parse($template)
-		</div>
-		<!--end inner template-->
+	<div class="navbar">
+		<a href="/register">Sign up</a>
+		<a href="/login">Login</a>
+		<a id="title" href="/">Stock Market Simulator</a>
+	</div>
+	
+	<!--begin inner template-->
+	<div class="main">
+		#parse($template)
+	</div>
+	<!--end inner template-->
+
 	</body>
 </html>

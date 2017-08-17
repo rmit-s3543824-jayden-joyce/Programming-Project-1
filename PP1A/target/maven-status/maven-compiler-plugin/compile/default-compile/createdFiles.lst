@@ -1,11 +1,11 @@
+model\User.class
+View\Mainpage.class
 model\FileTools.class
 model\Validate.class
-model\Menu.class
-View\Mainpage.class
-model\Transaction.class
-model\TradingAcc.class
 controller\Main.class
-model\Player.class
+model\Transaction.class
+model\Menu.class
 model\Shares.class
-model\User.class
+model\TradingAcc.class
+model\Player.class
 model\Admin.class
