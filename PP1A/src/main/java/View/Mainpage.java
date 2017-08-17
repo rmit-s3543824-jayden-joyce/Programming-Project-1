@@ -15,14 +15,11 @@ public class Mainpage {
 	public static Menu menu;
 	
 	//this class is used to test for Velocity template
-<<<<<<< HEAD
+
 	public static void helloWorld(){
 		staticFiles.location("/public");
-=======
-	public static void helloWorld(){	
-		menu = new Menu();
->>>>>>> origin/YQ
 		
+		menu = new Menu();
 		get("/", (req, res) -> {
 			Map<String, Object> model = new HashMap<>();
 			
