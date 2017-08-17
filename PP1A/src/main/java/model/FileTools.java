@@ -158,7 +158,7 @@ public class FileTools {
 	}
 	
 	//convert to CVS format
-	public String toCVS(User player){
+	public String toCSV(User player){
 		String cvsString = null;
 		cvsString = player.getID() + "," + 
 					player.getPassword() + "," + 
@@ -172,6 +172,12 @@ public class FileTools {
 		FileWriter fw =  new FileWriter(USER_DATA_FILE,true);
 		BufferedWriter bw = new BufferedWriter(fw);
 		
-		bw.write(toCVS(player));
+		bw.write(toCSV(player));
+	}
+	
+	// Putting the trading account into a string format
+	public String trAccToString(TradingAcc tr){
+		String trAcc = null;
+		return trAcc;
 	}
 }

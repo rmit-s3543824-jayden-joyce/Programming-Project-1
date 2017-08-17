@@ -17,6 +17,8 @@ public abstract class User {
 		this.password = password;
 	}
 	
+	
+	// Getters and setters
 	public String getID()
 	{
 		return user_ID;
