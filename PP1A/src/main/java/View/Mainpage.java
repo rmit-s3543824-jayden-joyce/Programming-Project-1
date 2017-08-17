@@ -12,11 +12,16 @@ import spark.Spark;
 import spark.template.velocity.VelocityTemplateEngine;
 
 public class Mainpage {
-	
+	public static Menu menu;
 	
 	//this class is used to test for Velocity template
+<<<<<<< HEAD
 	public static void helloWorld(){
 		staticFiles.location("/public");
+=======
+	public static void helloWorld(){	
+		menu = new Menu();
+>>>>>>> origin/YQ
 		
 		get("/", (req, res) -> {
 			Map<String, Object> model = new HashMap<>();
@@ -63,7 +68,7 @@ public class Mainpage {
 			String password = req.queryParams("password");
 			String confirmPassword = req.queryParams("confirmpassword");
 			
-			if(Menu.register(userName, firstName, lastName, age, password, confirmPassword))
+			if(menu.register(userName, firstName, lastName, age, password, confirmPassword))
 			{
 				model.put("template", "user.vtl");
 			}
@@ -98,7 +103,7 @@ public class Mainpage {
 		String username	= req.queryParams("username");
 		String password	= req.queryParams("password");
 		
-		if(Menu.login(username, password))
+		if(menu.login(username, password))
 			model.put("template", "user.vtl");
 		else
 			model.put("template", "login.vtl");
