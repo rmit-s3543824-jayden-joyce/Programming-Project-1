@@ -9,6 +9,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -19,42 +21,40 @@ import com.opencsv.CSVWriter;
 public class FileTools {
 	public static final String USER_DATA_FILE = "src/main/resources/userData.csv";
 	public static final String ASX_COMPANIES_DATA_FILE = "src/main/resources/ASXListedCompanies.csv";
-    public static final String ASX_JSON_PATH = "data.asx.com.au/data/1/share/";
-    public static final String ASX_JSON_PAST_DAILY = "/prices?interval=daily&count=";
+	public static final String ALPHA_ADVANTAGE_API_KEY = "MP9H93RQEUUFGX07";
+    public static final String URL_JSON_PATH_P1 = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=";
+    public static final String URL_JSON_PATH_P2 = ".AX&interval=60min&apikey=" + ALPHA_ADVANTAGE_API_KEY;
 	
     //fetch data from a JSON in a url using its ASX code, if ASX code is not a key, then return null
 	public JSONObject fetchShareData(String ASXcode) throws IOException
 	{
 		JSONObject json = null;
-		URL url = new URL("http://" + ASX_JSON_PATH + ASXcode);
+		URL url = new URL(URL_JSON_PATH_P1 + ASXcode + URL_JSON_PATH_P2);
 		InputStream is;
 		BufferedReader br;
 		
-		if (!urlIsValid(url))
+		is = url.openConnection().getInputStream();
+		br = new BufferedReader(new InputStreamReader(is));
+		
+		StringBuilder jsonStringBuilder = new StringBuilder();
+		String line;
+		
+		while ((line = br.readLine()) != null)
 		{
-			return null;
+			jsonStringBuilder.append(line);
 		}
 		
-		is = url.openStream();
-		br = new BufferedReader(new InputStreamReader(is));
-		json = new JSONObject(br.readLine());	
+		json = new JSONObject(jsonStringBuilder.toString());	
 		
-		if (!json.has("open_price"))
+		if (!json.has("Time Series (60min)"))
 		{
 			return null;
 		}
 		
 		br.close();
+		is.close();
 		
 		return json;
-	}
-	
-	//checks if url is valid
-	public boolean urlIsValid(URL url) throws IOException
-	{
-		HttpURLConnection con = (HttpURLConnection) url.openConnection();
-		con.setRequestMethod("HEAD");
-		return (con.getResponseCode() == HttpURLConnection.HTTP_OK);
 	}
 	
 	//Separate function for writing changes to csv file after fetching data
@@ -72,6 +72,7 @@ public class FileTools {
 		try {
 			JSONObject json = null;
 			List<String[]> companiesCSVlist;
+			Object[] jsonArray;
 			//read from csv and add edit vals
 			CSVReader csvReader = new CSVReader(new FileReader(ASX_COMPANIES_DATA_FILE));
 			companiesCSVlist = csvReader.readAll();
@@ -81,8 +82,15 @@ public class FileTools {
 				json = fetchShareData(companiesCSVlist.get(i)[1]);
 				if (json != null)
 				{
-					companiesCSVlist.get(i)[3] = json.get("open_price").toString();
+					jsonArray = json.getJSONObject("Time Series (60min)").keySet().toArray();
+					Arrays.sort(jsonArray, Collections.reverseOrder());
+					companiesCSVlist.get(i)[3] = ((JSONObject) json.getJSONObject("Time Series (60min)").get(jsonArray[0].toString())).get("1. open").toString();
 				}
+				else
+				{
+					companiesCSVlist.get(i)[3] = null;
+				}
+				System.out.println(i);
 			}
 			
 			csvReader.close();
