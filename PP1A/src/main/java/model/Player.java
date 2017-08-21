@@ -24,19 +24,19 @@ public class Player extends User{
 			                  String user_lname, int age) throws IOException{	
 		FileTools ft = new FileTools();
 		
-		Player editedPlayer = null;
-		String oldName = ft.USER_DATA_FILE;
-		String tempName = "tmpFile.txt";
+		Player editPlayer = null;
+		String oldName = "UserData.csv";
+		String tempName = "UserTmp.csv";;
 		
 		//Read from database file, and write up a new tmpfile with update
 		try {
-			String line, newData;
+			String line;
 			//manipulating files
 			BufferedReader br = new BufferedReader(new FileReader(oldName));
 			BufferedWriter bw = new BufferedWriter(new FileWriter(tempName));
 			
-			Player editPlayer;
 			while((line = br.readLine()) != null){
+				//Line requires editing
 				if(line.contains(oldId)){
 					//creating a new edited file
 					editPlayer = new Player(user_ID, password, user_fname, user_lname, age);
@@ -46,6 +46,7 @@ public class Player extends User{
 					continue;
 				}
 				//writing unedited line
+				bw.write(line + "\r\n");
 			}
 			
 			br.close();
@@ -56,12 +57,17 @@ public class Player extends User{
 		}
 		//deleting old file
 		File oldFile = new File(oldName);
-		oldFile.delete();
-		//renaming new edited file with the old name
-		File tempFile = new File(tempName);
-		tempFile.renameTo(oldFile);
+		if(oldFile.delete()){
+			//renaming new edited file with the old name
+			File tempFile = new File(tempName);
+			tempFile.renameTo(oldFile);
+			System.out.println("Delete and Rename Successful");
+		}
+		else{
+			System.out.println("Fail to Delete and Rename");
+		}
 		
-		return editedPlayer;
+		return editPlayer;
 	}
 	
 	//Opening a new trading account with initial balance
