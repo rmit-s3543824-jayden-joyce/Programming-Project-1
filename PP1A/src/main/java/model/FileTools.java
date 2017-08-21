@@ -7,7 +7,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
@@ -66,6 +65,15 @@ public class FileTools {
 		csvWriter.close();
 	}
 	
+	//reads entire csv file and return its contents as a List of string arrays
+	public List<String[]> readCSV(String filePath)throws IOException
+	{
+		CSVReader csvReader = new CSVReader(new FileReader(filePath));
+		List<String[]> csvContents = csvReader.readAll();
+		csvReader.close();
+		return csvContents;
+	}
+	
 	//fetch all data from from JSON url and save them to file
 	public void fetchAllShareData()
 	{
@@ -74,8 +82,7 @@ public class FileTools {
 			List<String[]> companiesCSVlist;
 			Object[] jsonArray;
 			//read from csv and add edit vals
-			CSVReader csvReader = new CSVReader(new FileReader(ASX_COMPANIES_DATA_FILE));
-			companiesCSVlist = csvReader.readAll();
+			companiesCSVlist = readCSV(ASX_COMPANIES_DATA_FILE);
 			
 			for (int i = 1; i < companiesCSVlist.size(); i++)
 			{
@@ -92,9 +99,7 @@ public class FileTools {
 				}
 				System.out.println(i);
 			}
-			
-			csvReader.close();
-			
+						
 			//write to csv (rewrite everything)
 			overwriteCSV(companiesCSVlist, ASX_COMPANIES_DATA_FILE);
 		}
