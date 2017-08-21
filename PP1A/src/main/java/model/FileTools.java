@@ -19,6 +19,7 @@ import com.opencsv.CSVWriter;
 
 public class FileTools {
 	public static final String USER_DATA_FILE = "src/main/resources/userData.csv";
+	public static final String USER_SHARES_FILE = "src/main/resources/userShares.csv";
 	public static final String ASX_COMPANIES_DATA_FILE = "src/main/resources/ASXListedCompanies.csv";
 	public static final String ALPHA_ADVANTAGE_API_KEY = "MP9H93RQEUUFGX07";
     public static final String URL_JSON_PATH_P1 = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=";
