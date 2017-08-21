@@ -18,6 +18,7 @@ import com.opencsv.CSVWriter;
 
 public class FileTools {
 	public static final String USER_DATA_FILE = "src/main/resources/userData.csv";
+	public static final String USER_SHARES_FILE = "src/main/resources/userShares.csv";
 	public static final String ASX_COMPANIES_DATA_FILE = "src/main/resources/ASXListedCompanies.csv";
     public static final String ASX_JSON_PATH = "data.asx.com.au/data/1/share/";
     public static final String ASX_JSON_PAST_DAILY = "/prices?interval=daily&count=";
