@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Player extends User{
 	
@@ -25,47 +26,71 @@ public class Player extends User{
 		FileTools ft = new FileTools();
 		
 		Player editPlayer = null;
-		String oldName = "UserData.csv";
-		String tempName = "UserTmp.csv";;
+		String filePath = ft.USER_DATA_FILE;
 		
-		//Read from database file, and write up a new tmpfile with update
-		try {
-			String line;
-			//manipulating files
-			BufferedReader br = new BufferedReader(new FileReader(oldName));
-			BufferedWriter bw = new BufferedWriter(new FileWriter(tempName));
+		//loading existing file into memory
+		List<String[]> allPlayers = ft.readCSV(filePath);
+		
+		//iterating and editing player
+		int pIdx = 0;
+		while(pIdx <= allPlayers.size()-1){
 			
-			while((line = br.readLine()) != null){
-				//Line requires editing
-				if(line.contains(oldId)){
-					//creating a new edited file
-					editPlayer = new Player(user_ID, password, user_fname, user_lname, age);
-					//edit player to CSV format
-					String strPlayer = ft.toCSV(editPlayer);
-					bw.write(strPlayer + "\r\n");
-					continue;
-				}
-				//writing unedited line
-				bw.write(line + "\r\n");
+			if(oldId.equals(allPlayers.get(pIdx)[0])){
+				//editing player
+				allPlayers.get(pIdx)[0] = user_ID;
+				allPlayers.get(pIdx)[1] = password;
+				allPlayers.get(pIdx)[2] = user_fname;
+				allPlayers.get(pIdx)[3] = user_lname;
+				allPlayers.get(pIdx)[4] = Integer.toString(age);
+				//assigning for return value
+				editPlayer = new Player(user_ID, password, user_fname, user_lname, age);
 			}
-			
-			br.close();
-			bw.close();
-		} catch (FileNotFoundException e) {
-			
-			e.printStackTrace();
+			pIdx ++;	
 		}
-		//deleting old file
-		File oldFile = new File(oldName);
-		if(oldFile.delete()){
-			//renaming new edited file with the old name
-			File tempFile = new File(tempName);
-			tempFile.renameTo(oldFile);
-			System.out.println("Delete and Rename Successful");
-		}
-		else{
-			System.out.println("Fail to Delete and Rename");
-		}
+		
+		//writing back to file
+		ft.overwriteCSV(allPlayers, filePath);
+		
+//		String tempName = "UserTmp.csv";;
+//		
+//		//Read from database file, and write up a new tmpfile with update
+//		try {
+//			String line;
+//			//manipulating files
+//			BufferedReader br = new BufferedReader(new FileReader(oldName));
+//			BufferedWriter bw = new BufferedWriter(new FileWriter(tempName));
+//			
+//			while((line = br.readLine()) != null){
+//				//Line requires editing
+//				if(line.contains(oldId)){
+//					//creating a new edited file
+//					editPlayer = new Player(user_ID, password, user_fname, user_lname, age);
+//					//edit player to CSV format
+//					String strPlayer = ft.toCSV(editPlayer);
+//					bw.write(strPlayer + "\r\n");
+//					continue;
+//				}
+//				//writing unedited line
+//				bw.write(line + "\r\n");
+//			}
+//			
+//			br.close();
+//			bw.close();
+//		} catch (FileNotFoundException e) {
+//			
+//			e.printStackTrace();
+//		}
+//		//deleting old file
+//		File oldFile = new File(oldName);
+//		if(oldFile.delete()){
+//			//renaming new edited file with the old name
+//			File tempFile = new File(tempName);
+//			tempFile.renameTo(oldFile);
+//			System.out.println("Delete and Rename Successful");
+//		}
+//		else{
+//			System.out.println("Fail to Delete and Rename");
+//		}
 		
 		return editPlayer;
 	}
