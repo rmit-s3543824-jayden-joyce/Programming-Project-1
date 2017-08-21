@@ -23,6 +23,7 @@ public class Player extends User{
 	public Player editProfile(String oldId, String user_ID, 
 			                  String password, String user_fname, 
 			                  String user_lname, int age) throws IOException{	
+		
 		FileTools ft = new FileTools();
 		
 		Player editPlayer = null;
@@ -34,7 +35,6 @@ public class Player extends User{
 		//iterating and editing player
 		int pIdx = 0;
 		while(pIdx <= allPlayers.size()-1){
-			
 			if(oldId.equals(allPlayers.get(pIdx)[0])){
 				//editing player
 				allPlayers.get(pIdx)[0] = user_ID;
@@ -44,61 +44,20 @@ public class Player extends User{
 				allPlayers.get(pIdx)[4] = Integer.toString(age);
 				//assigning for return value
 				editPlayer = new Player(user_ID, password, user_fname, user_lname, age);
+				//writing back to file
+				ft.overwriteCSV(allPlayers, filePath);
+				return editPlayer;
 			}
 			pIdx ++;	
 		}
-		
-		//writing back to file
-		ft.overwriteCSV(allPlayers, filePath);
-		
-//		String tempName = "UserTmp.csv";;
-//		
-//		//Read from database file, and write up a new tmpfile with update
-//		try {
-//			String line;
-//			//manipulating files
-//			BufferedReader br = new BufferedReader(new FileReader(oldName));
-//			BufferedWriter bw = new BufferedWriter(new FileWriter(tempName));
-//			
-//			while((line = br.readLine()) != null){
-//				//Line requires editing
-//				if(line.contains(oldId)){
-//					//creating a new edited file
-//					editPlayer = new Player(user_ID, password, user_fname, user_lname, age);
-//					//edit player to CSV format
-//					String strPlayer = ft.toCSV(editPlayer);
-//					bw.write(strPlayer + "\r\n");
-//					continue;
-//				}
-//				//writing unedited line
-//				bw.write(line + "\r\n");
-//			}
-//			
-//			br.close();
-//			bw.close();
-//		} catch (FileNotFoundException e) {
-//			
-//			e.printStackTrace();
-//		}
-//		//deleting old file
-//		File oldFile = new File(oldName);
-//		if(oldFile.delete()){
-//			//renaming new edited file with the old name
-//			File tempFile = new File(tempName);
-//			tempFile.renameTo(oldFile);
-//			System.out.println("Delete and Rename Successful");
-//		}
-//		else{
-//			System.out.println("Fail to Delete and Rename");
-//		}
-		
-		return editPlayer;
+		return null;
 	}
 	
 	//Opening a new trading account with initial balance
 	public TradingAcc openTradeAcc(String user_ID){
-		
+		//assign the account to an ID
 		TradingAcc newAcc = new TradingAcc(user_ID);
+		//set initial balance
 		newAcc.setCurrBal(newAcc.INIT_BAL);
 		newAcc.setSharesOwned(new ArrayList<Shares>());
 		
