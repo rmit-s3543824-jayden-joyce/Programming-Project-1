@@ -85,12 +85,13 @@ public class Mainpage {
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
 		});
 		
+		//test
 		get("/user", (req, res) -> {
 			Map<String, Object> model = new HashMap<>();
 			
-			model.put("template", "user.vtl");
+			model.put("template", "samplePlayerProfile.vtl");
 			
-			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
+			return new VelocityTemplateEngine().render(new ModelAndView(model, "samplePlayerProfile.vtl"));
 		});
 	}
 	
