@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Admin extends User{
 	
@@ -60,6 +61,7 @@ public class Admin extends User{
 				splitString = readLine.split(",");
 				if (splitString[0].equals(user_ID) && !splitString[0].equals("user_ID"))
 				{
+					//assigning value to the string array and adding to List
 					player = new Player(splitString[0], splitString[1], splitString[2], splitString[3], Integer.parseInt(splitString[4]));
 					allPlayers.add(player);
 				}
@@ -74,4 +76,22 @@ public class Admin extends User{
 		return allPlayers;
 	}
 	
+	public void delUser(String user_ID) throws IOException{
+		FileTools ft = new FileTools();
+		
+		List<String[]> allPlayers = ft.readCSV(ft.USER_DATA_FILE);
+		
+		int pIdx = 0;
+		//iterating through the List
+		while(pIdx <= allPlayers.size()-1){
+			//Searching for element with the correct user_ID
+			if(allPlayers.get(pIdx)[0].equals(user_ID) && !allPlayers.get(pIdx)[0].equals("user_ID")){
+				//Removing the element matching the user_ID
+				allPlayers.remove(allPlayers.get(pIdx));
+			}
+			pIdx++;
+		}
+		//Re-writing the file with updated data
+		ft.overwriteCSV(allPlayers, ft.USER_DATA_FILE);
+	}
 }
