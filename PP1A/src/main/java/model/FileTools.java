@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -19,6 +20,7 @@ import com.opencsv.CSVWriter;
 
 public class FileTools {
 	public static final String USER_DATA_FILE = "src/main/resources/userData.csv";
+	public static final String USER_ACC_FILE = "src/main/resources/accountData.csv";
 	public static final String USER_SHARES_FILE = "src/main/resources/userShares.csv";
 	public static final String ASX_COMPANIES_DATA_FILE = "src/main/resources/ASXListedCompanies.csv";
 	public static final String ALPHA_ADVANTAGE_API_KEY = "MP9H93RQEUUFGX07";
@@ -187,11 +189,31 @@ public class FileTools {
 		BufferedWriter bw = new BufferedWriter(fw);
 		
 		bw.write(toCSV(player));
+		bw.close();
 	}
 	
 	// Putting the trading account into a string format
 	public String trAccToString(TradingAcc tr){
-		String trAcc = null;
-		return trAcc;
+		String trAccString = null;
+		//getting player's shares
+		ArrayList<Shares> sharesOwned = tr.getSharesOwned();
+		
+		trAccString = tr.getUser_ID() + "," + tr.getCurrBal();
+		//Listing all shares under player's possession
+		int i = 0;
+		while(i <= sharesOwned.size()-1){
+			trAccString = trAccString + "," + sharesOwned.get(i).getCompName();
+			i ++;
+		}
+		return trAccString;
+	}
+	
+	//writing Trading account to file
+	public void trAccToFile(TradingAcc trAcc) throws IOException{
+		FileWriter fw =  new FileWriter(USER_ACC_FILE,true);
+		BufferedWriter bw = new BufferedWriter(fw);
+		
+		bw.write(trAccToString(trAcc));
+		bw.close();
 	}
 }

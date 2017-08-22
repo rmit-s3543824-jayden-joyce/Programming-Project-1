@@ -33,6 +33,10 @@ public class TradingAcc {
 		return null;
 	}
 	
+	public String getUser_ID(){
+		return user_ID;
+	}
+	
 	public BigDecimal getCurrBal(){
 		return currBal;
 	}

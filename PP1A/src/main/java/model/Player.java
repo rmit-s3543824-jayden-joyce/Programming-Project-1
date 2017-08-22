@@ -54,14 +54,16 @@ public class Player extends User{
 	}
 	
 	//Opening a new trading account with initial balance
-	public TradingAcc openTradeAcc(String user_ID){
+	public TradingAcc openTradeAcc(String user_ID) throws IOException{
+		FileTools ft = new FileTools();
 		//assign the account to an ID
 		TradingAcc newAcc = new TradingAcc(user_ID);
 		//set initial balance
 		newAcc.setCurrBal(newAcc.INIT_BAL);
-		newAcc.setSharesOwned(new ArrayList<Shares>());
+		newAcc.setSharesOwned(new ArrayList<Shares>());	
 		
-		System.out.println("Successfully Open a Trading Account!");		
+		ft.trAccToFile(newAcc);
+		System.out.println("Successfully Open a Trading Account!");	
 		return newAcc;
 	}
 	
