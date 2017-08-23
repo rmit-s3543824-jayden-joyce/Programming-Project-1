@@ -94,4 +94,36 @@ public class Admin extends User{
 		//Re-writing the file with updated data
 		ft.overwriteCSV(allPlayers, ft.USER_DATA_FILE);
 	}
+	
+	public Player searchUser(String user_ID) throws IOException{
+		FileTools ft = new FileTools();
+		
+		Player searchPl = null;
+		List<String[]> allPlayers = ft.readCSV(ft.USER_DATA_FILE);
+		
+		int pIdx = 0;
+		//iterating through the List
+		while(pIdx <= allPlayers.size()-1){
+			//Searching for element with the correct user_ID
+			if(allPlayers.get(pIdx)[0].equals(user_ID) && !allPlayers.get(pIdx)[0].equals("user_ID")){
+				//assigning the correct user
+				searchPl = new Player(allPlayers.get(pIdx)[0], 
+						              allPlayers.get(pIdx)[1], 
+						              allPlayers.get(pIdx)[2], 
+						              allPlayers.get(pIdx)[3], 
+						              Integer.parseInt(allPlayers.get(pIdx)[4]));
+			}
+			pIdx++;
+		}
+		return searchPl;
+	}
+	
+//	public List<String[]> viewAllPlayers(){
+//		FileTools ft = new FileTools();
+//		
+//		Player searchPl = null;
+//		List<String[]> allPlayers = ft.readCSV(ft.USER_DATA_FILE);
+//		
+//		return allPlayers;
+//	}
 }
