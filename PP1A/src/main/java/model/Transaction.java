@@ -1,23 +1,25 @@
 package model;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 public class Transaction {
-	String user_ID;
-	String transType;
-	String seller;
-	String buyer;
-	BigDecimal shareVal;	
-	Date dateTime;
+	public enum TransType {
+		BUYING,
+		SELLING
+	}
 	
-	public Transaction(String user_ID, String transType, 
-			           String seller, String buyer, 
-			           BigDecimal shareVal, Date dateTime){
+	private String user_ID;
+	private TransType transType;
+	private String ASXcode;
+	private String compName;
+	private BigDecimal shareVal;	
+	private String dateTime;
+	
+	public Transaction(String user_ID, TransType transType, String ASXcode, String compName, BigDecimal shareVal, String dateTime){
 		this.user_ID = user_ID;
 		this.transType = transType;
-		this.seller = seller;
-		this.buyer = buyer;
+		this.ASXcode = ASXcode;
+		this.compName = compName;
 		this.shareVal = shareVal;
 		this.dateTime = dateTime;
 	}
@@ -25,16 +27,42 @@ public class Transaction {
 	public String getID(){
 		return user_ID;
 	}
+	
+	public String getCompName(){
+		return compName;
+	}
     
-	public String getTransType(){
+	public TransType getTransType(){
 		return transType;
 	}
 	
 	public String getSeller(){
+		String seller = null;
+		
+		switch(transType){
+			case BUYING:
+				seller = ASXcode;
+				break;
+			case SELLING:
+				seller = user_ID;
+				break;
+		}
+		
 		return seller;
 	}
 	
-	public String buyer(){
+	public String getBuyer(){
+		String buyer = null;
+		
+		switch(transType){
+		case BUYING:
+			buyer = user_ID;
+			break;
+		case SELLING:
+			buyer = ASXcode;
+			break;
+		}
+		
 		return buyer;
 	}
 	
@@ -42,8 +70,12 @@ public class Transaction {
 		return shareVal;
 	}
 	
-	public Date getDateTime(){
+	public String getDateTime(){
 		return dateTime;
+	}
+	
+	public String getASXcode(){
+		return ASXcode;
 	}
 	
 }

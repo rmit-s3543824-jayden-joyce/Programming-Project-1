@@ -21,7 +21,6 @@ import com.opencsv.CSVWriter;
 public class FileTools {
 	public static final String USER_DATA_FILE = "src/main/resources/userData.csv";
 	public static final String USER_ACC_FILE = "src/main/resources/accountData.csv";
-	public static final String USER_SHARES_FILE = "src/main/resources/userShares.csv";
 	public static final String USER_TRANSACTION_LOG = "src/main/resources/transactionLog.csv";
 	public static final String ASX_COMPANIES_DATA_FILE = "src/main/resources/ASXListedCompanies.csv";
 	public static final String ALPHA_ADVANTAGE_API_KEY = "MP9H93RQEUUFGX07";
@@ -216,5 +215,13 @@ public class FileTools {
 		
 		bw.write(trAccToString(trAcc));
 		bw.close();
+	}
+	
+	public void updateTransCSV(Transaction transaction, String filePath) throws IOException
+	{
+		List<String[]>transList = readCSV(USER_TRANSACTION_LOG);
+		String[] newTrans = {transaction.getID(), transaction.getTransType().toString(), transaction.getASXcode(), transaction.getCompName(), transaction.getShareVal().toString(), transaction.getDateTime()};
+		transList.add(newTrans);
+		overwriteCSV(transList, USER_TRANSACTION_LOG);
 	}
 }

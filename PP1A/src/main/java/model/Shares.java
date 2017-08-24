@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class Shares {
-	String ASX_code;
-	String compName;
-	BigDecimal shareVal;
+	private String ASX_code;
+	private String compName;
+	private BigDecimal shareVal;
 	
 	ArrayList<BigDecimal> priceHistory = new ArrayList<BigDecimal>();
 	
