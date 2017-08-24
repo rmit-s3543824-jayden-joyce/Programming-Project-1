@@ -197,13 +197,13 @@ public class FileTools {
 	public String trAccToString(TradingAcc tr){
 		String trAccString = null;
 		//getting player's shares
-		ArrayList<Shares> sharesOwned = tr.getSharesOwned();
+		ArrayList<String> sharesOwned = tr.getSharesOwned();
 		
 		trAccString = tr.getUser_ID() + "," + tr.getCurrBal();
 		//Listing all shares under player's possession
 		int i = 0;
 		while(i <= sharesOwned.size()-1){
-			trAccString = trAccString + "," + sharesOwned.get(i).getCompName();
+			trAccString = trAccString + "," + sharesOwned.get(i);
 			i ++;
 		}
 		return trAccString;

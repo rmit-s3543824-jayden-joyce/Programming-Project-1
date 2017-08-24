@@ -7,7 +7,7 @@ public class TradingAcc {
 	public static final BigDecimal INIT_BAL = new BigDecimal(1000000);
 	private String user_ID;
 	private BigDecimal currBal;
-	private ArrayList<Shares> sharesOwned;
+	private ArrayList<String> sharesOwned;
 	
 	public TradingAcc(String user_ID){
 		this.user_ID = user_ID;
@@ -46,11 +46,11 @@ public class TradingAcc {
 		return currBal;
 	}
 	
-	public ArrayList<Shares> getSharesOwned(){
+	public ArrayList<String> getSharesOwned(){
 		return sharesOwned;
 	}
 	
-	public ArrayList<Shares> setSharesOwned(ArrayList<Shares> newShares){
+	public ArrayList<String> setSharesOwned(ArrayList<String> newShares){
 		sharesOwned = newShares;
 		return sharesOwned;
 	}

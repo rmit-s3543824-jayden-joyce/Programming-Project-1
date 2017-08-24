@@ -60,7 +60,7 @@ public class Player extends User{
 		TradingAcc newAcc = new TradingAcc(user_ID);
 		//set initial balance
 		newAcc.setCurrBal(newAcc.INIT_BAL);
-		newAcc.setSharesOwned(new ArrayList<Shares>());	
+		newAcc.setSharesOwned(new ArrayList<String>());	
 		
 		ft.trAccToFile(newAcc);
 		System.out.println("Successfully Open a Trading Account!");	
