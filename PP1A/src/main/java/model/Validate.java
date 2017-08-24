@@ -25,7 +25,10 @@ public class Validate {
 	public boolean valName(String name){
 		String pattern = "^[A-Z]?[a-z]+$";
 		
-		boolean isMatch = Pattern.matches(pattern, name);
+		boolean isMatch = false;
+		if(isMatch = Pattern.matches(pattern, name)){
+			return true;
+		}
 		return false;
 	}
 	//At least 8 characters

@@ -10,21 +10,22 @@
 <ul>
 	<li><a href="/">Logout</a></li>
 	
-	<li style="float:left; font-weight:bold"><a href="/playerProfile">Player Name</a></li>
+	<li style="float:left; font-weight:bold"><a href="/TransactionAccount">Player Name</a></li>
 	<li class="dropdown">
 	<a href="javascript:void(0)" class="dropbtn">More</a>
 		<!-- player menu list-->
 		<div class="dropdown-content">
-			<a href="#">My profile</a>
-			<a href="#">View all stock</a>
-			<a href="#">My transaction record</a>
+			<a href="/user">My profile</a>
+			
+			<!-- Might change -->
+			<a href="/TransactionAccount">My transaction record</a>
 		</div>
 	</li>
 </ul>
 
 <!-- main details -->
 <!-- placeholder for userTemplate -->
-<div class="main">
+<div class="center">
  #parse($userTemplate)
 </div>
 

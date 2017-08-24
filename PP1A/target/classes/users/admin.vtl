@@ -1,8 +1,49 @@
 <h1>This is the Admin page</h1>
 
 <div>
-<h2>Admin name</h2>
-<p>Admin details</p>
-<p>Admin funtionality</p>
+	<h2>Admin name</h2>
+	<p>Admin details</p>
+	<div>
+		<!-- Search for player -->
+		<form action=javascript:void(0); ">
+			<h2>Search for player</h2>
+			<input id="searchPlayerID" type="text" required>
+			<input id="searchPlayer" type="submit" value="Search Player">
+		</form>
+		<br>
+
+		<!-- View player -->
+		<form action=javascript:void(0); ">
+			<h2>List All Player</h2>
+			<input id="listPlayer" type="submit" value="List">
+		</form>
+		<br>
+
+		<!-- Delete Player -->
+		<form action=javascript:void(0); ">
+			<h2>Delete player</h2>
+			<input id="deletePlayerID" type="text" required>
+
+			<input id="searchUser" type="submit" value="Search User">
+		</form>
+		<br>
+		
+		<!-- list player transaction -->
+		<form action=javascript:void(0); ">
+			<h2>List player transaction</h2>
+			<input id="listPlayerID" type="text" required>
+			<input id="listPlayerTrans" type="submit" value="List">
+		</form>
+		<br>
+		
+		<!-- list all transaction -->
+		<form action=javascript:void(0); ">
+			<h2>List All Transaction</h2>
+			<input id="listTransaction" type="submit" value="List">
+		</form>
+		<br>
+	</div>
 </div>
-<p><a href='/'>Back to Home page</a></p>
+<p>
+	<a href='/'>Back to Home page</a>
+</p>

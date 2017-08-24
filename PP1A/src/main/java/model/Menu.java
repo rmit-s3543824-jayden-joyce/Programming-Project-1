@@ -16,6 +16,7 @@ public class Menu {
 			return false;
 		}
 		
+		//if input user name found, check password
 		if (user.getPassword().equals(password))
 		{
 			return true;

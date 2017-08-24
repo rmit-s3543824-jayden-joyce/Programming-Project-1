@@ -81,7 +81,7 @@ public class Mainpage {
 		get("/admin", (req, res) -> {
 			Map<String, Object> model = new HashMap<>();
 			
-			model.put("template", "/users/admin.vtl");
+			model.put("userTemplate", "/users/admin.vtl");
 			
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 		});
@@ -90,7 +90,15 @@ public class Mainpage {
 		get("/user", (req, res) -> {
 			Map<String, Object> model = new HashMap<>();
 			
-			model.put("template", "/users/samplePlayerProfile.vtl");
+			model.put("userTemplate", "/users/user.vtl");
+			
+			return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
+		});
+		
+		get("/TransactionAccount", (req, res) -> {
+			Map<String, Object> model = new HashMap<>();
+			
+			model.put("userTemplate", "/users/TransactionAccount.vtl");
 			
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 		});
@@ -109,14 +117,5 @@ public class Mainpage {
 			model.put("template", "login.vtl");
 		
 		return model;		
-	}
-
-	//funtion for managing user
-	public static Map<String, Object> userManage(Request req, Response res){
-		Map <String, Object> model = new HashMap<>();
-		
-		
-		
-		return model;
 	}
 }
