@@ -8,6 +8,7 @@ import java.util.Map;
 import model.Menu;
 import spark.ModelAndView;
 import spark.Request;
+import spark.Response;
 import spark.Spark;
 import spark.template.velocity.VelocityTemplateEngine;
 
@@ -24,7 +25,7 @@ public class Mainpage {
 			Map<String, Object> model = new HashMap<>();
 			
 			//put "value" inside "cardholder"
-			model.put("template", "hello.vtl");
+			model.put("template", "/mainpage/mainpage.vtl");
 			
 			// The vtl files are located under the resources directory
 			//The line below are required to make the page works
@@ -36,7 +37,7 @@ public class Mainpage {
 		get("/login", (req, res) -> {
 			Map<String, Object> model = new HashMap<>();
 			
-			model.put("template", "login.vtl");
+			model.put("template", "/mainpage/login.vtl");
 			
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
 		});
@@ -50,7 +51,7 @@ public class Mainpage {
 		get("/register", (req, res) -> {
 			Map<String, Object> model = new HashMap<>();
 			
-			model.put("template", "register.vtl");
+			model.put("template", "/mainpage/register.vtl");
 			
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
 		});
@@ -71,7 +72,7 @@ public class Mainpage {
 			}
 			else
 			{
-				model.put("template", "register.vtl");
+				model.put("template", "/mainpage/register.vtl");
 			}
 			
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
@@ -80,21 +81,22 @@ public class Mainpage {
 		get("/admin", (req, res) -> {
 			Map<String, Object> model = new HashMap<>();
 			
-			model.put("template", "admin.vtl");
+			model.put("template", "/users/admin.vtl");
 			
-			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
+			return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 		});
 		
 		//test
 		get("/user", (req, res) -> {
 			Map<String, Object> model = new HashMap<>();
 			
-			model.put("template", "samplePlayerProfile.vtl");
+			model.put("template", "/users/samplePlayerProfile.vtl");
 			
-			return new VelocityTemplateEngine().render(new ModelAndView(model, "samplePlayerProfile.vtl"));
+			return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 		});
 	}
 	
+	//funtion for login
 	public static Map<String, Object> testLogin(Request req){
 		Map<String, Object> model = new HashMap<>();
 		
@@ -107,5 +109,14 @@ public class Mainpage {
 			model.put("template", "login.vtl");
 		
 		return model;		
+	}
+
+	//funtion for managing user
+	public static Map<String, Object> userManage(Request req, Response res){
+		Map <String, Object> model = new HashMap<>();
+		
+		
+		
+		return model;
 	}
 }

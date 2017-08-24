@@ -2,21 +2,23 @@
 <html>
 	<head>
 		<title>Stock Market Simulator</title>
-		<link rel="stylesheet" href="../style/layout.css">	
+		<link rel="stylesheet" href="../style/layout.css">
 	</head>
-	
+
 	<body>
-	<ul>
-		<li><a href="/register">Sign up</a></li>
-		<li><a href="/login">Login</a></li>
-		<li><a id="title" href="/">Stock Market Simulator</a></li>
-	</ul>>
-		
-	<!--begin inner template-->
-	<div class="main">
-		#parse($template)
-	</div>
-	<!--end inner template-->
+	<!-- navbar -->
+		<ul>
+			<li><a href="/register">Sign up</a></li>
+			<li><a href="/login">Login</a></li>
+			
+			<li  style="float:left; font-weight:bold"><a href="/">Stock Market Simulator</a></li>
+		</ul>
+
+		<!--begin inner template -->
+		<div class="center">
+			#parse($template)
+		</div>
+		<!--end inner template -->
 
 	</body>
 </html>
