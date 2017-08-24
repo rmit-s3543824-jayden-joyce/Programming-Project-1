@@ -119,27 +119,27 @@ public class Admin extends User{
 	}
 	
 	//All transaction from one user
-//	public List<String[]> viewUserTrans(String user_ID, String filePath) throws IOException{
-//		FileTools ft = new FileTools();
-//		
-//		List<String[]> userTrans = ft.readCSV(ft.USER_TRANSACTION_LOG);
-//		
-//		//iterating and deleting all
-//		int i = 0;
-//		while(i <= userTrans.size()-1){
-//			if(!user_ID.equals(userTrans.get(i)[0])){
-//				userTrans.remove(userTrans.get(i));
-//			}
-//			i++;
-//		}
-//		return userTrans;
-//	}
+	public List<String[]> viewUserTrans(String user_ID, String filePath) throws IOException{
+		FileTools ft = new FileTools();
+		
+		List<String[]> userTrans = ft.readCSV(ft.USER_TRANSACTION_LOG);
+		
+		//iterating and deleting all
+		int i = 0;
+		while(i <= userTrans.size()-1){
+			if(!user_ID.equals(userTrans.get(i)[0])){
+				userTrans.remove(userTrans.get(i));
+			}
+			i++;
+		}
+		return userTrans;
+	}
 	
-//	public List<String[]> viewAllTrans(String filePath) throws IOException{
-//		FileTools ft = new FileTools();
-//		//Load all their transactions into the list and return
-//		List<String[]> userTrans = ft.readCSV(ft.USER_TRANSACTION_LOG);
-//		
-//		return userTrans;
-//	}
+	public List<String[]> viewAllTrans(String filePath) throws IOException{
+		FileTools ft = new FileTools();
+		//Load all their transactions into the list and return
+		List<String[]> userTrans = ft.readCSV(ft.USER_TRANSACTION_LOG);
+		
+		return userTrans;
+	}
 }
