@@ -17,13 +17,12 @@ public class Admin extends User{
 
 	//Search file for a specific player and returns the specific player
 	public Player searchPlayer(String user_ID){
-		FileTools ft = new FileTools();
-	
+		
 		Player searchedPlayer = null;
 		String[] splitString = null;
 		
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(ft.USER_DATA_FILE));
+			BufferedReader br = new BufferedReader(new FileReader(FileTools.USER_DATA_FILE));
 			String readLine = br.readLine();
 			
 			while (readLine != null)
@@ -49,11 +48,10 @@ public class Admin extends User{
 	public ArrayList<Player> viewAllPlayers(){
 		ArrayList<Player> allPlayers = new ArrayList<Player>();
 		Player player = null;
-		FileTools ft = new FileTools();
 		String[] splitString;
 		
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(ft.USER_DATA_FILE));
+			BufferedReader br = new BufferedReader(new FileReader(FileTools.USER_DATA_FILE));
 			String readLine = br.readLine();
 			
 			while (readLine != null)
@@ -79,7 +77,7 @@ public class Admin extends User{
 	public void delUser(String user_ID) throws IOException{
 		FileTools ft = new FileTools();
 		
-		List<String[]> allPlayers = ft.readCSV(ft.USER_DATA_FILE);
+		List<String[]> allPlayers = ft.readCSV(FileTools.USER_DATA_FILE);
 		
 		int pIdx = 0;
 		//iterating through the List
@@ -92,14 +90,14 @@ public class Admin extends User{
 			pIdx++;
 		}
 		//Re-writing the file with updated data
-		ft.overwriteCSV(allPlayers, ft.USER_DATA_FILE);
+		ft.overwriteCSV(allPlayers, FileTools.USER_DATA_FILE);
 	}
 	
 	public Player searchUser(String user_ID) throws IOException{
 		FileTools ft = new FileTools();
 		
 		Player searchPl = null;
-		List<String[]> allPlayers = ft.readCSV(ft.USER_DATA_FILE);
+		List<String[]> allPlayers = ft.readCSV(FileTools.USER_DATA_FILE);
 		
 		int pIdx = 0;
 		//iterating through the List
@@ -122,7 +120,7 @@ public class Admin extends User{
 	public List<String[]> viewUserTrans(String user_ID, String filePath) throws IOException{
 		FileTools ft = new FileTools();
 		
-		List<String[]> userTrans = ft.readCSV(ft.USER_TRANSACTION_LOG);
+		List<String[]> userTrans = ft.readCSV(FileTools.USER_TRANSACTION_LOG);
 		
 		//iterating and deleting all
 		int i = 0;
@@ -138,7 +136,7 @@ public class Admin extends User{
 	public List<String[]> viewAllTrans(String filePath) throws IOException{
 		FileTools ft = new FileTools();
 		//Load all their transactions into the list and return
-		List<String[]> userTrans = ft.readCSV(ft.USER_TRANSACTION_LOG);
+		List<String[]> userTrans = ft.readCSV(FileTools.USER_TRANSACTION_LOG);
 		
 		return userTrans;
 	}
