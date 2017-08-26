@@ -27,13 +27,17 @@ public class TradingAcc {
 		{
 			return null;
 		}
+		else if (sharesOwned == null)
+		{
+			sharesOwned = new ArrayList<String>();
+		}
 		
 		//set balance to (current balance - share value), add share to list and create a transaction object
 		newBal = currBal.subtract(share.getShareVal());
 		setCurrBal(newBal);
 		sharesOwned.add(share.getASX_code());
 		buy = new Transaction(user_ID, Transaction.TransType.BUYING, share.getASX_code(), share.getCompName(), share.getShareVal(), currTimeStamp);
-		
+
 		//save transaction to file and update user account data file
 		try {
 			fileTool.updateTransCSV(buy, FileTools.USER_TRANSACTION_LOG);
@@ -51,11 +55,23 @@ public class TradingAcc {
 		BigDecimal newBal;
 		Transaction sell;
 		
-		//set balance to (current balance + share value), remove share from list and create a transaction object
-		newBal = currBal.add(share.getShareVal());
-		setCurrBal(newBal);
-		sharesOwned.remove(share.getASX_code());
-		sell = new Transaction(user_ID, Transaction.TransType.SELLING, share.getASX_code(), share.getCompName(), share.getShareVal(), currTimeStamp);
+		// if no shares, return null
+		if (sharesOwned == null)
+		{
+			return null;
+		}
+		
+		//set balance to (current balance + share value), remove share from list and create a transaction object if share in possession, else return null
+		if (sharesOwned.remove(share.getASX_code()))
+		{
+			newBal = currBal.add(share.getShareVal());
+			setCurrBal(newBal);
+			sell = new Transaction(user_ID, Transaction.TransType.SELLING, share.getASX_code(), share.getCompName(), share.getShareVal(), currTimeStamp);
+		}
+		else
+		{
+			return null;
+		}
 		
 		//save transaction to file and update user account data file
 		try {

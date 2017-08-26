@@ -14,6 +14,9 @@ import java.util.Collections;
 import java.util.List;
 
 import org.json.JSONObject;
+import org.supercsv.io.CsvListReader;
+import org.supercsv.io.CsvListWriter;
+import org.supercsv.prefs.CsvPreference;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
@@ -159,6 +162,7 @@ public class FileTools {
 				splitString = readLine.split(",");
 				if (splitString[0].equals(id) && !splitString[0].equals("user_ID"))
 				{
+					br.close();
 					return splitString;
 				}
 				readLine = br.readLine();
@@ -208,13 +212,40 @@ public class FileTools {
 		return trAccString;
 	}
 	
-	//writing Trading account to file
+	//writing Trading account to file, need to do it differently because it has variable columns
 	public void trAccToFile(TradingAcc trAcc) throws IOException{
-		FileWriter fw =  new FileWriter(USER_ACC_FILE,true);
-		BufferedWriter bw = new BufferedWriter(fw);
+		CsvListReader  listReader = new CsvListReader(new FileReader(FileTools.USER_ACC_FILE), CsvPreference.STANDARD_PREFERENCE);
+		List<List<String>> csvContents = new ArrayList<List<String>>();
+		List<String> line;
+		CsvListWriter listWriter;
+		boolean found = false;
 		
-		bw.write(trAccToString(trAcc));
-		bw.close();
+		//read CSV contents and alter line if changes found, then close reader
+		while ((line = listReader.read()) != null)
+		{
+			if (line.contains(trAcc.getUser_ID()))
+			{
+				line = Arrays.asList(trAccToString(trAcc).split(","));
+				found = true;
+			}
+			csvContents.add(line);
+		}
+		listReader.close();
+		
+		//if not found append to contents
+		if (!found)
+		{
+			csvContents.add(Arrays.asList(trAccToString(trAcc).split(",")));
+		}
+		
+		//write to csv
+		listWriter = new CsvListWriter(new FileWriter(FileTools.USER_ACC_FILE), CsvPreference.STANDARD_PREFERENCE);
+		for (List<String> row : csvContents)
+		{
+			listWriter.write(row);
+		}
+		listWriter.close();
+		
 	}
 	
 	public void updateTransCSV(Transaction transaction, String filePath) throws IOException
