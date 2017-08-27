@@ -102,6 +102,16 @@ public class Mainpage {
 			
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 		});
+		
+		
+		//to test table
+		get("/testTable", (req, res) -> {
+			Map<String, Object> model = new HashMap<>();
+			
+			model.put("template", "/mainpage/testTable.vtl");
+			
+			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
+		});
 	}
 	
 	//funtion for login
