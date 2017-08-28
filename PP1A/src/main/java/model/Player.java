@@ -27,7 +27,7 @@ public class Player extends User{
 		FileTools ft = new FileTools();
 		
 		Player editPlayer = null;
-		String filePath = FileTools.USER_DATA_FILE;
+		String filePath = ft.USER_DATA_FILE;
 		
 		//loading existing file into memory
 		List<String[]> allPlayers = ft.readCSV(filePath);

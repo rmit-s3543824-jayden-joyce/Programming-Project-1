@@ -23,7 +23,7 @@ public class Validate {
 	}
 	//Must contain capital in front
 	public boolean valName(String name){
-		String pattern = "^[A-Z]?[a-z]+$";
+		String pattern = "^[A-Z]{1}[a-zA-Z]+$";
 		
 		boolean isMatch = false;
 		if(isMatch = Pattern.matches(pattern, name)){

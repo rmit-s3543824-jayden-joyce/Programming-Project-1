@@ -15,9 +15,10 @@ public class Admin extends User{
 		this.user_ID = user_ID;
 	}
 
-	//Search file for a specific player and returns the specific player
-	public Player searchPlayer(String user_ID){
+	//Search file for a matching substring and returns arrayList
+	public ArrayList<Player> searchPlayer(String user_ID){
 		
+		ArrayList<Player> matchingPl = new ArrayList<Player>();
 		Player searchedPlayer = null;
 		String[] splitString = null;
 		
@@ -28,9 +29,11 @@ public class Admin extends User{
 			while (readLine != null)
 			{
 				splitString = readLine.split(",");
-				if (splitString[0].equals(user_ID) && !splitString[0].equals("user_ID"))
+				if (splitString[0].contains(user_ID) && !splitString[0].equals("user_ID"))
 				{
 					searchedPlayer = new Player(splitString[0], splitString[1], splitString[2], splitString[3], Integer.parseInt(splitString[4]));
+					//adding matching players to the list
+					matchingPl.add(searchedPlayer);
 				}
 				readLine = br.readLine();
 			}
@@ -41,7 +44,7 @@ public class Admin extends User{
 			e.printStackTrace();
 		}
 		
-		return searchedPlayer;
+		return matchingPl;
 	}
 	
 	//Search file for all players adds each player into array list as Player object. Return Arraylist of Player
