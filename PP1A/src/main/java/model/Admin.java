@@ -16,35 +16,11 @@ public class Admin extends User{
 	}
 
 	//Search file for a matching substring and returns arrayList
-	public ArrayList<Player> searchPlayer(String user_ID){
-		
-		ArrayList<Player> matchingPl = new ArrayList<Player>();
-		Player searchedPlayer = null;
-		String[] splitString = null;
-		
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(FileTools.USER_DATA_FILE));
-			String readLine = br.readLine();
-			
-			while (readLine != null)
-			{
-				splitString = readLine.split(",");
-				if (splitString[0].contains(user_ID) && !splitString[0].equals("user_ID"))
-				{
-					searchedPlayer = new Player(splitString[0], splitString[1], splitString[2], splitString[3], Integer.parseInt(splitString[4]));
-					//adding matching players to the list
-					matchingPl.add(searchedPlayer);
-				}
-				readLine = br.readLine();
-			}
-
-			br.close();
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		}
-		
-		return matchingPl;
+	public ArrayList<String[]> searchPlayer(String user_ID, String filePath){
+		FileTools ft = new FileTools();
+		ArrayList<String[]> matchingPlayer;
+		//calls and returns array of matching players
+		return matchingPlayer = ft.searchFile(user_ID, ft.USER_DATA_FILE);
 	}
 	
 	//Search file for all players adds each player into array list as Player object. Return Arraylist of Player
@@ -96,28 +72,13 @@ public class Admin extends User{
 		ft.overwriteCSV(allPlayers, FileTools.USER_DATA_FILE);
 	}
 	
-	public Player searchUser(String user_ID) throws IOException{
-		FileTools ft = new FileTools();
-		
-		Player searchPl = null;
-		List<String[]> allPlayers = ft.readCSV(FileTools.USER_DATA_FILE);
-		
-		int pIdx = 0;
-		//iterating through the List
-		while(pIdx <= allPlayers.size()-1){
-			//Searching for element with the correct user_ID
-			if(allPlayers.get(pIdx)[0].equals(user_ID) && !allPlayers.get(pIdx)[0].equals("user_ID")){
-				//assigning the correct user
-				searchPl = new Player(allPlayers.get(pIdx)[0], 
-						              allPlayers.get(pIdx)[1], 
-						              allPlayers.get(pIdx)[2], 
-						              allPlayers.get(pIdx)[3], 
-						              Integer.parseInt(allPlayers.get(pIdx)[4]));
-			}
-			pIdx++;
+	//Search file for a matching substring and returns arrayList
+		public ArrayList<String[]> searchTrAcc(String user_ID, String filePath){
+			FileTools ft = new FileTools();
+			ArrayList<String[]> matchingAcc;
+			//calls and returns array of matching accounts
+			return matchingAcc = ft.searchFile(user_ID, ft.USER_ACC_FILE);
 		}
-		return searchPl;
-	}
 	
 	//All transaction from one user
 	public List<String[]> viewUserTrans(String user_ID, String filePath) throws IOException{

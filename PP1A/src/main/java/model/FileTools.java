@@ -118,11 +118,21 @@ public class FileTools {
 	public User LoadPlayer(String user_ID)
 	{
 		User user = null;
-		String[] parameters = searchFile(user_ID, USER_DATA_FILE);
+		ArrayList<String[]> searchedPlayers = searchFile(user_ID, USER_DATA_FILE);
+		String[] parameters = null;
 		String password;
 		String firstName;
 		String lastName;
 		int age;
+		
+		for (String[] player : searchedPlayers)
+		{
+			if (player[0].equals(user_ID))
+			{
+				parameters = player;
+				break;
+			}
+		}
 		
 		//return null if can't find user_ID in file
 		if (parameters == null)
@@ -149,8 +159,9 @@ public class FileTools {
 	}
 	
 	//search a file for a specified id string and return row as a string array
-	public String[] searchFile(String id, String filepath)
-	{
+	public ArrayList<String[]> searchFile(String id, String filepath)
+	{		
+		ArrayList<String[]> matching = new ArrayList<String[]>();
 		String[] splitString = null;
 		
 		try {
@@ -160,10 +171,10 @@ public class FileTools {
 			while (readLine != null)
 			{
 				splitString = readLine.split(",");
-				if (splitString[0].equals(id) && !splitString[0].equals("user_ID"))
+				if (splitString[0].contains(id) && !splitString[0].equals("user_ID"))
 				{
-					br.close();
-					return splitString;
+					//adding matching players to the list
+					matching.add(splitString);
 				}
 				readLine = br.readLine();
 			}
@@ -174,7 +185,7 @@ public class FileTools {
 			e.printStackTrace();
 		}
 		
-		return null;
+		return matching;
 	}
 	
 	//convert to CVS format
