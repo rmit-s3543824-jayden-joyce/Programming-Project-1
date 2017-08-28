@@ -2,6 +2,7 @@
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import model.FileTools;
 import model.User;
@@ -23,7 +24,7 @@ public class testFileTools {
 	//SearchFile tests
 	@Test
 	public void testSearchNotFound() {
-		assertNull(fileTool.searchFile("fakeID", FileTools.USER_DATA_FILE));
+		assertTrue(fileTool.searchFile("fakeID", FileTools.USER_DATA_FILE).size() == 0);
 	}
 	
 	@Test
@@ -33,7 +34,17 @@ public class testFileTools {
 	
 	@Test
 	public void testSearchRighResultAdmin() {
-		String[] admin = fileTool.searchFile("admin", FileTools.USER_DATA_FILE);
+		ArrayList<String[]> searchResult = fileTool.searchFile("admin", FileTools.USER_DATA_FILE);
+		String[] admin = null;
+		
+		for (String[] res : searchResult)
+		{
+			if (res[0].equals("admin"))
+			{
+				admin = res;
+			}
+		}
+		
 		assertEquals("test search admin not match", "admin", admin[0]);
 		assertEquals("test search admin not match", "#Admin123", admin[1]);
 		assertEquals("test search admin not match", "Colonel", admin[2]);
@@ -43,12 +54,22 @@ public class testFileTools {
 	
 	@Test
 	public void testSearchRighResultPlayer() {
-		String[] admin = fileTool.searchFile("bobby123", FileTools.USER_DATA_FILE);
-		assertEquals("test search Player not match", "bobby123", admin[0]);
-		assertEquals("test search Player not match", "Qwerty12!", admin[1]);
-		assertEquals("test search Player not match", "Bobby", admin[2]);
-		assertEquals("test search Player not match", "Smith", admin[3]);
-		assertEquals("test search Player not match", 20, Integer.parseInt(admin[4]));
+		ArrayList<String[]> searchResult =fileTool.searchFile("bobby123", FileTools.USER_DATA_FILE);
+		String[] player = null;
+		
+		for (String[] res : searchResult)
+		{
+			if (res[0].equals("bobby123"))
+			{
+				player = res;
+			}
+		}
+		
+		assertEquals("test search Player not match", "bobby123", player[0]);
+		assertEquals("test search Player not match", "Qwerty12!", player[1]);
+		assertEquals("test search Player not match", "Bobby", player[2]);
+		assertEquals("test search Player not match", "Smith", player[3]);
+		assertEquals("test search Player not match", 20, Integer.parseInt(player[4]));
 	}
 	
 	//LoadPlayer tests
