@@ -18,13 +18,13 @@ public class Mainpage {
 	//this class is used to test for Velocity template
 
 	public static void helloWorld(){
-		staticFiles.location("/public");
-		
+		staticFiles.location("/public");		
 		menu = new Menu();
+		
 		get("/", (req, res) -> {
 			Map<String, Object> model = new HashMap<>();
 			
-			//put "value" inside "cardholder"
+			//"placeholder", "value"
 			model.put("template", "/mainpage/mainpage.vtl");
 			
 			// The vtl files are located under the resources directory
@@ -118,4 +118,7 @@ public class Mainpage {
 		
 		return model;		
 	}
+	
+	//function for user
+	//
 }
