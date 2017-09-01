@@ -185,6 +185,10 @@ public class FileTools {
 			e.printStackTrace();
 		}
 		
+		//error handling of for null 0 elements matching
+		if(matching.size() == 0){
+			return null;
+		}
 		return matching;
 	}
 	
