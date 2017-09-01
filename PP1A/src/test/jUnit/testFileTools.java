@@ -24,7 +24,7 @@ public class testFileTools {
 	//SearchFile tests
 	@Test
 	public void testSearchNotFound() {
-		assertTrue(fileTool.searchFile("fakeID", FileTools.USER_DATA_FILE).size() == 0);
+		assertNull(fileTool.searchFile("fakeID", FileTools.USER_DATA_FILE));
 	}
 	
 	@Test
