@@ -3,7 +3,6 @@ package model;
 import java.io.IOException;
 
 public class Menu {
-
 	FileTools fileTool = new FileTools();
 	Validate valTool = new Validate();
 
