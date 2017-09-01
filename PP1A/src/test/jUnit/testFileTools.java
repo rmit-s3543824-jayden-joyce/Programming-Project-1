@@ -103,6 +103,13 @@ public class testFileTools {
 		assertTrue(true);
 	}
 	
+	@Test
+	public void testCSVtoJSON() {
+		String json = fileTool.csvToJsonString(FileTools.USER_DATA_FILE);
+		System.out.println(json);
+		assertNotNull(json);
+	}
+	
 	@AfterClass
 	public static void After() {
 		

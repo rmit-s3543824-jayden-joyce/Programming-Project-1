@@ -270,4 +270,53 @@ public class FileTools {
 		transList.add(newTrans);
 		overwriteCSV(transList, USER_TRANSACTION_LOG);
 	}
+	
+	//got content of csv and make it a simple json string
+	public String csvToJsonString(String filePath)
+	{
+		String jsonString = "";
+		
+		try {
+			List<String[]> csvContent = readCSV(filePath);
+			StringBuilder sb = new StringBuilder();
+			String[] headers = csvContent.get(0);
+			sb.append("{");
+			
+			for (int row = 1; row < csvContent.size(); row++)
+			{
+				sb.append("\"");
+				sb.append(csvContent.get(row)[0]);
+				sb.append("\":{");
+				
+				for (int col = 1; col < csvContent.get(row).length; col++)
+				{
+					sb.append("\"");
+					sb.append(headers[col]);
+					sb.append("\":\"");
+					sb.append(csvContent.get(row)[col]);
+					sb.append("\"");
+					if (col != csvContent.get(row).length-1)
+					{
+						sb.append(",");
+					}
+				}
+				
+				sb.append("}");
+				
+				if (row != csvContent.size()-1)
+				{
+					sb.append(",");
+				}
+			}
+			
+			sb.append("}");
+			jsonString = sb.toString();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return jsonString;
+	}
 }
