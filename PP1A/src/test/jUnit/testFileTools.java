@@ -22,17 +22,17 @@ public class testFileTools {
 	}
 	
 	//SearchFile tests
-	@Test
+	//@Test
 	public void testSearchNotFound() {
 		assertNull(fileTool.searchFile("fakeID", FileTools.USER_DATA_FILE));
 	}
 	
-	@Test
+	//@Test
 	public void testSearchFound() {
 		assertNotNull(fileTool.searchFile("admin", FileTools.USER_DATA_FILE));
 	}
 	
-	@Test
+	//@Test
 	public void testSearchRighResultAdmin() {
 		ArrayList<String[]> searchResult = fileTool.searchFile("admin", FileTools.USER_DATA_FILE);
 		String[] admin = null;
@@ -52,7 +52,7 @@ public class testFileTools {
 		assertEquals("test search admin not match", 50, Integer.parseInt(admin[4]));
 	}
 	
-	@Test
+	//@Test
 	public void testSearchRighResultPlayer() {
 		ArrayList<String[]> searchResult =fileTool.searchFile("bobby123", FileTools.USER_DATA_FILE);
 		String[] player = null;
@@ -73,19 +73,19 @@ public class testFileTools {
 	}
 	
 	//LoadPlayer tests
-	@Test
+	//@Test
 	public void testLoadAdmin() {
 		User user = fileTool.LoadPlayer("admin");
 		assertEquals(user.getFName(), "Colonel");
 	}
 	
-	@Test
+	//@Test
 	public void testLoadPlayer() {
 		User user = fileTool.LoadPlayer("bobby123");
 		assertEquals(user.getFName(), "Bobby");
 	}
 	
-	@Test
+	//@Test
 	public void testReadJSON() {
 		try {
 			fileTool.fetchShareData("BHP");
