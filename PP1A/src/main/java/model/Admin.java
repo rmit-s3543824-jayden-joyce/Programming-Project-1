@@ -15,45 +15,22 @@ public class Admin extends User{
 		this.user_ID = user_ID;
 	}
 
-	//Search file for a specific player and returns the specific player
-	public Player searchPlayer(String user_ID){
+	//Search file for a matching substring and returns arrayList
+	public ArrayList<String[]> searchPlayer(String user_ID, String filePath){
 		FileTools ft = new FileTools();
-	
-		Player searchedPlayer = null;
-		String[] splitString = null;
-		
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(ft.USER_DATA_FILE));
-			String readLine = br.readLine();
-			
-			while (readLine != null)
-			{
-				splitString = readLine.split(",");
-				if (splitString[0].equals(user_ID) && !splitString[0].equals("user_ID"))
-				{
-					searchedPlayer = new Player(splitString[0], splitString[1], splitString[2], splitString[3], Integer.parseInt(splitString[4]));
-				}
-				readLine = br.readLine();
-			}
-
-			br.close();
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		}
-		
-		return searchedPlayer;
+		ArrayList<String[]> matchingPlayer;
+		//calls and returns array of matching players
+		return matchingPlayer = ft.searchFile(user_ID, ft.USER_DATA_FILE);
 	}
 	
 	//Search file for all players adds each player into array list as Player object. Return Arraylist of Player
 	public ArrayList<Player> viewAllPlayers(){
 		ArrayList<Player> allPlayers = new ArrayList<Player>();
 		Player player = null;
-		FileTools ft = new FileTools();
 		String[] splitString;
 		
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(ft.USER_DATA_FILE));
+			BufferedReader br = new BufferedReader(new FileReader(FileTools.USER_DATA_FILE));
 			String readLine = br.readLine();
 			
 			while (readLine != null)
@@ -79,7 +56,7 @@ public class Admin extends User{
 	public void delUser(String user_ID) throws IOException{
 		FileTools ft = new FileTools();
 		
-		List<String[]> allPlayers = ft.readCSV(ft.USER_DATA_FILE);
+		List<String[]> allPlayers = ft.readCSV(FileTools.USER_DATA_FILE);
 		
 		int pIdx = 0;
 		//iterating through the List
@@ -92,37 +69,22 @@ public class Admin extends User{
 			pIdx++;
 		}
 		//Re-writing the file with updated data
-		ft.overwriteCSV(allPlayers, ft.USER_DATA_FILE);
+		ft.overwriteCSV(allPlayers, FileTools.USER_DATA_FILE);
 	}
 	
-	public Player searchUser(String user_ID) throws IOException{
-		FileTools ft = new FileTools();
-		
-		Player searchPl = null;
-		List<String[]> allPlayers = ft.readCSV(ft.USER_DATA_FILE);
-		
-		int pIdx = 0;
-		//iterating through the List
-		while(pIdx <= allPlayers.size()-1){
-			//Searching for element with the correct user_ID
-			if(allPlayers.get(pIdx)[0].equals(user_ID) && !allPlayers.get(pIdx)[0].equals("user_ID")){
-				//assigning the correct user
-				searchPl = new Player(allPlayers.get(pIdx)[0], 
-						              allPlayers.get(pIdx)[1], 
-						              allPlayers.get(pIdx)[2], 
-						              allPlayers.get(pIdx)[3], 
-						              Integer.parseInt(allPlayers.get(pIdx)[4]));
-			}
-			pIdx++;
+	//Search file for a matching substring and returns arrayList
+		public ArrayList<String[]> searchTrAcc(String user_ID, String filePath){
+			FileTools ft = new FileTools();
+			ArrayList<String[]> matchingAcc;
+			//calls and returns array of matching accounts
+			return matchingAcc = ft.searchFile(user_ID, ft.USER_ACC_FILE);
 		}
-		return searchPl;
-	}
 	
 	//All transaction from one user
 	public List<String[]> viewUserTrans(String user_ID, String filePath) throws IOException{
 		FileTools ft = new FileTools();
 		
-		List<String[]> userTrans = ft.readCSV(ft.USER_TRANSACTION_LOG);
+		List<String[]> userTrans = ft.readCSV(FileTools.USER_TRANSACTION_LOG);
 		
 		//iterating and deleting all
 		int i = 0;
@@ -138,7 +100,7 @@ public class Admin extends User{
 	public List<String[]> viewAllTrans(String filePath) throws IOException{
 		FileTools ft = new FileTools();
 		//Load all their transactions into the list and return
-		List<String[]> userTrans = ft.readCSV(ft.USER_TRANSACTION_LOG);
+		List<String[]> userTrans = ft.readCSV(FileTools.USER_TRANSACTION_LOG);
 		
 		return userTrans;
 	}

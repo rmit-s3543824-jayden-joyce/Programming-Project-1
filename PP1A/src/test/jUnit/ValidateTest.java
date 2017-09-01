@@ -14,7 +14,7 @@ public class ValidateTest {
 		 val = new Validate();
 	}
 	
-	@Test
+	//@Test
 	public void validateAgetest() {
 		boolean ageRange = val.validateAge(50);
 		assertTrue(ageRange);
@@ -23,6 +23,7 @@ public class ValidateTest {
 		assertFalse(ageRange);
 	}
 	
+	@Test
 	public void valNameTest(){
 		boolean nameInput = val.valName("John");
 		assertTrue(nameInput);
@@ -31,6 +32,7 @@ public class ValidateTest {
 		assertFalse(nameInput);
 	}
 	
+	//@Test
 	public void valPassword(){
 		boolean passwordInput = val.valPassword("Password123!");
 		assertTrue(passwordInput);
@@ -39,6 +41,7 @@ public class ValidateTest {
 		assertFalse(passwordInput);
 	}
 	
+	//@Test
 	public void valPwConfirmation(){
 		boolean comparison = val.pwConfirm("Password123!", "Password123!");
 		assertTrue(comparison);

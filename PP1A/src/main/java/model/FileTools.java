@@ -14,6 +14,9 @@ import java.util.Collections;
 import java.util.List;
 
 import org.json.JSONObject;
+import org.supercsv.io.CsvListReader;
+import org.supercsv.io.CsvListWriter;
+import org.supercsv.prefs.CsvPreference;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
@@ -115,11 +118,21 @@ public class FileTools {
 	public User LoadPlayer(String user_ID)
 	{
 		User user = null;
-		String[] parameters = searchFile(user_ID, USER_DATA_FILE);
+		ArrayList<String[]> searchedPlayers = searchFile(user_ID, USER_DATA_FILE);
+		String[] parameters = null;
 		String password;
 		String firstName;
 		String lastName;
 		int age;
+		
+		for (String[] player : searchedPlayers)
+		{
+			if (player[0].equals(user_ID))
+			{
+				parameters = player;
+				break;
+			}
+		}
 		
 		//return null if can't find user_ID in file
 		if (parameters == null)
@@ -146,8 +159,9 @@ public class FileTools {
 	}
 	
 	//search a file for a specified id string and return row as a string array
-	public String[] searchFile(String id, String filepath)
-	{
+	public ArrayList<String[]> searchFile(String id, String filepath)
+	{		
+		ArrayList<String[]> matching = new ArrayList<String[]>();
 		String[] splitString = null;
 		
 		try {
@@ -157,9 +171,10 @@ public class FileTools {
 			while (readLine != null)
 			{
 				splitString = readLine.split(",");
-				if (splitString[0].equals(id) && !splitString[0].equals("user_ID"))
+				if (splitString[0].contains(id) && !splitString[0].equals("user_ID"))
 				{
-					return splitString;
+					//adding matching players to the list
+					matching.add(splitString);
 				}
 				readLine = br.readLine();
 			}
@@ -170,7 +185,11 @@ public class FileTools {
 			e.printStackTrace();
 		}
 		
-		return null;
+		//error handling of for null 0 elements matching
+		if(matching.size() == 0){
+			return null;
+		}
+		return matching;
 	}
 	
 	//convert to CVS format
@@ -208,13 +227,40 @@ public class FileTools {
 		return trAccString;
 	}
 	
-	//writing Trading account to file
+	//writing Trading account to file, need to do it differently because it has variable columns
 	public void trAccToFile(TradingAcc trAcc) throws IOException{
-		FileWriter fw =  new FileWriter(USER_ACC_FILE,true);
-		BufferedWriter bw = new BufferedWriter(fw);
+		CsvListReader  listReader = new CsvListReader(new FileReader(FileTools.USER_ACC_FILE), CsvPreference.STANDARD_PREFERENCE);
+		List<List<String>> csvContents = new ArrayList<List<String>>();
+		List<String> line;
+		CsvListWriter listWriter;
+		boolean found = false;
 		
-		bw.write(trAccToString(trAcc));
-		bw.close();
+		//read CSV contents and alter line if changes found, then close reader
+		while ((line = listReader.read()) != null)
+		{
+			if (line.contains(trAcc.getUser_ID()))
+			{
+				line = Arrays.asList(trAccToString(trAcc).split(","));
+				found = true;
+			}
+			csvContents.add(line);
+		}
+		listReader.close();
+		
+		//if not found append to contents
+		if (!found)
+		{
+			csvContents.add(Arrays.asList(trAccToString(trAcc).split(",")));
+		}
+		
+		//write to csv
+		listWriter = new CsvListWriter(new FileWriter(FileTools.USER_ACC_FILE), CsvPreference.STANDARD_PREFERENCE);
+		for (List<String> row : csvContents)
+		{
+			listWriter.write(row);
+		}
+		listWriter.close();
+		
 	}
 	
 	public void updateTransCSV(Transaction transaction, String filePath) throws IOException
@@ -223,5 +269,54 @@ public class FileTools {
 		String[] newTrans = {transaction.getID(), transaction.getTransType().toString(), transaction.getASXcode(), transaction.getCompName(), transaction.getShareVal().toString(), transaction.getDateTime()};
 		transList.add(newTrans);
 		overwriteCSV(transList, USER_TRANSACTION_LOG);
+	}
+	
+	//got content of csv and make it a simple json string
+	public String csvToJsonString(String filePath)
+	{
+		String jsonString = "";
+		
+		try {
+			List<String[]> csvContent = readCSV(filePath);
+			StringBuilder sb = new StringBuilder();
+			String[] headers = csvContent.get(0);
+			sb.append("{");
+			
+			for (int row = 1; row < csvContent.size(); row++)
+			{
+				sb.append("\"");
+				sb.append(csvContent.get(row)[0]);
+				sb.append("\":{");
+				
+				for (int col = 1; col < csvContent.get(row).length; col++)
+				{
+					sb.append("\"");
+					sb.append(headers[col]);
+					sb.append("\":\"");
+					sb.append(csvContent.get(row)[col]);
+					sb.append("\"");
+					if (col != csvContent.get(row).length-1)
+					{
+						sb.append(",");
+					}
+				}
+				
+				sb.append("}");
+				
+				if (row != csvContent.size()-1)
+				{
+					sb.append(",");
+				}
+			}
+			
+			sb.append("}");
+			jsonString = sb.toString();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return jsonString;
 	}
 }
