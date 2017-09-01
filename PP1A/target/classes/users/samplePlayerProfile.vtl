@@ -1,0 +1,35 @@
+<!DOCTYPE>
+<head>
+	<link rel="stylesheet" href="../style/layout.css">
+	<link rel="stylesheet" href="../style/userStyle.css">
+</head>
+
+<body>
+<!-- player navbar -->
+
+<ul>
+	<li><a href="/">Logout</a></li>
+	
+	<li style="float:left; font-weight:bold"><a href="/TransactionAccount">Player Name</a></li>
+	<li class="dropdown">
+	<a href="javascript:void(0)" class="dropbtn">More</a>
+		<!-- player menu list-->
+		<div class="dropdown-content">
+			<a href="/user">My profile</a>
+			
+			<!-- Might change -->
+			<a href="/TransactionAccount">My transaction record</a>
+		</div>
+	</li>
+</ul>
+
+<!-- main details -->
+<!-- placeholder for userTemplate -->
+<div class="center">
+ #parse($userTemplate)
+</div>
+
+<!-- if tag != null, shown tagged stock details -->
+
+<!-- else shown empty, link to trading  -->
+</body>
