@@ -2,6 +2,7 @@ package View;
 
 import static spark.Spark.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,17 +19,17 @@ public class Mainpage {
 	//this class is used to test for Velocity template
 
 	public static void helloWorld(){
-		staticFiles.location("/public");		
-		menu = new Menu();
+		staticFiles.location("/public");
 		
+		menu = new Menu();
 		get("/", (req, res) -> {
 			Map<String, Object> model = new HashMap<>();
 			
-			//"placeholder", "value"
+			// put "value" inside "cardholder"
 			model.put("template", "/mainpage/mainpage.vtl");
 			
 			// The vtl files are located under the resources directory
-			//The line below are required to make the page works
+			// The line below are required to make the page works
             return new VelocityTemplateEngine().render(
             		new ModelAndView(model, "layout.vtl")
             		);
@@ -57,23 +58,7 @@ public class Mainpage {
 		});
 		
 		get("/regSuccess", (req, res) -> {
-			Map<String, Object> model = new HashMap<>();
-			
-			String userName = req.queryParams("username");
-			String firstName = req.queryParams("firstname");
-			String lastName = req.queryParams("lastname");
-			int age = Integer.parseInt(req.queryParams("age"));
-			String password = req.queryParams("password");
-			String confirmPassword = req.queryParams("confirmpassword");
-			
-			if(menu.register(userName, firstName, lastName, age, password, confirmPassword))
-			{
-				model.put("template", "user.vtl");
-			}
-			else
-			{
-				model.put("template", "/mainpage/register.vtl");
-			}
+			Map<String, Object> model = register(req);
 			
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
 		});
@@ -114,21 +99,40 @@ public class Mainpage {
 		});
 	}
 	
-	//funtion for login
+	//function for login
 	public static Map<String, Object> testLogin(Request req){
 		Map<String, Object> model = new HashMap<>();
 		
 		String username	= req.queryParams("username");
 		String password	= req.queryParams("password");
-		
+				
 		if(menu.login(username, password))
-			model.put("template", "user.vtl");
+		{
+			model.put("authenticationSucceeded", true);
+			req.session().attribute("currentUser", username);
+			model.put("template", "/users/user.vtl");
+		}
 		else
-			model.put("template", "login.vtl");
+			model.put("template", "/mainpage/login.vtl");
 		
 		return model;		
 	}
 	
-	//function for user
-	//
+	public static Map<String, Object> register(Request req) throws IOException{
+		Map<String, Object> model = new HashMap<>();
+		
+		String userName = req.queryParams("username");
+		String firstName = req.queryParams("firstname");
+		String lastName = req.queryParams("lastname");
+		int age = Integer.parseInt(req.queryParams("age"));
+		String password = req.queryParams("password");
+		String confirmPassword = req.queryParams("confirmpassword");
+		
+		if(menu.register(userName, firstName, lastName, age, password, confirmPassword))
+			model.put("template", "/mainpage/regSuccess.vtl");
+		else
+			model.put("template", "/mainpage/register.vtl");
+		
+		return model;	
+	}
 }
