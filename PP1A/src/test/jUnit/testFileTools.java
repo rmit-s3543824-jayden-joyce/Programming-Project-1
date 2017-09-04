@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import model.FileTools;
 import model.User;
 
+import org.json.JSONObject;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -88,7 +89,8 @@ public class testFileTools {
 	//@Test
 	public void testReadJSON() {
 		try {
-			fileTool.fetchShareData("BHP");
+			JSONObject json = fileTool.fetchShareData("BHP");
+			assertEquals(((JSONObject)json.get("Meta Data")).get("2. Symbol"), "BHP.AX");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -97,13 +99,13 @@ public class testFileTools {
 	}
 	
 	//this test takes long as heck due to function
-	//@Test
+	@Test
 	public void testFetchAll() {
 		fileTool.fetchAllShareData();
 		assertTrue(true);
 	}
 	
-	@Test
+	//@Test
 	public void testCSVtoJSON() {
 		String json = fileTool.csvToJsonString(FileTools.USER_DATA_FILE);
 		System.out.println(json);

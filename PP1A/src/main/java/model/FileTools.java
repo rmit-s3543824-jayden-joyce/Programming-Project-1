@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,6 +30,8 @@ public class FileTools {
 	public static final String ALPHA_ADVANTAGE_API_KEY = "MP9H93RQEUUFGX07";
     public static final String URL_JSON_PATH_P1 = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=";
     public static final String URL_JSON_PATH_P2 = ".AX&interval=60min&apikey=" + ALPHA_ADVANTAGE_API_KEY;
+   
+    Util util = new Util();
 	
     //fetch data from a JSON in a url using its ASX code, if ASX code is not a key, then return null
 	public JSONObject fetchShareData(String ASXcode) throws IOException
@@ -97,7 +100,14 @@ public class FileTools {
 				{
 					jsonArray = json.getJSONObject("Time Series (60min)").keySet().toArray();
 					Arrays.sort(jsonArray, Collections.reverseOrder());
-					companiesCSVlist.get(i)[3] = ((JSONObject) json.getJSONObject("Time Series (60min)").get(jsonArray[0].toString())).get("1. open").toString();
+					JSONObject latestData = ((JSONObject) json.getJSONObject("Time Series (60min)").get(jsonArray[0].toString()));
+					String lastPrice = ((JSONObject) json.getJSONObject("Time Series (60min)").get(jsonArray[1].toString())).get("1. open").toString();
+					
+					companiesCSVlist.get(i)[3] = latestData.get("1. open").toString();
+					companiesCSVlist.get(i)[4] = latestData.getString("2. high").toString();
+					companiesCSVlist.get(i)[5] = latestData.getString("3. low").toString();
+					companiesCSVlist.get(i)[6] = util.calculateChange(new BigDecimal(lastPrice), new BigDecimal(latestData.get("1. open").toString())).toString();
+					companiesCSVlist.get(i)[7] = latestData.getString("5. volume").toString();
 				}
 				else
 				{
@@ -110,7 +120,7 @@ public class FileTools {
 			overwriteCSV(companiesCSVlist, ASX_COMPANIES_DATA_FILE);
 		}
 		catch (IOException e){
-			
+			System.out.println("something happened");
 		}
 	}
 
