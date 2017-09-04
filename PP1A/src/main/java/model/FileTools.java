@@ -140,6 +140,11 @@ public class FileTools {
 		String firstName;
 		String lastName;
 		int age;
+		//return null if searched players empty
+		if (searchedPlayers == null)
+		{
+			return null;
+		}
 		
 		for (String[] player : searchedPlayers)
 		{
@@ -153,7 +158,7 @@ public class FileTools {
 		//return null if can't find user_ID in file
 		if (parameters == null)
 		{
-			return user;
+			return null;
 		}
 		
 		//use these variables to make it easier to read
