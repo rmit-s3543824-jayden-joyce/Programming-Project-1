@@ -100,14 +100,20 @@ public class FileTools {
 				{
 					jsonArray = json.getJSONObject("Time Series (60min)").keySet().toArray();
 					Arrays.sort(jsonArray, Collections.reverseOrder());
-					JSONObject latestData = ((JSONObject) json.getJSONObject("Time Series (60min)").get(jsonArray[0].toString()));
-					String lastPrice = ((JSONObject) json.getJSONObject("Time Series (60min)").get(jsonArray[1].toString())).get("1. open").toString();
+					JSONObject priceDataList = json.getJSONObject("Time Series (60min)");
+					JSONObject latestData = (JSONObject) priceDataList.get(jsonArray[0].toString());
 					
 					companiesCSVlist.get(i)[3] = latestData.get("1. open").toString();
 					companiesCSVlist.get(i)[4] = latestData.getString("2. high").toString();
 					companiesCSVlist.get(i)[5] = latestData.getString("3. low").toString();
-					companiesCSVlist.get(i)[6] = util.calculateChange(new BigDecimal(lastPrice), new BigDecimal(latestData.get("1. open").toString())).toString();
 					companiesCSVlist.get(i)[7] = latestData.getString("5. volume").toString();
+					
+					//some shares only have data for 1 time (don't have historical data)
+					if (priceDataList.length() > 1)
+					{
+						String lastPrice = ((JSONObject) priceDataList.get(jsonArray[1].toString())).get("1. open").toString();
+						companiesCSVlist.get(i)[6] = util.calculateChange(new BigDecimal(lastPrice), new BigDecimal(latestData.get("1. open").toString())).toString();
+					}
 				}
 				else
 				{
