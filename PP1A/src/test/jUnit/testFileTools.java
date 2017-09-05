@@ -86,11 +86,25 @@ public class testFileTools {
 		assertEquals(user.getFName(), "Bobby");
 	}
 	
-	//@Test
-	public void testReadJSON() {
+	@Test
+	public void testReadDailyJSON() {
 		try {
-			JSONObject json = fileTool.fetchShareData("BHP");
+			JSONObject json = new JSONObject(fileTool.fetchShareData("BHP", FileTools.DAILY_TIME_SERIES_STRING));
 			assertEquals(((JSONObject)json.get("Meta Data")).get("2. Symbol"), "BHP.AX");
+			assertTrue(json.has(FileTools.DAILY_TIME_SERIES_STRING));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertTrue(true);
+	}
+	
+	@Test
+	public void testReadHourlyJSON() {
+		try {
+			JSONObject json = new JSONObject(fileTool.fetchShareData("BHP", FileTools.HOURLY_TIME_SERIES_STRING));
+			assertEquals(((JSONObject)json.get("Meta Data")).get("2. Symbol"), "BHP.AX");
+			assertTrue(json.has(FileTools.HOURLY_TIME_SERIES_STRING));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
