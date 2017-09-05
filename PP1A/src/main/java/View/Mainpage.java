@@ -26,6 +26,7 @@ public class Mainpage {
 			
 			//"placeholder", "value"
 			model.put("template", "/mainpage/mainpage.vtl");
+			model.put("table", "/mainpage/companyTable.vtl");
 			
 			// The vtl files are located under the resources directory
 			//The line below are required to make the page works
@@ -130,5 +131,4 @@ public class Mainpage {
 	}
 	
 	//function for user
-	//
 }
