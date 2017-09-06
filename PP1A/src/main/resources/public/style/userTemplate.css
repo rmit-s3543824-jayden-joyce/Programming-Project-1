@@ -1,20 +1,20 @@
 .sideNav{
 	height: 100%;
-	width: 0;
+	width: 225px;
 	box-shadow: 0;
 	position: fixed;
 	z-index: 0;
-	padding-top: 50px;
+	padding-top: 125px;
 	top: 0;
 	left: 0;
 	background-color: #2C3E50;
 	overflow-x: hidden;
-	transition: 0.5s;
+	transition: 1s;
 }
 
 /*center admin content*/
-.adminCenter {
-	padding: 0 12% 100px 12%;
+.userCenter {
+	padding: 75px 12% 100px 12%;
 }
 
 .sideNav a, .sideNav p {
@@ -41,4 +41,12 @@
 
 #div1, #div2, #div3, #div4, #div5{
 	display: none;
+}
+
+.userDet{
+	float: left;
+}
+
+.warning{
+	color: #FF0000;
 }

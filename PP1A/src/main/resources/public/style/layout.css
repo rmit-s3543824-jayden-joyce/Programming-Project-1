@@ -23,6 +23,11 @@ ul {
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
 
+ul h3{
+	padding-left: 15px;
+	color: #FFFFFF
+}
+
 /* Links inside the navbar */
 li a{
     float: right;
@@ -31,6 +36,7 @@ li a{
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    transition: 0.3s;
 }
 
 li .title {
@@ -49,6 +55,11 @@ li a:hover{
 	padding: 14px 16px;
 	text-decoration: none;
 	cursor: pointer;
+	transition: 0.3s;
+}
+
+.adminSideNav:hover{
+	background-color: #81d4fa;
 }
 
 /* Main content */

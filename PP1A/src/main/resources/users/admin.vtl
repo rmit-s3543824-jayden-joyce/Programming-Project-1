@@ -1,6 +1,7 @@
 
-<link rel="stylesheet" href="../style/admin.css"><br>
+<link rel="stylesheet" href="../style/userTemplate.css"><br>
 
+<!-- Side Navbar -->
 <div id="adminSideNav" class="sideNav">
 	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 	<p onclick="hideFunc(); showD1();">Search Player</p>
@@ -11,57 +12,59 @@
 	<a href='/'>Home page</a>
 </div>
 
-<div class="adminCenter">
+<!-- body content -->
+<div class="userCenter">
     <h1>Administration page</h1>
 	<h2>Admin name</h2>
 	<p>Admin details</p>
-	<div>
-		<!-- Search for player -->
-		<div id="div1">
-		<form action=javascript:void(0); ">
-			<h2>Search for player</h2>
-			<input id="searchPlayerID" type="text" required>
-			<input id="searchPlayer" type="submit" value="Search Player">
-		</form><br>
-		</div>
+	
+	<!-- Functions -->
+	<!-- Search for player -->
+	<div id="div1">
+	<form action=javascript:void(0); ">
+		<h2>Search for player</h2>
+		<input id="searchPlayerID" type="text" required>
+		<input id="searchPlayer" type="submit" value="Search Player">
+	</form><br>
+	</div>
 
-		<!-- View player -->
-		<div id="div2">
-		<form action=javascript:void(0); ">
-			<h2>List All Player</h2>
-			<input id="listPlayer" type="submit" value="List">
-		</form><br>
-		</div>
+	<!-- View player -->
+	<div id="div2">
+	<form action=javascript:void(0); ">
+		<h2>List All Player</h2>
+		<input id="listPlayer" type="submit" value="List Players">
+	</form><br>
+	</div>
 
-		<!-- Delete Player -->
-		<div id="div3">
-		<form action=javascript:void(0); ">
-			<h2>Delete player</h2>
-			<input id="deletePlayerID" type="text" required>
+	<!-- Delete Player -->
+	<div id="div3">
+	<form action=javascript:void(0); ">
+		<h2>Delete player</h2>
+		<input id="deletePlayerID" type="text" required>
 
-			<input id="searchUser" type="submit" value="Search User">
-		</form><br>
-		</div>
-		
-		<!-- list player transaction -->
-		<div id="div4">
-		<form action=javascript:void(0); ">
-			<h2>List player transaction</h2>
-			<input id="listPlayerID" type="text" required>
-			<input id="listPlayerTrans" type="submit" value="List">
-		</form><br>
-		</div>
-		
-		<!-- list all transaction -->
-		<div id="div5">
-		<form action=javascript:void(0); ">
-			<h2>List All Transaction</h2>
-			<input id="listTransaction" type="submit" value="List">
-		</form><br>
-		</div>
+		<input id="searchUser" type="submit" value="Search User">
+	</form><br>
+	</div>
+	
+	<!-- list player transaction -->
+	<div id="div4">
+	<form action=javascript:void(0); ">
+		<h2>List player transaction</h2>
+		<input id="listPlayerID" type="text" required>
+		<input id="listPlayerTrans" type="submit" value="List Transactions">
+	</form><br>
+	</div>
+	
+	<!-- list all transaction -->
+	<div id="div5">
+	<form action=javascript:void(0); ">
+		<h2>List All Transaction</h2>
+		<input id="listTransaction" type="submit" value="List Transactions">
+	</form><br>
 	</div>
 </div>
 
+<!-- Hide and show different functions -->
 <script>
 	function openNav(){
 		document.getElementById("adminSideNav").style.width = "225px";
