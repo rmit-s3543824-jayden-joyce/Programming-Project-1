@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,14 +28,33 @@ public class FileTools {
 	public static final String USER_TRANSACTION_LOG = "src/main/resources/transactionLog.csv";
 	public static final String ASX_COMPANIES_DATA_FILE = "src/main/resources/ASXListedCompanies.csv";
 	public static final String ALPHA_ADVANTAGE_API_KEY = "MP9H93RQEUUFGX07";
-    public static final String URL_JSON_PATH_P1 = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=";
-    public static final String URL_JSON_PATH_P2 = ".AX&interval=60min&apikey=" + ALPHA_ADVANTAGE_API_KEY;
+    public static final String URL_JSON_PATH_P1_INTRADAY = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=";
+    public static final String URL_JSON_PATH_P2_INTRADAY = ".AX&interval=60min&apikey=" + ALPHA_ADVANTAGE_API_KEY;
+    public static final String URL_JSON_PATH_P1_DAILY = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=";
+    public static final String URL_JSON_PATH_P2_DAILY = ".AX&apikey=" + ALPHA_ADVANTAGE_API_KEY;
+    public static final String HOURLY_TIME_SERIES_STRING = "Time Series (60min)";
+    public static final String DAILY_TIME_SERIES_STRING = "Time Series (Daily)";
+   
+    Util util = new Util();
 	
     //fetch data from a JSON in a url using its ASX code, if ASX code is not a key, then return null
-	public JSONObject fetchShareData(String ASXcode) throws IOException
+	public String fetchShareData(String ASXcode, String TimeSeriesString) throws IOException
 	{
-		JSONObject json = null;
-		URL url = new URL(URL_JSON_PATH_P1 + ASXcode + URL_JSON_PATH_P2);
+		String jsonString = null;
+		URL url = null;
+		
+		//returned data can be intraday(hourly) or daily
+		switch (TimeSeriesString){
+			case HOURLY_TIME_SERIES_STRING: 
+				url = new URL(URL_JSON_PATH_P1_INTRADAY + ASXcode + URL_JSON_PATH_P2_INTRADAY);
+				break;
+			case DAILY_TIME_SERIES_STRING:
+				url = new URL(URL_JSON_PATH_P1_DAILY + ASXcode + URL_JSON_PATH_P2_DAILY);
+				break;
+			default:
+				return null;
+		}
+		
 		InputStream is;
 		BufferedReader br;
 		
@@ -49,9 +69,9 @@ public class FileTools {
 			jsonStringBuilder.append(line);
 		}
 		
-		json = new JSONObject(jsonStringBuilder.toString());	
+		jsonString = jsonStringBuilder.toString();	
 		
-		if (!json.has("Time Series (60min)"))
+		if (!jsonString.contains(TimeSeriesString))
 		{
 			return null;
 		}
@@ -59,7 +79,7 @@ public class FileTools {
 		br.close();
 		is.close();
 		
-		return json;
+		return jsonString;
 	}
 	
 	//Separate function for writing changes to csv file after fetching data
@@ -85,6 +105,7 @@ public class FileTools {
 	{
 		try {
 			JSONObject json = null;
+			String jsonString = null;
 			List<String[]> companiesCSVlist;
 			Object[] jsonArray;
 			//read from csv and add edit vals
@@ -92,12 +113,26 @@ public class FileTools {
 			
 			for (int i = 1; i < companiesCSVlist.size(); i++)
 			{
-				json = fetchShareData(companiesCSVlist.get(i)[1]);
-				if (json != null)
+				jsonString = fetchShareData(companiesCSVlist.get(i)[1], HOURLY_TIME_SERIES_STRING);
+				if (jsonString != null)
 				{
+					json = new JSONObject(jsonString);
 					jsonArray = json.getJSONObject("Time Series (60min)").keySet().toArray();
 					Arrays.sort(jsonArray, Collections.reverseOrder());
-					companiesCSVlist.get(i)[3] = ((JSONObject) json.getJSONObject("Time Series (60min)").get(jsonArray[0].toString())).get("1. open").toString();
+					JSONObject priceDataList = json.getJSONObject("Time Series (60min)");
+					JSONObject latestData = (JSONObject) priceDataList.get(jsonArray[0].toString());
+					
+					companiesCSVlist.get(i)[3] = latestData.get("1. open").toString();
+					companiesCSVlist.get(i)[4] = latestData.getString("2. high").toString();
+					companiesCSVlist.get(i)[5] = latestData.getString("3. low").toString();
+					companiesCSVlist.get(i)[7] = latestData.getString("5. volume").toString();
+					
+					//some shares only have data for 1 time (don't have historical data)
+					if (priceDataList.length() > 1)
+					{
+						String lastPrice = ((JSONObject) priceDataList.get(jsonArray[1].toString())).get("1. open").toString();
+						companiesCSVlist.get(i)[6] = util.calculateChange(new BigDecimal(lastPrice), new BigDecimal(latestData.get("1. open").toString())).toString();
+					}
 				}
 				else
 				{
@@ -110,7 +145,7 @@ public class FileTools {
 			overwriteCSV(companiesCSVlist, ASX_COMPANIES_DATA_FILE);
 		}
 		catch (IOException e){
-			
+			System.out.println("something happened");
 		}
 	}
 
@@ -124,6 +159,11 @@ public class FileTools {
 		String firstName;
 		String lastName;
 		int age;
+		//return null if searched players empty
+		if (searchedPlayers == null)
+		{
+			return null;
+		}
 		
 		for (String[] player : searchedPlayers)
 		{
@@ -137,7 +177,7 @@ public class FileTools {
 		//return null if can't find user_ID in file
 		if (parameters == null)
 		{
-			return user;
+			return null;
 		}
 		
 		//use these variables to make it easier to read
