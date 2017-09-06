@@ -1,49 +1,113 @@
-<h1>This is the Admin page</h1>
 
-<div>
+<link rel="stylesheet" href="../style/admin.css"><br>
+
+<div id="adminSideNav" class="sideNav">
+	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+	<p onclick="hideFunc(); showD1();">Search Player</p>
+	<p onclick="hideFunc(); showD2();">List All Player</p>
+	<p onclick="hideFunc(); showD3();">Delete Player</p>
+	<p onclick="hideFunc(); showD4();">Player Transactions</p>
+	<p onclick="hideFunc(); showD5();">All Transactions</p>
+	<a href='/'>Home page</a>
+</div>
+
+<div class="adminCenter">
+    <h1>Administration page</h1>
 	<h2>Admin name</h2>
 	<p>Admin details</p>
 	<div>
 		<!-- Search for player -->
+		<div id="div1">
 		<form action=javascript:void(0); ">
 			<h2>Search for player</h2>
 			<input id="searchPlayerID" type="text" required>
 			<input id="searchPlayer" type="submit" value="Search Player">
-		</form>
-		<br>
+		</form><br>
+		</div>
 
 		<!-- View player -->
+		<div id="div2">
 		<form action=javascript:void(0); ">
 			<h2>List All Player</h2>
 			<input id="listPlayer" type="submit" value="List">
-		</form>
-		<br>
+		</form><br>
+		</div>
 
 		<!-- Delete Player -->
+		<div id="div3">
 		<form action=javascript:void(0); ">
 			<h2>Delete player</h2>
 			<input id="deletePlayerID" type="text" required>
 
 			<input id="searchUser" type="submit" value="Search User">
-		</form>
-		<br>
+		</form><br>
+		</div>
 		
 		<!-- list player transaction -->
+		<div id="div4">
 		<form action=javascript:void(0); ">
 			<h2>List player transaction</h2>
 			<input id="listPlayerID" type="text" required>
 			<input id="listPlayerTrans" type="submit" value="List">
-		</form>
-		<br>
+		</form><br>
+		</div>
 		
 		<!-- list all transaction -->
+		<div id="div5">
 		<form action=javascript:void(0); ">
 			<h2>List All Transaction</h2>
 			<input id="listTransaction" type="submit" value="List">
-		</form>
-		<br>
+		</form><br>
+		</div>
 	</div>
 </div>
-<p>
-	<a href='/'>Back to Home page</a>
-</p>
+
+<script>
+	function openNav(){
+		document.getElementById("adminSideNav").style.width = "225px";
+	}
+	
+	function closeNav(){
+		document.getElementById("adminSideNav").style.width = "0";
+	}
+	
+	function hideFunc(){
+		var d1 = document.getElementById("div1");
+		var d2 = document.getElementById("div2");
+		var d3 = document.getElementById("div3");
+		var d4 = document.getElementById("div4");
+		var d5 = document.getElementById("div5");
+		
+		if(d1.style.display === 'block'){
+			d1.style.display = 'none';
+		}
+		if(d2.style.display === 'block'){
+			d2.style.display = 'none';
+		}
+		if(d3.style.display == 'block'){
+			d3.style.display = 'none';
+		}
+		if(d4.style.display == 'block'){
+			d4.style.display = 'none';
+		}
+		if(d5.style.display == 'block'){
+			d5.style.display = 'none';
+		}
+	}
+	
+	function showD1(){
+		document.getElementById("div1").style.display = 'block';
+	}
+	function showD2(){
+		document.getElementById("div2").style.display = 'block';
+	}
+	function showD3(){
+		document.getElementById("div3").style.display = 'block';
+	}
+	function showD4(){
+		document.getElementById("div4").style.display = 'block';
+	}
+	function showD5(){
+		document.getElementById("div5").style.display = 'block';
+	}
+</script>

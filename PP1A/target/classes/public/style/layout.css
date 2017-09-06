@@ -41,6 +41,16 @@ li a:hover{
 	background-color: #81d4fa;
 }
 
+ .adminSideNav{
+	float: left;
+	display: inline-block;
+	color: #f2f2f2;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	cursor: pointer;
+}
+
 /* Main content */
 .main {
 	margin-left:	auto;
