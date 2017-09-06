@@ -6,7 +6,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import model.FileTools;
 import model.Menu;
+import model.Player;
+import model.User;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -17,7 +20,6 @@ public class Mainpage {
 	public static Menu menu;
 	
 	//this class is used to test for Velocity template
-
 	public static void helloWorld(){
 		staticFiles.location("/public");
 		
@@ -76,6 +78,29 @@ public class Mainpage {
 			Map<String, Object> model = new HashMap<>();
 			
 			model.put("userTemplate", "/users/user.vtl");
+			model.put("username", req.session().attribute("username"));
+			model.put("firstname", req.session().attribute("firstname"));
+			model.put("lastname", req.session().attribute("lastname"));
+			model.put("age", req.session().attribute("age"));
+			
+			return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
+		});
+		
+		get("/EditProfile", (req, res) -> {
+			Map<String, Object> model = new HashMap<>();
+			
+			model.put("userTemplate", "/users/editProfile.vtl");
+			model.put("username", req.session().attribute("username"));
+			model.put("firstname", req.session().attribute("firstname"));
+			model.put("lastname", req.session().attribute("lastname"));
+			model.put("age", req.session().attribute("age"));
+			model.put("password", req.session().attribute("password"));
+			
+			return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
+		});
+		
+		get("/ConfirmEditProfile", (req, res) -> {
+			Map<String, Object> model = editProfile(req);
 			
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 		});
@@ -105,11 +130,26 @@ public class Mainpage {
 		
 		String username	= req.queryParams("username");
 		String password	= req.queryParams("password");
+		
+		User user = FileTools.LoadPlayer(username);
+		
+		String firstName = user.getFName();
+		String lastName = user.getLName();
+		int age = user.getAge();
 				
 		if(menu.login(username, password))
-		{
-			model.put("authenticationSucceeded", true);
-			req.session().attribute("currentUser", username);
+		{			
+			req.session().attribute("username", username);
+			req.session().attribute("password", password);
+			req.session().attribute("firstname", firstName);
+			req.session().attribute("lastname", lastName);
+			req.session().attribute("age", age);
+			
+			model.put("username", req.session().attribute("username"));
+			model.put("firstname", req.session().attribute("firstname"));
+			model.put("lastname", req.session().attribute("lastname"));
+			model.put("age", req.session().attribute("age"));
+			model.put("password", req.session().attribute("password"));
 			model.put("template", "/users/user.vtl");
 		}
 		else
@@ -129,9 +169,37 @@ public class Mainpage {
 		String confirmPassword = req.queryParams("confirmpassword");
 		
 		if(menu.register(userName, firstName, lastName, age, password, confirmPassword))
+		{	
 			model.put("template", "/mainpage/regSuccess.vtl");
+		}
 		else
 			model.put("template", "/mainpage/register.vtl");
+		
+		return model;	
+	}
+	
+	public static Map<String, Object> editProfile(Request req) throws IOException{
+		Map<String, Object> model = new HashMap<>();
+		
+		String oldId = req.session().attribute("username");
+		String newId = req.queryParams("username");
+		String firstName = req.queryParams("firstname");
+		String lastName = req.queryParams("lastname");
+		int age = Integer.parseInt(req.queryParams("age"));
+		String password = req.queryParams("password");
+		
+		if(Player.editProfile(oldId, newId, password, firstName, lastName, age) != null)
+		{
+			req.session().attribute("username", newId);
+			req.session().attribute("firstname", firstName);
+			req.session().attribute("lastname", lastName);
+			req.session().attribute("age", age);
+			req.session().attribute("password", password);
+			
+			model.put("userTemplate", "/users/ConfirmEditProfile.vtl");
+		}
+		else
+			model.put("userTemplate", "/users/editProfile.vtl");
 		
 		return model;	
 	}

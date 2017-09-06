@@ -19,31 +19,6 @@ function regValidate() {
 		}
 		return false;
 	}
-	
-	function csvToJSON(csv){
-	  var lines=csv.split("\n");
-
-	  var result = [];
-
-	  var headers=lines[0].split(",");
-
-	  for(var i=1;i<lines.length;i++){
-
-		  var obj = {};
-		  var currentline=lines[i].split(",");
-
-		  for(var j=0;j<headers.length;j++){
-			  obj[headers[j]] = currentline[j];
-		  }
-
-		  result.push(obj);
-
-	  }
-	  
-	  //return result; //JavaScript object
-	  return JSON.stringify(result); //JSON
-	}
-	
 
 //	function userExists(username) {
 //		var userObj = csvToJSON("/UserData.csv");
@@ -122,6 +97,7 @@ function regValidate() {
 	// user name validation
 	if (!valUserName(user_name.value)) {
 		user_name.style.border = "1px solid red";
+		user_name_error.style.color = "red";
 		user_name_error.textContent = "Valid username is required";
 		user_name.focus();
 		return false;
@@ -138,6 +114,7 @@ function regValidate() {
 	// first name validation
 	if (!valName(first_name.value)) {
 		first_name.style.border = "1px solid red";
+		first_name_error.style.color = "red";
 		first_name_error.textContent = "Must have a capital letter at the start and only contains letters";
 		first_name.focus();
 		return false;
@@ -146,6 +123,7 @@ function regValidate() {
 	// last name validation
 	if (!valName(last_name.value)) {
 		last_name.style.border = "1px solid red";
+		last_name_error.style.color = "red";
 		last_name_error.textContent = "Must have a capital letter at the start and only contains letters";
 		last_name.focus();
 		return false;
@@ -154,13 +132,16 @@ function regValidate() {
 	// age validation
 	if (!valAge(age.value)) {
 		age.style.border = "1px solid red";
+		age_error.style.color = "red";
 		age_error.textContent = "Valid age is required";
 		age.focus();
 		return false;
 	}
+	age_error.innerHTML = "";
 	// password validation
 	if (!valPassword(password.value)) {
 		password.style.border = "1px solid red";
+		password_error.style.color = "red";
 		password_error.textContent = "Password must have at least: 8 characters, a number and special character";
 		password.focus();
 		return false;
@@ -169,6 +150,7 @@ function regValidate() {
 	// check if passwords match
 	if (password.value !== confirm_password.value) {
 		password.style.border = "1px solid red";
+		password_error.style.color = "red";
 		confirm_password.style.border = "1px solid red";
 		password_error.innerHTML = "Passwords do not match";
 		return false;
