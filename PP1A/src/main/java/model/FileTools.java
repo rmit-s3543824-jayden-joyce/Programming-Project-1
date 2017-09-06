@@ -83,10 +83,10 @@ public class FileTools {
 	}
 	
 	//Separate function for writing changes to csv file after fetching data
-	public void overwriteCSV(List<String[]> companiesCSVlist, String filePath) throws IOException
+	public void overwriteCSV(List<String[]> content, String filePath) throws IOException
 	{
 		CSVWriter csvWriter = new CSVWriter(new FileWriter(filePath));
-		csvWriter.writeAll(companiesCSVlist);
+		csvWriter.writeAll(content);
 		csvWriter.flush();
 		csvWriter.close();
 	}
@@ -257,17 +257,22 @@ public class FileTools {
 		//getting player's shares
 		ArrayList<String> sharesOwned = tr.getSharesOwned();
 		
-		trAccString = tr.getUser_ID() + "," + tr.getCurrBal();
+		trAccString = tr.getUser_ID() + "," + tr.getCurrBal() + ",";
 		//Listing all shares under player's possession
 		int i = 0;
 		while(i <= sharesOwned.size()-1){
-			trAccString = trAccString + "," + sharesOwned.get(i);
+			trAccString = trAccString + sharesOwned.get(i);
+			if (i != sharesOwned.size()-1)
+			{
+				trAccString = trAccString + ";";
+			}
 			i ++;
 		}
+
 		return trAccString;
 	}
 	
-	//writing Trading account to file, need to do it differently because it has variable columns
+	//writing Trading account to file, need to do it differently because it has variable columns(not anymore)
 	public void trAccToFile(TradingAcc trAcc) throws IOException{
 		CsvListReader  listReader = new CsvListReader(new FileReader(FileTools.USER_ACC_FILE), CsvPreference.STANDARD_PREFERENCE);
 		List<List<String>> csvContents = new ArrayList<List<String>>();
@@ -303,12 +308,35 @@ public class FileTools {
 		
 	}
 	
-	public void updateTransCSV(Transaction transaction, String filePath) throws IOException
+	//adds a transaction
+	public void addToTransCSV(Transaction transaction, String filePath) throws IOException
 	{
 		List<String[]>transList = readCSV(USER_TRANSACTION_LOG);
 		String[] newTrans = {transaction.getID(), transaction.getTransType().toString(), transaction.getASXcode(), transaction.getCompName(), transaction.getShareVal().toString(), transaction.getDateTime()};
 		transList.add(newTrans);
 		overwriteCSV(transList, USER_TRANSACTION_LOG);
+	}
+	
+	//updates transaction csv if username is changed
+	public void updateIdInCSV( String oldId, String newId, String filePath) throws IOException
+	{
+		List<String[]> fileContents = readCSV(filePath);
+		
+		for (String[] row : fileContents)
+		{
+			if (row[0].equals(oldId))
+			{
+				row[0] = newId;
+				
+				//only transaction log will contain multiple of the same userID
+				if (!filePath.equals(USER_TRANSACTION_LOG))
+				{
+					break;
+				}
+			}
+		}
+		
+		overwriteCSV(fileContents, filePath);
 	}
 	
 	//got content of csv and make it a simple json string
@@ -358,5 +386,27 @@ public class FileTools {
 		}
 		
 		return jsonString;
+	}
+	
+	//loading trading account
+	public TradingAcc loadTrAcc(String userID)
+	{
+		TradingAcc trAcc = null;
+		ArrayList<String> sharesOwned;
+		
+		ArrayList<String[]> trAccList = searchFile(userID, USER_ACC_FILE);
+		for (String[] trAccParams : trAccList)
+		{
+			if (trAccParams[0].equals(userID))
+			{
+				trAcc = new TradingAcc(userID);
+				trAcc.setCurrBal(new BigDecimal(trAccParams[1]));
+				sharesOwned = new ArrayList<String>(Arrays.asList(trAccParams[2].split(";")));
+				trAcc.setSharesOwned(sharesOwned);
+				break;
+			}
+		}
+		
+		return trAcc;
 	}
 }
