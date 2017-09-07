@@ -21,12 +21,14 @@ public class Mainpage {
 		staticFiles.location("/public");		
 		menu = new Menu();
 		
+		//vtl loader
 		get("/", (req, res) -> {
 			Map<String, Object> model = new HashMap<>();
 			
 			//"placeholder", "value"
 			model.put("template", "/mainpage/mainpage.vtl");
-			model.put("table", "/mainpage/companyTable.vtl");
+			model.put("table", "/utils/companyTable.vtl");
+			model.put("news", "/utils/stockNews.vtl");
 			
 			// The vtl files are located under the resources directory
 			//The line below are required to make the page works
@@ -100,6 +102,7 @@ public class Mainpage {
 			Map<String, Object> model = new HashMap<>();
 			
 			model.put("userTemplate", "/users/TransactionAccount.vtl");
+			model.put("chart", "/utils/chart.vtl");
 			
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 		});
@@ -109,7 +112,7 @@ public class Mainpage {
 		get("/testTable", (req, res) -> {
 			Map<String, Object> model = new HashMap<>();
 			
-			model.put("template", "/mainpage/testTable.vtl");
+			model.put("template", "/utils/companyTable.vtl");
 			
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
 		});
