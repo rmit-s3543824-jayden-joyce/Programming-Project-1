@@ -11,43 +11,45 @@ body {
 }
 
 /*The Navigation bar before login*/
-ul {
+ul.navbar{
 	z-index: 1;
-    list-style-type: none;
+	list-style-type: none;
 	background-color: #039be5;
 	position: fixed;
+	left: 0;
 	top: 0;
 	width: 100%;
 	margin: 0;
 	padding: 0;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-}
-
-ul h3{
-	padding-left: 15px;
-	color: #FFFFFF
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 }
 
 /* Links inside the navbar */
-li a{
-    float: right;
-    display: inline-block;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    transition: 0.3s;
+li.navbar a{
+	float: right;
+	display: block;
+	color: #f2f2f2;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	transition: 0.3s;
 }
 
-li .title {
+li.title{
 	float: left;
+	font-weight: bold;
 }
 
-li a:hover{
+li.navbar a:hover{
 	background-color: #81d4fa;
 }
 
- .adminSideNav{
+h3.userTitle {
+	padding-left: 10px;
+	color: #f2f2f2;
+}
+
+.adminSideNav {
 	float: left;
 	display: inline-block;
 	color: #f2f2f2;
@@ -56,16 +58,17 @@ li a:hover{
 	text-decoration: none;
 	cursor: pointer;
 	transition: 0.3s;
+	position: absolute;
 }
 
-.adminSideNav:hover{
+.adminSideNav:hover {
 	background-color: #81d4fa;
 }
 
 /* Main content */
 .main {
-	margin-left:	auto;
-	margin-right:	auto;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 /*center text */
@@ -75,65 +78,29 @@ li a:hover{
 
 /*center graph */
 .center {
-	margin: 0 auto;
+	padding: 0 5% 5% 5%;
+	margin: 0 5% 5% 5%;
 	width: 80%;
 	background-color: #f2f2f2;
-	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.1);
 }
 
-/* formating for table */
-.datagrid table {
-	border-collapse: collapse;
-	text-align: left;
-	width: 100%;
+/*formating chartdiv*/
+#chartdiv {
+	width: 80%;
 	margin: 0 auto;
 }
 
-.datagrid {
-	font: normal 12px/150% Verdana, Arial, Helvetica, sans-serif;
-	background: #fff;
+footer, footer a {
+	padding-left: 10px;
+	background-color: #333333;
+	left: 0;
+	bottom: 0;
+	color: #f2f2f2;
 	overflow: hidden;
-	border: 1px solid #B8B8B8;
-}
-
-.datagrid table td, .datagrid table th {
-	padding: 7px 15px;
-}
-
-.datagrid table thead th {
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #5C5C5C
-		), color-stop(1, #5C5C5C));
-	background: -moz-linear-gradient(center top, #5C5C5C 5%, #5C5C5C 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5C5C5C',
-		endColorstr='#5C5C5C');
-	background-color: #5C5C5C;
-	color: #F2F2F2;
-	font-size: 15px;
-	font-weight: bold;
-	border-left: 2px solid #B8B8B8;
-}
-
-.datagrid table thead th:first-child {
-	border: none;
-}
-
-.datagrid table tbody td {
-	color: #000000;
-	border-left: 1px solid #C7C7C7;
-	font-size: 12px;
-	font-weight: normal;
-	border-bottom: 1px solid #c7c7c7;
-}
-
-.datagrid table tbody .alt td {
-	background: #DEDEDE;
-	color: #000000;
-}
-
-.datagrid table tbody td:first-child {
-	border-left: none;
-}
-
-.datagrid table tbody tr:last-child td {
-	border-bottom: none;
+	width: 100%;
+	margin: 0;
+	height: 150px;
+	font-size: 80%;
+	z-index: 1;
 }
