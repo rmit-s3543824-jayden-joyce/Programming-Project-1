@@ -7,8 +7,11 @@ controller\Main.class
 model\Transaction.class
 model\Transaction$1.class
 model\Menu.class
+controller\AdminCtrl.class
 model\Shares.class
 model\TradingAcc.class
 model\Util.class
+controller\PlayerCtrl.class
 model\Player.class
+controller\UserCtrl.class
 model\Admin.class
