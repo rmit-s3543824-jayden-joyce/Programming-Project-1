@@ -25,13 +25,28 @@ var tabulate = function(data, columns) {
 			}
 		})
 	}).enter().append('td').text(function(d) {
-		return d.value
+		if (d.value == "")
+			return "NA";
+		else
+			return d.value
+	})
+	
+	cells.filter(function(d, i) {return d.column ==="Change"})
+	.attr("style", function(d){
+		if ( d.value < 0)
+			return "color: red;";
+		else
+			return "color: green;";
+	})
+	.html(function(d){
+		return (d.value);
 	})
 
 	return table;
 }
 
 d3.csv('/csv/ASXListedCompanies.csv', function(data) {
-	var columns = [ 'Company name', 'ASX code', 'GICS industry group', 'Price', 'High', 'Low', 'Change', 'Volume' ]
+	var columns = [ 'Company name', 'ASX code', 'Price', 'High', 'Low', 'Change', 'Volume' ]
+		
 	tabulate(data, columns)
 })
