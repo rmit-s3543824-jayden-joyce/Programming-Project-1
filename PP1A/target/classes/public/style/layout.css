@@ -64,8 +64,16 @@ div.formFormat {
   float:left;
 }
 
+.footer {
+	border-top: 1px;
+	border-color: #eaecef;
+	margin-top: 40px;
+	padding-top: 40px;
+	padding-bottom: 40px;
+}
+
 /*button formatting*/
-.btn {
+.btnBlue {
   display: inline-border;
   margin: 10px;
   -webkit-border-radius: 7;
@@ -73,14 +81,29 @@ div.formFormat {
   border-radius: 7px;
   font-family: Arial;
   color: #ffffff;
-  font-size: 20px;
+  font-size: 15px;
   background: #039be5;
-  padding: 10px 20px 10px 20px;
+  padding: 10px 15px 10px 15px;
   border: none;
   text-decoration: none;
 }
 
-.btn:hover {
+.btnRed {
+  display: inline-border;
+  margin: 10px;
+  -webkit-border-radius: 7;
+  -moz-border-radius: 7;
+  border-radius: 7px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 15px;
+  background: #f44236;
+  padding: 10px 15px 10px 15px;
+  border: none;
+  text-decoration: none;
+}
+
+.btnBlue:hover {
   background: #3cb0fd;
   background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
   background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
@@ -90,6 +113,15 @@ div.formFormat {
   text-decoration: none;
 }
 
+.btnRed:hover {
+  background: #ff5e52;
+  background-image: -webkit-linear-gradient(top, #ff5e52, #f44236);
+  background-image: -moz-linear-gradient(top, #ff5e52, #f44236);
+  background-image: -ms-linear-gradient(top, #ff5e52, #f44236);
+  background-image: -o-linear-gradient(top, #ff5e52, #f44236);
+  background-image: linear-gradient(to bottom, #ff5e52, #f44236);
+  text-decoration: none;
+}
 /* formating for table */
 .datagrid table {
 	border-collapse: collapse;
