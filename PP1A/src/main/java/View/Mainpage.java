@@ -83,6 +83,13 @@ public class Mainpage {
 			
 			model.put("userTemplate", "/users/admin.vtl");
 			
+			model.put("username", "Admin");
+			model.put("fname", "Colonel");
+			model.put("lname", "Sanders");
+			model.put("age", 50);
+			model.put("password", "#Admin123");
+			
+			
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 		});
 		
@@ -91,6 +98,13 @@ public class Mainpage {
 			Map<String, Object> model = new HashMap<>();
 			
 			model.put("userTemplate", "/users/user.vtl");
+			
+			model.put("username", "John123");
+			model.put("fname", "John");
+			model.put("lname", "Nguyen");
+			model.put("age", 20);
+			model.put("password", "#Password123");
+			
 			
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 		});
