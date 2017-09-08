@@ -1,7 +1,19 @@
-<h1>Account main page</h1>
+<link rel="stylesheet" href="../style/userTemplate.css"><br>
+
+
+<!-- Side Navbar -->
+<div id="trSideNav" class="sideNav">
+	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+	<p onclick="hideFunc(); showD1();">Buy Shares</p>
+	<p onclick="hideFunc(); showD2();">Sell Shares</p>
+	<p onclick="hideFunc(); showD3();">Show Last Transaction</p>
+	<p onclick="hideFunc(); showD4();">Show Current Stock Value</p>
+	<a href='/'>Home page</a>
+</div>
 
 <!-- Stock data tag by player -->
-<div>
+<div class="userCenter">
+	<h1>Account main page</h1>
 	<link rel="stylesheet" href="../amcharts/style.css" type="text/css">
 		<script src="../amcharts/amcharts.js" type="text/javascript"></script>
 		<script src="../amcharts/serial.js" type="text/javascript"></script>
@@ -158,38 +170,87 @@
 
 
 		</script>
-</div>
 
-<div style="width:600; height:400px;" id="chartdiv"></div>
-<br><br>
-<div>
-	<!-- buy shares -->
-	<form action=javascript:void(0); ">
-		<h2>Buy shares</h2>
-		<input id="buySharesID" type="text" value="Shares ID" required>
-			<input id="buyShares" type="submit" value="Search Shares">
-	</form>
-	<br>
+
+	<div style="width:600; height:400px;" id="chartdiv"></div>
+	<br><br>
+
+	<div>
+		<!-- buy shares -->
+		<div id="div1">
+		<form action=javascript:void(0); ">
+			<h2>Buy shares</h2>
+			<input id="buySharesID" type="text" value="Shares ID" required>
+				<input id="buyShares" type="submit" value="Search Shares">
+		</form>
+		</div>
+		
+		<!-- sell shares -->
+		<div id="div2">
+		<form action=javascript:void(0); ">
+			<h2>Sell shares</h2>
+			<input id="sellSharesID" type="text" value="Shares ID" required>
+				<input id="sellShares" type="submit" value="Search Shares">
+		</form>
+		</div>
+		
+		<!-- Show Last Transaction -->
+		<div id="div3">
+		<form action=javascript:void(0); ">
+			<h2>Show Last Transaction</h2>
+			<input id="lastTrans" type="submit" value="List">
+		</form>
+		</div>
+		
+		<!-- Show current stock value -->
+		<div id="div4">
+		<form action=javascript:void(0); ">
+			<h2>Show Current Stock Value</h2>
+			<input id="currStockVal" type="submit" value="List">
+		</form>
+		</div>
+	</div>	
+</div>	
+
+<script>
+	function openNav(){
+		document.getElementById("trSideNav").style.width = "225px";
+	}
 	
-	<!-- sell shares -->
-	<form action=javascript:void(0); ">
-		<h2>Sell shares</h2>
-		<input id="sellSharesID" type="text" value="Shares ID" required>
-			<input id="sellShares" type="submit" value="Search Shares">
-	</form>
-	<br>
+	function closeNav(){
+		document.getElementById("trSideNav").style.width = "0";
+	}
 	
-	<!-- Show Last Transaction -->
-	<form action=javascript:void(0); ">
-		<h2>Show Last Transaction</h2>
-		<input id="lastTrans" type="submit" value="List">
-	</form>
-	<br>
+	function hideFunc(){
+		var d1 = document.getElementById("div1");
+		var d2 = document.getElementById("div2");
+		var d3 = document.getElementById("div3");
+		var d4 = document.getElementById("div4");
+		
+		if(d1.style.display === 'block'){
+			d1.style.display = 'none';
+		}
+		if(d2.style.display === 'block'){
+			d2.style.display = 'none';
+		}
+		if(d3.style.display == 'block'){
+			d3.style.display = 'none';
+		}
+		if(d4.style.display == 'block'){
+			d4.style.display = 'none';
+		}
+	}
 	
-	<!-- Show current stock value -->
-	<form action=javascript:void(0); ">
-		<h2>Show Current Stock Value</h2>
-		<input id="currStockVal" type="submit" value="List">
-	</form>
-	<br>
-</div>		
+	function showD1(){
+		document.getElementById("div1").style.display = 'block';
+	}
+	function showD2(){
+		document.getElementById("div2").style.display = 'block';
+	}
+	function showD3(){
+		document.getElementById("div3").style.display = 'block';
+	}
+	function showD4(){
+		document.getElementById("div4").style.display = 'block';
+	}
+</script>
