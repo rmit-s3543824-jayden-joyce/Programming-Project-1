@@ -23,10 +23,11 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
 public class FileTools {
-	public static final String USER_DATA_FILE = "src/main/resources/userData.csv";
-	public static final String USER_ACC_FILE = "src/main/resources/accountData.csv";
-	public static final String USER_TRANSACTION_LOG = "src/main/resources/transactionLog.csv";
-	public static final String ASX_COMPANIES_DATA_FILE = "src/main/resources/ASXListedCompanies.csv";
+	public static final String CSV_RESOURCE_FOLDER = "src/main/resources/public/csv";
+	public static final String USER_DATA_FILE = CSV_RESOURCE_FOLDER + "/userData.csv";
+	public static final String USER_ACC_FILE = CSV_RESOURCE_FOLDER + "/accountData.csv";
+	public static final String USER_TRANSACTION_LOG = CSV_RESOURCE_FOLDER + "transactionLog.csv";
+	public static final String ASX_COMPANIES_DATA_FILE = CSV_RESOURCE_FOLDER + "/ASXListedCompanies.csv";
 	public static final String ALPHA_ADVANTAGE_API_KEY = "MP9H93RQEUUFGX07";
     public static final String URL_JSON_PATH_P1_INTRADAY = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=";
     public static final String URL_JSON_PATH_P2_INTRADAY = ".AX&interval=60min&apikey=" + ALPHA_ADVANTAGE_API_KEY;
