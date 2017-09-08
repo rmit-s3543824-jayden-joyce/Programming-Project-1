@@ -43,6 +43,10 @@
 	display: none;
 }
 
+.func{
+	color: #039be5;
+}
+
 .userDet{
 	float: left;
 }
