@@ -43,4 +43,29 @@ public abstract class User {
 	{
 		return password;
 	}
+	
+	public void setID(String new_ID)
+	{
+		this.user_ID = new_ID;
+	}
+	
+	public void setPassword(String newPassword)
+	{
+		this.password = newPassword;
+	}
+	
+	public void setFName(String new_fName)
+	{
+		this.user_fname = new_fName;
+	}
+	
+	public void setLName(String new_lName)
+	{
+		this.user_lname = new_lName;
+	}
+	
+	public void setAge(int newAge)
+	{
+		this.age = newAge;
+	}
 }

@@ -13,6 +13,7 @@ import java.util.List;
 public class Player extends User{
 	
 	String user_ID;
+	TradingAcc trAcc;
 	public Player(String user_ID, String password, String firstName, String lastName, int age) {
 		super(user_ID, password, firstName, lastName, age);
 		// TODO Auto-generated constructor stub
@@ -42,11 +43,24 @@ public class Player extends User{
 				allPlayers.get(pIdx)[2] = user_fname;
 				allPlayers.get(pIdx)[3] = user_lname;
 				allPlayers.get(pIdx)[4] = Integer.toString(age);
-				//assigning for return value
-				editPlayer = new Player(user_ID, password, user_fname, user_lname, age);
+				//updating class values
+				setID(user_ID);
+				setPassword(password);
+				setFName(user_fname);
+				setLName(user_lname);
+				setAge(age);
 				//writing back to file
 				ft.overwriteCSV(allPlayers, filePath);
-				return editPlayer;
+				
+				//update user name on accountData and transaction log files if they exist
+				if (trAcc != null && !oldId.equals(user_ID))
+				{
+					ft.updateIdInCSV(oldId, user_ID, FileTools.USER_ACC_FILE);
+					ft.updateIdInCSV(oldId, user_ID, FileTools.USER_TRANSACTION_LOG);
+					trAcc.updateId(this);
+				}
+				
+				return this;
 			}
 			pIdx ++;	
 		}

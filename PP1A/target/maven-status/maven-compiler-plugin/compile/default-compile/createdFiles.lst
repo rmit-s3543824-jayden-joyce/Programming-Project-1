@@ -9,5 +9,6 @@ model\Transaction$1.class
 model\Menu.class
 model\Shares.class
 model\TradingAcc.class
+model\Util.class
 model\Player.class
 model\Admin.class

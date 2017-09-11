@@ -40,7 +40,7 @@ public class TradingAcc {
 
 		//save transaction to file and update user account data file
 		try {
-			fileTool.updateTransCSV(buy, FileTools.USER_TRANSACTION_LOG);
+			fileTool.addToTransCSV(buy, FileTools.USER_TRANSACTION_LOG);
 			fileTool.trAccToFile(this);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -75,13 +75,18 @@ public class TradingAcc {
 		
 		//save transaction to file and update user account data file
 		try {
-			fileTool.updateTransCSV(sell, FileTools.USER_TRANSACTION_LOG);
+			fileTool.addToTransCSV(sell, FileTools.USER_TRANSACTION_LOG);
 			fileTool.trAccToFile(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 		return sell;
+	}
+	
+	public void updateId(Player player)
+	{
+		user_ID = player.getID();
 	}
 	
 	public Transaction showLastTrans(String inputFile){
