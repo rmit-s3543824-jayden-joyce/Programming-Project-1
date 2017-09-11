@@ -150,7 +150,7 @@ public class FileTools {
 	}
 
 	//use user ID to find player in a file and return it
-	public User LoadPlayer(String user_ID)
+	public static User LoadPlayer(String user_ID)
 	{
 		User user = null;
 		ArrayList<String[]> searchedPlayers = searchFile(user_ID, USER_DATA_FILE);
@@ -199,7 +199,7 @@ public class FileTools {
 	}
 	
 	//search a file for a specified id string and return row as a string array
-	public ArrayList<String[]> searchFile(String id, String filepath)
+	public static ArrayList<String[]> searchFile(String id, String filepath)
 	{		
 		ArrayList<String[]> matching = new ArrayList<String[]>();
 		String[] splitString = null;
