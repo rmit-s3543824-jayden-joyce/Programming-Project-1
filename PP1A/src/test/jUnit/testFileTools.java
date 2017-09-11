@@ -76,13 +76,13 @@ public class testFileTools {
 	//LoadPlayer tests
 	//@Test
 	public void testLoadAdmin() {
-		User user = fileTool.LoadPlayer("admin");
+		User user = fileTool.LoadUser("admin");
 		assertEquals(user.getFName(), "Colonel");
 	}
 	
 	//@Test
 	public void testLoadPlayer() {
-		User user = fileTool.LoadPlayer("bobby123");
+		User user = fileTool.LoadUser("bobby123");
 		assertEquals(user.getFName(), "Bobby");
 	}
 	

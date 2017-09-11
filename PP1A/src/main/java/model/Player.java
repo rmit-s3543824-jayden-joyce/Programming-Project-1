@@ -12,12 +12,11 @@ import java.util.List;
 
 public class Player extends User{
 	
-	String user_ID;
 	TradingAcc trAcc;
 	public Player(String user_ID, String password, String firstName, String lastName, int age) {
 		super(user_ID, password, firstName, lastName, age);
 		// TODO Auto-generated constructor stub
-		this.user_ID = user_ID;
+		this.loadTrAcc();
 	}
 	
 	//Players to edit their own personal details 
@@ -81,6 +80,7 @@ public class Player extends User{
 		return newAcc;
 	}
 	
+<<<<<<< HEAD
 	//Players can de-activate/delete their account
 	public void deleteAcc() throws IOException{
 		String username = getID();
@@ -97,5 +97,16 @@ public class Player extends User{
 		}
 		ft.overwriteCSV(allPlayers, ft.USER_DATA_FILE);
 		
+=======
+	public TradingAcc getTradingAcc()
+	{
+		return trAcc;
+	}
+	
+	public void loadTrAcc()
+	{
+		FileTools ft = new FileTools();
+		ft.loadTrAcc(this.getID());
+>>>>>>> 4566d5cb693397860cbd52462f32234948589237
 	}
 }

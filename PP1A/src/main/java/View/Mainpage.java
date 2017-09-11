@@ -108,7 +108,6 @@ public class Mainpage {
 			model.put("age", 20);
 			model.put("password", "#Password123");
 			
-			
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 		});
 		
