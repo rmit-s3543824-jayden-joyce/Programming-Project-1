@@ -81,4 +81,21 @@ public class Player extends User{
 		return newAcc;
 	}
 	
+	//Players can de-activate/delete their account
+	public void deleteAcc() throws IOException{
+		String username = getID();
+		FileTools ft = new FileTools();
+		
+		//loading existing file into memory
+		List<String[]> allPlayers = ft.readCSV(ft.USER_DATA_FILE);
+		
+		for(int i=0; i<allPlayers.size(); i++){
+			if(username.equals(allPlayers.get(i)[0])){
+				allPlayers.remove(i);
+				break;
+			}
+		}
+		ft.overwriteCSV(allPlayers, ft.USER_DATA_FILE);
+		
+	}
 }
