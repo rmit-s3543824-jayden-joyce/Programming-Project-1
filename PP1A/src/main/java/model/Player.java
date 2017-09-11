@@ -12,12 +12,11 @@ import java.util.List;
 
 public class Player extends User{
 	
-	String user_ID;
 	TradingAcc trAcc;
 	public Player(String user_ID, String password, String firstName, String lastName, int age) {
 		super(user_ID, password, firstName, lastName, age);
 		// TODO Auto-generated constructor stub
-		this.user_ID = user_ID;
+		this.loadTrAcc();
 	}
 	
 	//Players to edit their own personal details 
@@ -81,4 +80,14 @@ public class Player extends User{
 		return newAcc;
 	}
 	
+	public TradingAcc getTradingAcc()
+	{
+		return trAcc;
+	}
+	
+	public void loadTrAcc()
+	{
+		FileTools ft = new FileTools();
+		ft.loadTrAcc(this.getID());
+	}
 }

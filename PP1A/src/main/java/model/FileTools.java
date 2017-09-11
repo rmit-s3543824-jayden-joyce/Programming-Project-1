@@ -151,7 +151,7 @@ public class FileTools {
 	}
 
 	//use user ID to find player in a file and return it
-	public User LoadPlayer(String user_ID)
+	public User LoadUser(String user_ID)
 	{
 		User user = null;
 		ArrayList<String[]> searchedPlayers = searchFile(user_ID, USER_DATA_FILE);
