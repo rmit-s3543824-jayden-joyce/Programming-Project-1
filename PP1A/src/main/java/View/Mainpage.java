@@ -5,6 +5,8 @@ import static spark.Spark.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import controller.AdminCtrl;
+import controller.PlayerCtrl;
 import model.Menu;
 import spark.ModelAndView;
 import spark.Request;
@@ -83,14 +85,17 @@ public class Mainpage {
 		
 		get("/admin", (req, res) -> {
 			Map<String, Object> model = new HashMap<>();
+			AdminCtrl adminCtrl = new AdminCtrl();
 			
 			model.put("userTemplate", "/users/admin.vtl");
 			
-			model.put("username", "Admin");
+			adminCtrl.initAdminDetails(model, req);
+			
+			/*model.put("username", "Admin");
 			model.put("fname", "Colonel");
 			model.put("lname", "Sanders");
 			model.put("age", 50);
-			model.put("password", "#Admin123");
+			model.put("password", "#Admin123");*/
 			
 			
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
@@ -99,15 +104,19 @@ public class Mainpage {
 		//test
 		get("/user", (req, res) -> {
 			Map<String, Object> model = new HashMap<>();
+			PlayerCtrl playerCtrl = new PlayerCtrl();
 			
 			model.put("userTemplate", "/users/user.vtl");
 			
+			playerCtrl.initPlayerDetails(model, req);
+			
+			/*
 			model.put("username", "John123");
 			model.put("fname", "John");
 			model.put("lname", "Nguyen");
 			model.put("age", 20);
 			model.put("password", "#Password123");
-			
+			*/
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 		});
 		

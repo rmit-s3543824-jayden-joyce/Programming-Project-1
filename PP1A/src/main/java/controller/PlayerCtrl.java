@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.util.Map;
 
 import spark.Request;
@@ -20,6 +21,18 @@ public class PlayerCtrl extends UserCtrl{
 			model.put("currBal", player.getTradingAcc().getCurrBal());
 			model.put("sharesOwned", player.getTradingAcc().getSharesOwned());
 		}
+	}
+	
+	public void deleteAccount(String username, Request req)
+	{
+		FileTools fileTool = new FileTools();
+		Player player = (Player) fileTool.LoadUser(req.session().attribute("username"));
 		
+		try {
+			player.deleteAcc();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
