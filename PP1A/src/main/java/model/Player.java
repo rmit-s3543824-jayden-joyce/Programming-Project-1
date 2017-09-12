@@ -80,7 +80,6 @@ public class Player extends User{
 		return newAcc;
 	}
 	
-<<<<<<< HEAD
 	//Players can de-activate/delete their account
 	public void deleteAcc() throws IOException{
 		String username = getID();
@@ -95,9 +94,9 @@ public class Player extends User{
 				break;
 			}
 		}
-		ft.overwriteCSV(allPlayers, ft.USER_DATA_FILE);
+		ft.overwriteCSV(allPlayers, FileTools.USER_DATA_FILE);
+	}
 		
-=======
 	public TradingAcc getTradingAcc()
 	{
 		return trAcc;
@@ -107,6 +106,5 @@ public class Player extends User{
 	{
 		FileTools ft = new FileTools();
 		ft.loadTrAcc(this.getID());
->>>>>>> 4566d5cb693397860cbd52462f32234948589237
 	}
 }

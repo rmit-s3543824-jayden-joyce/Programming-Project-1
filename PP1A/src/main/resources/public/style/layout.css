@@ -74,6 +74,7 @@ h3.userTitle {
 /*center text */
 .cText {
 	text-align: center;
+	color: #039be5;
 }
 
 /*center graph */
@@ -98,7 +99,7 @@ h3.userTitle {
 
 footer {
 	display: block;
-	padding-left: 10px;
+	padding-left: 10%;
 	background-color: #333333;
 	position: relative;
 	left: 0;

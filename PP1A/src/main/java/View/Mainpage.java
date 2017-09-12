@@ -129,6 +129,14 @@ public class Mainpage {
 			
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
 		});
+		
+//		get("/404", (req, res) -> {
+//			Map<String, Object> model = new HashMap<>();
+//			
+//			model.put("userTemplate", "/users/404.vtl");
+//			
+//			return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
+//		});
 	}
 	
 	//funtion for login
