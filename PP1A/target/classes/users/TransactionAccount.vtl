@@ -1,100 +1,99 @@
-<link rel="stylesheet" href="../style/userTemplate.css"><br>
+<link rel="stylesheet" href="../style/userTemplate.css">
+<br>
 
 <div class="wrapper">
-<!-- Side Navbar -->
-<div id="trSideNav" class="sideNav">
-	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-	<p onclick="hideFunc(); showD1();">Buy Shares</p>
-	<p onclick="hideFunc(); showD2();">Sell Shares</p>
-	<p onclick="hideFunc(); showD3();">Last Transaction</p>
-	<p onclick="hideFunc(); showD4();">MyShares &<br>StockValue</p>
-	<a href='/'>Home page</a>
-</div>
+	<!-- Side Navbar -->
+	<div id="trSideNav" class="sideNav">
+		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+		<p onclick="hideFunc(); showD1();">Buy Shares</p>
+		<p onclick="hideFunc(); showD2();">Sell Shares</p>
+		<p onclick="hideFunc(); showD3();">Last Transaction</p>
+		<p onclick="hideFunc(); showD4();">
+			MyShares &<br>StockValue
+		</p>
+		<a href='/'>Home page</a>
+	</div>
 
-<!-- Stock data tag by player -->
-<div class="userCenter">
-	<h1>Account main page</h1>
-	<div>
-		<!-- buy shares -->
-		<div id="div1">
-			<form action=javascript:void(0);">
-				<h2 class="func">Buy shares</h2>
-				<input id="buySharesID" type="text" value="Shares ID" required>
-				<input id="buyShares" type="submit" value="Search Shares">
-			</form>
-		</div>
+	<!-- Stock data tag by player -->
+	<div class="userCenter">
+		<h1>Account main page</h1>
+		<div>
+			<!-- buy shares -->
+			<div id="div1">
+				<form action=javascript:void(0);">
+					<h2 class="func">Buy shares</h2>
+					<input id="buySharesID" type="text" value="Shares ID" required>
+					<input id="buyShares" type="submit" value="Search Shares">
+				</form>
+			</div>
 
-		<!-- sell shares -->
-		<div id="div2">
-			<form action=javascript:void(0);">
-				<h2 class="func">Sell shares</h2>
-				<input id="sellSharesID" type="text" value="Shares ID" required>
-				<input id="sellShares" type="submit" value="Search Shares">
-			</form>
-		</div>
+			<!-- sell shares -->
+			<div id="div2">
+				<form action=javascript:void(0);">
+					<h2 class="func">Sell shares</h2>
+					<input id="sellSharesID" type="text" value="Shares ID" required>
+					<input id="sellShares" type="submit" value="Search Shares">
+				</form>
+			</div>
 
-		<!-- Show Last Transaction -->
-		<div id="div3">
-			<form action=javascript:void(0);">
-				<h2 class="func">Show Last Transaction</h2>
-				<input id="lastTrans" type="submit" value="List">
-			</form>
-		</div>
+			<!-- Show Last Transaction -->
+			<div id="div3">
+				<form action=javascript:void(0);">
+					<h2 class="func">Show Last Transaction</h2>
+					<input id="lastTrans" type="submit" value="List">
+				</form>
+			</div>
 
-		<!-- Show current stock value -->
-		<div id="div4">
-			<form action=javascript:void(0);">
-<<<<<<< HEAD
-				<h2 class="func">MyShares and Stock-Value</h2>
-=======
-				<h2 class="func">Show Current Stock Value</h2>
->>>>>>> 4566d5cb693397860cbd52462f32234948589237
-				<input id="currStockVal" type="submit" value="List">
-			</form>
+			<!-- Show current stock value -->
+			<div id="div4">
+				<form action=javascript:void(0);">
+					<h2 class="func">MyShares and Stock-Value</h2>
+					<input id="currStockVal" type="submit" value="List">
+				</form>
+			</div>
 		</div>
 	</div>
 </div>
-</div>
 
 <script>
-	function openNav(){
+	function openNav() {
 		document.getElementById("trSideNav").style.width = "225px";
 	}
-	
-	function closeNav(){
+
+	function closeNav() {
 		document.getElementById("trSideNav").style.width = "0";
 	}
-	
-	function hideFunc(){
+
+	function hideFunc() {
 		var d1 = document.getElementById("div1");
 		var d2 = document.getElementById("div2");
 		var d3 = document.getElementById("div3");
 		var d4 = document.getElementById("div4");
-		
-		if(d1.style.display === 'block'){
+
+		if (d1.style.display === 'block') {
 			d1.style.display = 'none';
 		}
-		if(d2.style.display === 'block'){
+		if (d2.style.display === 'block') {
 			d2.style.display = 'none';
 		}
-		if(d3.style.display == 'block'){
+		if (d3.style.display == 'block') {
 			d3.style.display = 'none';
 		}
-		if(d4.style.display == 'block'){
+		if (d4.style.display == 'block') {
 			d4.style.display = 'none';
 		}
 	}
-	
-	function showD1(){
+
+	function showD1() {
 		document.getElementById("div1").style.display = 'block';
 	}
-	function showD2(){
+	function showD2() {
 		document.getElementById("div2").style.display = 'block';
 	}
-	function showD3(){
+	function showD3() {
 		document.getElementById("div3").style.display = 'block';
 	}
-	function showD4(){
+	function showD4() {
 		document.getElementById("div4").style.display = 'block';
 	}
 </script>
