@@ -21,7 +21,7 @@ public class Player extends User{
 	}
 	
 	//Players to edit their own personal details 
-	public static Player editProfile(String oldId, String user_ID, 
+	public Player editProfile(String oldId, String user_ID, 
 			                  String password, String user_fname, 
 			                  String user_lname, int age) throws IOException{	
 		
