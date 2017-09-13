@@ -1,11 +1,5 @@
 package model;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +14,12 @@ public class Player extends User{
 	}
 	
 	//Players to edit their own personal details 
-	public static Player editProfile(String oldId, String user_ID, 
+	public Player editProfile(String oldId, String user_ID, 
 			                  String password, String user_fname, 
 			                  String user_lname, int age) throws IOException{	
 		
 		FileTools ft = new FileTools();
 		
-		Player editPlayer = null;
 		String filePath = ft.USER_DATA_FILE;
 		
 		//loading existing file into memory
@@ -94,11 +87,8 @@ public class Player extends User{
 				break;
 			}
 		}
-<<<<<<< HEAD
+		
 		ft.overwriteCSV(allPlayers, FileTools.USER_DATA_FILE);
-=======
-		ft.overwriteCSV(allPlayers, ft.USER_DATA_FILE);
->>>>>>> b91abf430dac98347d570507b1b50f9ab52d8ba8
 	}
 		
 	public TradingAcc getTradingAcc()

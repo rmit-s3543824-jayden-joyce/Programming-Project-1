@@ -49,7 +49,7 @@ public class LoginController {
 		String username	= req.queryParams("username");
 		String password	= req.queryParams("password");
 		
-		User user = FileTools.LoadPlayer(username);
+		User user = FileTools.LoadUser(username);
 		
 		String firstName = user.getFName();
 		String lastName = user.getLName();
