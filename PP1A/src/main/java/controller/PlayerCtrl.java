@@ -11,8 +11,7 @@ public class PlayerCtrl extends UserCtrl{
 
 	public void initPlayerDetails(Map<String, Object> model, Request req)
 	{
-		FileTools fileTool = new FileTools();
-		Player player = (Player) fileTool.LoadUser(req.session().attribute("username"));
+		Player player = (Player) FileTools.LoadUser(req.session().attribute("username"));
 		
 		super.initUserDetails(model, req, player);
 		
@@ -25,8 +24,7 @@ public class PlayerCtrl extends UserCtrl{
 	
 	public void deleteAccount(String username, Request req)
 	{
-		FileTools fileTool = new FileTools();
-		Player player = (Player) fileTool.LoadUser(req.session().attribute("username"));
+		Player player = (Player) FileTools.LoadUser(req.session().attribute("username"));
 		
 		try {
 			player.deleteAcc();
