@@ -402,8 +402,12 @@ public class FileTools {
 			{
 				trAcc = new TradingAcc(userID);
 				trAcc.setCurrBal(new BigDecimal(trAccParams[1]));
-				sharesOwned = new ArrayList<String>(Arrays.asList(trAccParams[2].split(";")));
-				trAcc.setSharesOwned(sharesOwned);
+				//need to check if sharesOwned param exists or ArrayIndexOutOfBounds exception
+				if (trAccParams.length > 2)
+				{
+					sharesOwned = new ArrayList<String>(Arrays.asList(trAccParams[2].split(";")));
+					trAcc.setSharesOwned(sharesOwned);
+				}
 				break;
 			}
 		}
