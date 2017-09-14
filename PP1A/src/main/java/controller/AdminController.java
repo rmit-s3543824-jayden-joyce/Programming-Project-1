@@ -27,17 +27,15 @@ public class AdminController {
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 	};
 	
-	public void loadToSession(Map<String, Object> model, Request req)
+	public void loadToModel(Map<String, Object> model, Request req)
 	{
-		Admin admin = (Admin) FileTools.LoadUser(req.session().attribute("username"));
-		
-		if (admin.getPassword().equals(req.session().attribute("password")))
+		if (req.session().attribute("username") != null && req.session().attribute("firstname") != null)
 		{
-			model.put("username", admin.getID());
-			model.put("firstname", admin.getFName());
-			model.put("lastname", admin.getLName());
-			model.put("age", admin.getAge());
-			model.put("password", admin.getPassword());
+			model.put("username", req.session().attribute("username"));
+			model.put("firstname", req.session().attribute("firstname"));
+			model.put("lastname", req.session().attribute("lastname"));
+			model.put("age", req.session().attribute("age"));
+			model.put("password", req.session().attribute("password"));
 		}
 	}
 	

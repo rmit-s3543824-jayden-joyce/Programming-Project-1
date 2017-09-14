@@ -81,23 +81,32 @@ public class UserController {
 		return model;	
 	}
 	
-	public void loadToSession(Map<String, Object> model, Request req)
+	public void loadToModel(Map<String, Object> model, Request req)
+	{		
+		if (req.session().attribute("username") != null && req.session().attribute("firstname") != null)
+		{
+			model.put("username", req.session().attribute("username"));
+			model.put("firstname", req.session().attribute("firstname"));
+			model.put("lastname", req.session().attribute("lastname"));
+			model.put("age", req.session().attribute("age"));
+			model.put("password", req.session().attribute("password"));
+		}
+		
+		if (req.session().attribute("currBal") != null)
+		{
+			model.put("currBal", req.session().attribute("currBal"));
+			model.put("sharesOwned", req.session().attribute("sharesOwned"));
+		}
+	}
+	
+	public void loadTradingAccToSession(Request req)
 	{
 		Player player = (Player) FileTools.LoadUser(req.session().attribute("username"));
 		
-		if (player.getPassword().equals(req.session().attribute("password")))
+		if (player.getPassword().equals(req.session().attribute("password")) && player.getTradingAcc() != null)
 		{
-			model.put("username", player.getID());
-			model.put("firstname", player.getFName());
-			model.put("lastname", player.getLName());
-			model.put("age", player.getAge());
-			model.put("password", player.getPassword());
-		}
-		
-		if (player.getTradingAcc() != null)
-		{
-			model.put("currBal", player.getTradingAcc().getCurrBal());
-			model.put("sharesOwned", player.getTradingAcc().getSharesOwned());
+			req.session().attribute("currBal", player.getTradingAcc().getCurrBal());
+			req.session().attribute("sharesOwned", player.getTradingAcc().getSharesOwned());
 		}
 	}
 	
