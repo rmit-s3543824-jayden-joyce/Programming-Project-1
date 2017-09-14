@@ -94,11 +94,8 @@ public class Player extends User{
 				break;
 			}
 		}
-<<<<<<< HEAD
 		ft.overwriteCSV(allPlayers, FileTools.USER_DATA_FILE);
-=======
 		ft.overwriteCSV(allPlayers, ft.USER_DATA_FILE);
->>>>>>> b91abf430dac98347d570507b1b50f9ab52d8ba8
 	}
 		
 	public TradingAcc getTradingAcc()
