@@ -139,13 +139,16 @@ public class Mainpage {
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
 		});
 		
-//		get("/404", (req, res) -> {
-//			Map<String, Object> model = new HashMap<>();
-//			
-//			model.put("userTemplate", "/users/404.vtl");
-//			
-//			return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
-//		});
+		Spark.get("/*", (req, res) -> {
+			Map<String, Object> model = new HashMap<>();
+			model.put("userTemplate", "example.vtl");
+			
+			if(!req.pathInfo().startsWith("/static")){
+				res.status(404);
+				return new VelocityTemplateEngine().render(new ModelAndView (model, "users/samplePlayerProfile.vtl"));
+			}
+			return null;
+		});
 	}
 	
 	//funtion for login

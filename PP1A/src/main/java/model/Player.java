@@ -87,7 +87,6 @@ public class Player extends User{
 				break;
 			}
 		}
-		
 		ft.overwriteCSV(allPlayers, FileTools.USER_DATA_FILE);
 	}
 		
