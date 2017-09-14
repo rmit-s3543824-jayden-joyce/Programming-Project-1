@@ -53,7 +53,7 @@ public class Admin extends User{
 		return allPlayers;
 	}
 	
-	public void delUser(String user_ID) throws IOException{
+	public static void delUser(String user_ID) throws IOException{
 		FileTools ft = new FileTools();
 		
 		List<String[]> allPlayers = ft.readCSV(FileTools.USER_DATA_FILE);

@@ -60,7 +60,7 @@ public class Player extends User{
 	}
 	
 	//Opening a new trading account with initial balance
-	public TradingAcc openTradeAcc(String user_ID) throws IOException{
+	public static TradingAcc openTradeAcc(String user_ID) throws IOException{
 		FileTools ft = new FileTools();
 		//assign the account to an ID
 		TradingAcc newAcc = new TradingAcc(user_ID);

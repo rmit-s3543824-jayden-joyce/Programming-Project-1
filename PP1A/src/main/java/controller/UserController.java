@@ -9,6 +9,7 @@ import java.util.Map;
 import model.FileTools;
 import model.Menu;
 import model.Player;
+import model.TradingAcc;
 import model.User;
 import spark.ModelAndView;
 import spark.Request;
@@ -78,5 +79,56 @@ public class UserController {
 			model.put("userTemplate", "/users/editProfile.vtl");
 		
 		return model;	
+	}
+	
+	public void loadToSession(Map<String, Object> model, Request req)
+	{
+		Player player = (Player) FileTools.LoadUser(req.session().attribute("username"));
+		
+		if (player.getPassword().equals(req.session().attribute("password")))
+		{
+			model.put("username", player.getID());
+			model.put("firstname", player.getFName());
+			model.put("lastname", player.getLName());
+			model.put("age", player.getAge());
+			model.put("password", player.getPassword());
+		}
+		
+		if (player.getTradingAcc() != null)
+		{
+			model.put("currBal", player.getTradingAcc().getCurrBal());
+			model.put("sharesOwned", player.getTradingAcc().getSharesOwned());
+		}
+	}
+	
+	public void deleteAccount(String username, Request req)
+	{
+		Player player = (Player) FileTools.LoadUser(req.session().attribute("username"));
+		
+		try {
+			player.deleteAcc();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void openTradingAcc(Map<String, Object> model, Request req)
+	{
+		Player player = (Player) FileTools.LoadUser(req.session().attribute("username"));
+		TradingAcc trAcc = null;
+		
+		if (player.getTradingAcc() == null)
+		{
+			try {
+				trAcc = Player.openTradeAcc(player.getID());
+				
+				model.put("currBal", player.getTradingAcc().getCurrBal());
+				model.put("sharesOwned", player.getTradingAcc().getSharesOwned());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 }
