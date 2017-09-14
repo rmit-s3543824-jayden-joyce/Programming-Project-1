@@ -2,11 +2,9 @@
  * http://usejsdoc.org/
  */
 
-/** source: https://gist.github.com/jfreels/6814721 */
-
 var tabulate = function(data, columns) {
 	/* select id="companyList" */
-	var table = d3.select('.companyList').append('table').classed('paging display', true);
+	var table = d3.select('.companyList').append('table').classed('paging display', true)
 	var thead = table.append('thead')
 	var tbody = table.append('tbody')
 
@@ -26,27 +24,45 @@ var tabulate = function(data, columns) {
 		})
 	}).enter().append('td').text(function(d) {
 		if (d.value == "")
-			return "NA";
+			return "NA"
+		else if(d.column === "ASX code")
+			return null
 		else
 			return d.value
 	})
 	
+	//filter out 'Change' so that color change based on value
 	cells.filter(function(d, i) {return d.column ==="Change"})
 	.attr("style", function(d){
 		if ( d.value < 0)
-			return "color: red;";
+			return "color: red;"
+		else if (d.value == "")
+			return null
 		else
-			return "color: green;";
+			return "color: green;"
 	})
 	.html(function(d){
-		return (d.value);
+		if (d.value == "")
+			return "NA"
+		else
+			return d.value
+	})
+	
+	//filter out 'code' to link to share detail page
+	cells.filter(function(d, i) {return d.column ==="ASX code"})
+	.append("a")
+	.attr("href", function(d){
+		return "testCompanyPage?code=" + d.value
+	})
+	.html(function(d){
+		return d.value
 	})
 
 	return table;
 }
 
 d3.csv('/csv/ASXListedCompanies.csv', function(data) {
-	var columns = [ 'Company name', 'ASX code', 'Price', 'High', 'Low', 'Change', 'Volume' ]
-		
+	var columns = [ 'ASX code', 'Company name', 'Price', 'High', 'Low', 'Change', 'Volume' ]
+	
 	tabulate(data, columns)
 })

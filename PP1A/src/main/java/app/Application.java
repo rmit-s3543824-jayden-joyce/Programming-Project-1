@@ -47,5 +47,16 @@ public class Application {
 			
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
 		});
+		
+		//Testing comapany page with chart
+		//to test table
+		get("/testCompanyPage", (req, res) -> {
+			Map<String, Object> model = new HashMap<>();
+			
+			model.put("template", "/utils/CompanyDetails.vtl");
+			model.put("chart", "/utils/chart.vtl");
+			
+			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
+		});
 	}
 }
