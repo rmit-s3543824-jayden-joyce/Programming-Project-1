@@ -9,10 +9,16 @@ controller\AdminController.class
 model\Transaction$1.class
 controller\TransactionController.class
 model\Menu.class
+controller\AdminCtrl.class
 model\Shares.class
 app\Application.class
 model\TradingAcc.class
 model\Util.class
+controller\PlayerCtrl.class
 model\Player.class
+<<<<<<< HEAD
+controller\UserCtrl.class
+=======
 controller\RegisterController.class
+>>>>>>> origin/JJ
 model\Admin.class

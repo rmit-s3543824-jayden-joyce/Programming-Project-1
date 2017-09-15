@@ -18,7 +18,7 @@ public class PlayerTest {
 	@BeforeClass
 	public static void Before(){
 		FileTools ft = new FileTools();
-		player = (Player) ft.LoadPlayer("bobby123");
+		player = (Player) ft.LoadUser("bobby123");
 	}
 
 	@Test

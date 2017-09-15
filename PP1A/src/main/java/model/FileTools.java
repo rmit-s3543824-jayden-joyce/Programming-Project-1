@@ -23,10 +23,11 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
 public class FileTools {
-	public static final String USER_DATA_FILE = "src/main/resources/userData.csv";
-	public static final String USER_ACC_FILE = "src/main/resources/accountData.csv";
-	public static final String USER_TRANSACTION_LOG = "src/main/resources/transactionLog.csv";
-	public static final String ASX_COMPANIES_DATA_FILE = "src/main/resources/ASXListedCompanies.csv";
+	public static final String CSV_RESOURCE_FOLDER = "src/main/resources/public/csv";
+	public static final String USER_DATA_FILE = CSV_RESOURCE_FOLDER + "/userData.csv";
+	public static final String USER_ACC_FILE = CSV_RESOURCE_FOLDER + "/accountData.csv";
+	public static final String USER_TRANSACTION_LOG = CSV_RESOURCE_FOLDER + "transactionLog.csv";
+	public static final String ASX_COMPANIES_DATA_FILE = CSV_RESOURCE_FOLDER + "/ASXListedCompanies.csv";
 	public static final String ALPHA_ADVANTAGE_API_KEY = "MP9H93RQEUUFGX07";
     public static final String URL_JSON_PATH_P1_INTRADAY = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=";
     public static final String URL_JSON_PATH_P2_INTRADAY = ".AX&interval=60min&apikey=" + ALPHA_ADVANTAGE_API_KEY;
@@ -150,7 +151,7 @@ public class FileTools {
 	}
 
 	//use user ID to find player in a file and return it
-	public static User LoadPlayer(String user_ID)
+	public static User LoadUser(String user_ID)
 	{
 		User user = null;
 		ArrayList<String[]> searchedPlayers = searchFile(user_ID, USER_DATA_FILE);
@@ -395,14 +396,24 @@ public class FileTools {
 		ArrayList<String> sharesOwned;
 		
 		ArrayList<String[]> trAccList = searchFile(userID, USER_ACC_FILE);
+		
+		if (trAccList == null)
+		{
+			return null;
+		}
+		
 		for (String[] trAccParams : trAccList)
 		{
 			if (trAccParams[0].equals(userID))
 			{
 				trAcc = new TradingAcc(userID);
 				trAcc.setCurrBal(new BigDecimal(trAccParams[1]));
-				sharesOwned = new ArrayList<String>(Arrays.asList(trAccParams[2].split(";")));
-				trAcc.setSharesOwned(sharesOwned);
+				//need to check if sharesOwned param exists or ArrayIndexOutOfBounds exception
+				if (trAccParams.length > 2)
+				{
+					sharesOwned = new ArrayList<String>(Arrays.asList(trAccParams[2].split(";")));
+					trAcc.setSharesOwned(sharesOwned);
+				}
 				break;
 			}
 		}

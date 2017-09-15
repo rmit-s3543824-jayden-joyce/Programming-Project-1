@@ -9,6 +9,7 @@ import java.util.Map;
 import model.FileTools;
 import model.Menu;
 import model.Player;
+import model.TradingAcc;
 import model.User;
 import spark.ModelAndView;
 import spark.Request;
@@ -76,5 +77,65 @@ public class UserController {
 			model.put("userTemplate", "/users/editProfile.vtl");
 		
 		return model;	
+	}
+	
+	public void loadToModel(Map<String, Object> model, Request req)
+	{		
+		if (req.session().attribute("username") != null && req.session().attribute("firstname") != null)
+		{
+			model.put("username", req.session().attribute("username"));
+			model.put("firstname", req.session().attribute("firstname"));
+			model.put("lastname", req.session().attribute("lastname"));
+			model.put("age", req.session().attribute("age"));
+			model.put("password", req.session().attribute("password"));
+		}
+		
+		if (req.session().attribute("currBal") != null)
+		{
+			model.put("currBal", req.session().attribute("currBal"));
+			model.put("sharesOwned", req.session().attribute("sharesOwned"));
+		}
+	}
+	
+	public void loadTradingAccToSession(Request req)
+	{
+		Player player = (Player) FileTools.LoadUser(req.session().attribute("username"));
+		
+		if (player.getPassword().equals(req.session().attribute("password")) && player.getTradingAcc() != null)
+		{
+			req.session().attribute("currBal", player.getTradingAcc().getCurrBal());
+			req.session().attribute("sharesOwned", player.getTradingAcc().getSharesOwned());
+		}
+	}
+	
+	public void deleteAccount(String username, Request req)
+	{
+		Player player = (Player) FileTools.LoadUser(req.session().attribute("username"));
+		
+		try {
+			player.deleteAcc();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void openTradingAcc(Map<String, Object> model, Request req)
+	{
+		Player player = (Player) FileTools.LoadUser(req.session().attribute("username"));
+		TradingAcc trAcc = null;
+		
+		if (player.getTradingAcc() == null)
+		{
+			try {
+				trAcc = Player.openTradeAcc(player.getID());
+				
+				model.put("currBal", player.getTradingAcc().getCurrBal());
+				model.put("sharesOwned", player.getTradingAcc().getSharesOwned());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 }

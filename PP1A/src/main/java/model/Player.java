@@ -1,23 +1,16 @@
 package model;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Player extends User{
 	
-	String user_ID;
 	TradingAcc trAcc;
 	public Player(String user_ID, String password, String firstName, String lastName, int age) {
 		super(user_ID, password, firstName, lastName, age);
 		// TODO Auto-generated constructor stub
-		this.user_ID = user_ID;
+		this.loadTrAcc();
 	}
 	
 	//Players to edit their own personal details 
@@ -27,7 +20,6 @@ public class Player extends User{
 		
 		FileTools ft = new FileTools();
 		
-		Player editPlayer = null;
 		String filePath = ft.USER_DATA_FILE;
 		
 		//loading existing file into memory
@@ -68,7 +60,7 @@ public class Player extends User{
 	}
 	
 	//Opening a new trading account with initial balance
-	public TradingAcc openTradeAcc(String user_ID) throws IOException{
+	public static TradingAcc openTradeAcc(String user_ID) throws IOException{
 		FileTools ft = new FileTools();
 		//assign the account to an ID
 		TradingAcc newAcc = new TradingAcc(user_ID);
@@ -81,4 +73,31 @@ public class Player extends User{
 		return newAcc;
 	}
 	
+	//Players can de-activate/delete their account
+	public void deleteAcc() throws IOException{
+		String username = getID();
+		FileTools ft = new FileTools();
+		
+		//loading existing file into memory
+		List<String[]> allPlayers = ft.readCSV(ft.USER_DATA_FILE);
+		
+		for(int i=0; i<allPlayers.size(); i++){
+			if(username.equals(allPlayers.get(i)[0])){
+				allPlayers.remove(i);
+				break;
+			}
+		}
+		ft.overwriteCSV(allPlayers, FileTools.USER_DATA_FILE);
+	}
+		
+	public TradingAcc getTradingAcc()
+	{
+		return trAcc;
+	}
+	
+	public void loadTrAcc()
+	{
+		FileTools ft = new FileTools();
+		ft.loadTrAcc(this.getID());
+	}
 }

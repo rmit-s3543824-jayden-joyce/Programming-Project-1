@@ -1,8 +1,8 @@
 .sideNav{
-	height: 100%;
+	min-height: 100%;
 	width: 225px;
 	box-shadow: 0;
-	position: fixed;
+	position: absolute;
 	z-index: 0;
 	padding-top: 125px;
 	top: 0;
@@ -12,9 +12,14 @@
 	transition: 1s;
 }
 
+.wrapper{
+	min-height: 100%;
+	width: 100%;
+}
+
 /*center admin content*/
 .userCenter {
-	padding: 75px 12% 100px 12%;
+	padding: 75px 12% 7.5%12%;
 }
 
 .sideNav a, .sideNav p {
@@ -41,6 +46,10 @@
 
 #div1, #div2, #div3, #div4, #div5{
 	display: none;
+}
+
+.func{
+	color: #039be5;
 }
 
 .userDet{

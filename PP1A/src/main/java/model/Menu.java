@@ -8,7 +8,7 @@ public class Menu {
 
 	public Boolean login(String username, String password)
 	{
-		User user = fileTool.LoadPlayer(username);
+		User user = fileTool.LoadUser(username);
 		
 		//if input user name does not exist
 		if (user == null)

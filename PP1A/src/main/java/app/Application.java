@@ -36,6 +36,10 @@ public class Application {
 		get("/admin",                  controller.AdminController.adminPage);
 		get("/TransactionAccount",     controller.TransactionController.transactionAccount);
 		
+		//an example for example vtl
+
+		get("/example",                  controller.ExampleController.examplePage);
+		
 		//to test table
 		get("/testTable", (req, res) -> {
 			Map<String, Object> model = new HashMap<>();
