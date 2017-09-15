@@ -396,6 +396,12 @@ public class FileTools {
 		ArrayList<String> sharesOwned;
 		
 		ArrayList<String[]> trAccList = searchFile(userID, USER_ACC_FILE);
+		
+		if (trAccList == null)
+		{
+			return null;
+		}
+		
 		for (String[] trAccParams : trAccList)
 		{
 			if (trAccParams[0].equals(userID))
