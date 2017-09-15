@@ -17,12 +17,12 @@ import spark.Route;
 import spark.Spark;
 import spark.template.velocity.VelocityTemplateEngine;
 
-public class ExampleController {
-	public static Route examplePage = (req, res) -> {
+public class ErrorPageController {
+	public static Route ERROR_PAGE = (req, res) -> {
 		
 		Map<String, Object> model = new HashMap<>();
 		
-		model.put("template", "/example.vtl");
+		model.put("template", "/ERROR_PAGE.vtl");
 		
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
 	};
