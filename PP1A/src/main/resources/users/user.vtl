@@ -1,107 +1,155 @@
-<link rel="stylesheet" href="../style/userTemplate.css"><br>
+<link rel="stylesheet" href="../style/userTemplate.css">
+<br>
 
-<div id="userSideNav" class="sideNav">
-	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-	<p onclick="hideFunc(); showD1();">Show User Details</p>
-	<p onclick="hideFunc(); showD2();">Edit Player Profile</p>
-	<p onclick="hideFunc(); showD3();">Open Trading Account</p>
-	<p onclick="hideFunc(); showD4();">Delete Trading Account</p>
-	<a href='/'>Home page</a>
-</div>
+<<<<<<< HEAD
+<div class="wrapper">
+	<div id="userSideNav" class="sideNav">
+		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+		<p onclick="hideFunc(); showD1();">Show User Details</p>
+		<p onclick="hideFunc(); showD2();">Edit Player Profile</p>
+		<p onclick="hideFunc(); showD3();">
+			Open Trading <br>Account
+		</p>
+		<p onclick="hideFunc(); showD4();">Delete Trading Account</p>
+		<a href='/'>Home page</a>
+		
+	</div>
 
-<div class="userCenter">
-	<h1>This is the Player page</h1>
-	<h2>Player name</h2>
-	<p>Player details</p>
-	<br>
-	
-	<!-- Functions -->
-	<!-- Show Player details -->
-	<div id="div1">
-		<h2>Show User Details</h2>
-		<table>
-			<tr><th class="userDet">Username: </th> <td> </td></tr>
-			<tr><th class="userDet">First name: </th> <td> </td></tr>
-			<tr><th class="userDet">Last name: </th> <td> </td></tr>
-			<tr><th class="userDet">Age: </th> <td> </td></tr>
-		</table><br>
-	</div>
-	
-	<!-- Edit Profile -->
-	<div id="div2">
-	<form action=javascript:void(0); ">
-		<h2>Edit Player Profile</h2>
-		<table>
-			<tr><td>User Name:</td> <td><input id="newID" type="text" required></td></tr>
-			<tr><td>First Name:</td> <td><input id="newFname" type="text" required></td></tr>
-			<tr><td>Last Name:</td> <td><input id="newLname" type="text" required></td></tr>
-			<tr><td>Age:</td> <td><input id="newAge" type="text" required></td></tr>		
-			<tr><td>Password:</td> <td><input id="newPassword" type="password" required></td></tr>
-			<tr><td>Confirm Password :</td> <td><input id="newPassword" type="password" required></td></tr>
-		</table><br><br>
-		<input id="editPlayer" type="submit" value="Update Profile">
-	</form><br>
-	</div>
-	
-	<!-- Opening Trading Account -->
-	<div id="div3">
-	<form action=javascript:void(0); ">
-		<h2>Open Trading Account</h2>
-		<input id="openAcc" type="submit" value="Open Trading Account">
-	</form><br>
-	</div>
-	
-	<!-- Delete Trading Account -->
-	<div id="div4">
-	<form action=javascript:void(0); ">
-		<h2>Delete Trading Account</h2>
-		<h3 class="warning">--- Warning ---</h3>
-		<p class="warning"><b>Be cautioned that your Account cannot be recovered once it is deactivate and deleted.</b></p><br><br>
-		<input id="deleteAcc" type="submit" value="Delete Trading Account">
-	</form><br>
+	<div class="userCenter">
+		<h1>Welcome!</h1>
+		<h2>$firstname $lastname</h2>
+		<br>
+
+		<!-- Functions -->
+		<!-- Show Player details -->
+		<div id="div1">
+			<h2 class="func">Show User Details</h2>
+			<table>
+				<tr>
+					<th class="userDet">Username:</th>
+					<td>$username</td>
+				</tr>
+				<tr>
+					<th class="userDet">First name:</th>
+					<td>$firstname</td>
+				</tr>
+				<tr>
+					<th class="userDet">Last name:</th>
+					<td>$lastname</td>
+				</tr>
+				<tr>
+					<th class="userDet">Age:</th>
+					<td>$age</td>
+				</tr>
+			</table>
+			<br>
+		</div>
+
+		<!-- Edit Profile -->
+		<div id="div2">
+			<form action=javascript:void(0);">
+				<h2 class="func">Edit Player Profile</h2>
+				<table>
+					<tr>
+						<td>User Name:</td>
+						<td><input id="newID" type="text" value=$username required></td>
+					</tr>
+					<tr>
+						<td>First Name:</td>
+						<td><input id="newFname" type="text" value=$firstname required></td>
+					</tr>
+					<tr>
+						<td>Last Name:</td>
+						<td><input id="newLname" type="text" value=$lastname required></td>
+					</tr>
+					<tr>
+						<td>Age:</td>
+						<td><input id="newAge" type="text" value=$age required></td>
+					</tr>
+					<tr>
+						<td>Password:</td>
+						<td><input id="newPassword" type="password" value=$password
+							required></td>
+					</tr>
+					<tr>
+						<td>Confirm Password :</td>
+						<td><input id="newPassword" type="password" required></td>
+					</tr>
+				</table>
+				<br>
+				<br> <input id="editPlayer" type="submit"
+					value="Update Profile">
+			</form>
+			<br>
+		</div>
+
+		<!-- Opening Trading Account -->
+		<div id="div3">
+			<form action=javascript:void(0);">
+				<h2 class="func">Open Trading Account</h2>
+				<input id="openAcc" type="submit" value="Open Trading Account">
+			</form>
+			<br>
+		</div>
+
+		<!-- Delete Trading Account -->
+		<div id="div4">
+			<form action=javascript:void(0);">
+				<h2 class="func">Delete Trading Account</h2>
+				<h3 class="warning">--- Warning ---</h3>
+				<p class="warning">
+					<b>Be cautioned that your Account cannot be recovered once it
+						is deactivate and deleted.</b>
+				</p>
+				<br>
+				<br> <input id="deleteAcc" type="submit"
+					value="Delete Trading Account">
+			</form>
+			<br>
+		</div>
 	</div>
 </div>
 
 <!-- Hide and show different functions -->
 <script>
-	function openNav(){
+	function openNav() {
 		document.getElementById("userSideNav").style.width = "225px";
 	}
-	
-	function closeNav(){
+
+	function closeNav() {
 		document.getElementById("userSideNav").style.width = "0";
 	}
-	
-	function hideFunc(){
+
+	function hideFunc() {
 		var d1 = document.getElementById("div1");
 		var d2 = document.getElementById("div2");
 		var d3 = document.getElementById("div3");
 		var d4 = document.getElementById("div4");
-		
-		if(d1.style.display === 'block'){
+
+		if (d1.style.display === 'block') {
 			d1.style.display = 'none';
 		}
-		if(d2.style.display === 'block'){
+		if (d2.style.display === 'block') {
 			d2.style.display = 'none';
 		}
-		if(d3.style.display == 'block'){
+		if (d3.style.display == 'block') {
 			d3.style.display = 'none';
 		}
-		if(d4.style.display == 'block'){
+		if (d4.style.display == 'block') {
 			d4.style.display = 'none';
 		}
 	}
-	
-	function showD1(){
+
+	function showD1() {
 		document.getElementById("div1").style.display = 'block';
 	}
-	function showD2(){
+	function showD2() {
 		document.getElementById("div2").style.display = 'block';
 	}
-	function showD3(){
+	function showD3() {
 		document.getElementById("div3").style.display = 'block';
 	}
-	function showD4(){
+	function showD4() {
 		document.getElementById("div4").style.display = 'block';
 	}
 </script>

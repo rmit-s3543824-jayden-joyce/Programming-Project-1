@@ -16,7 +16,7 @@ public class Admin extends User{
 	}
 
 	//Search file for a matching substring and returns arrayList
-	public ArrayList<String[]> searchPlayer(String user_ID, String filePath){
+	public static ArrayList<String[]> searchPlayer(String user_ID, String filePath){
 		FileTools ft = new FileTools();
 		ArrayList<String[]> matchingPlayer;
 		//calls and returns array of matching players
@@ -53,7 +53,7 @@ public class Admin extends User{
 		return allPlayers;
 	}
 	
-	public void delUser(String user_ID) throws IOException{
+	public static void delUser(String user_ID) throws IOException{
 		FileTools ft = new FileTools();
 		
 		List<String[]> allPlayers = ft.readCSV(FileTools.USER_DATA_FILE);
@@ -73,12 +73,12 @@ public class Admin extends User{
 	}
 	
 	//Search file for a matching substring and returns arrayList
-		public ArrayList<String[]> searchTrAcc(String user_ID, String filePath){
-			FileTools ft = new FileTools();
-			ArrayList<String[]> matchingAcc;
-			//calls and returns array of matching accounts
-			return matchingAcc = ft.searchFile(user_ID, ft.USER_ACC_FILE);
-		}
+	public ArrayList<String[]> searchTrAcc(String user_ID, String filePath){
+		FileTools ft = new FileTools();
+		ArrayList<String[]> matchingAcc;
+		//calls and returns array of matching accounts
+		return matchingAcc = ft.searchFile(user_ID, ft.USER_ACC_FILE);
+	}
 	
 	//All transaction from one user
 	public List<String[]> viewUserTrans(String user_ID, String filePath) throws IOException{
@@ -95,6 +95,27 @@ public class Admin extends User{
 			i++;
 		}
 		return userTrans;
+	}
+	
+	//show filtered transaction list
+	public static List<String[]> searchTrans(String searchInput, String filePath) throws IOException{
+		FileTools ft = new FileTools();
+		int idIndex = 0;
+		int asxCodeIndex = 2;
+		int asxCompNameIndex = 3;
+		List<String[]> transList = ft.readCSV(FileTools.USER_TRANSACTION_LOG);
+		List<String[]> matchingList = new ArrayList<String[]>();
+		
+		//get a filtered list
+		for (String[] trans : transList)
+		{
+			if(trans[idIndex].contains(searchInput) || trans[asxCodeIndex].contains(searchInput) 
+					|| trans[asxCompNameIndex].contains(searchInput) )
+			{
+				matchingList.add(trans);
+			}
+		}
+		return matchingList;
 	}
 	
 	public List<String[]> viewAllTrans(String filePath) throws IOException{

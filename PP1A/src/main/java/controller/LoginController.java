@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import app.Application;
 import model.FileTools;
 import model.Menu;
 import model.Player;
@@ -50,14 +51,17 @@ public class LoginController {
 		String username	= req.queryParams("username");
 		String password	= req.queryParams("password");
 		
-		User user = FileTools.LoadPlayer(username);
+		Player player = (Player)FileTools.LoadUser(username);
 		
-		String firstName = user.getFName();
-		String lastName = user.getLName();
-		int age = user.getAge();
-				
-		if(app.Application.menu.login(username, password))
-		{			
+		if(player != null)
+		{
+			String firstName = player.getFName();
+			String lastName = player.getLName();
+			int age = player.getAge();
+					
+			app.Application.menu.login(username, password);
+					
+			req.session().attribute("playerObj", player);
 			req.session().attribute("username", username);
 			req.session().attribute("password", password);
 			req.session().attribute("firstname", firstName);
@@ -72,8 +76,10 @@ public class LoginController {
 			model.put("template", "/users/user.vtl");
 		}
 		else
+		{
+			model.put("authenticationFailed", true);
 			model.put("template", "/mainpage/login.vtl");
-		
+		}
 		return model;		
 	}
 }
