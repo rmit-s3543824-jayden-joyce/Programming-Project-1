@@ -22,6 +22,7 @@ public class Application {
 	//this class is used to test for Velocity template
 	public static void main(String[] args){
 		staticFiles.location("/public");
+		port(getHerokuAssignedPort());
 		menu = new Menu();
 		
 		get("/",                       controller.LoginController.mainPage);
@@ -47,5 +48,14 @@ public class Application {
 			
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
 		});
+	}
+	
+	static int getHerokuAssignedPort() {
+		ProcessBuilder processBuilder = new ProcessBuilder();
+		if(processBuilder.environment().get("PORT") != null)
+		{
+			return Integer.parseInt(processBuilder.environment().get("PORT"));
+		}
+		return 4567;
 	}
 }

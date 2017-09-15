@@ -60,13 +60,19 @@ public class UserController {
 		int age = Integer.parseInt(req.queryParams("age"));
 		String password = req.queryParams("password");
 		
+<<<<<<< HEAD
 		//this line is to workaround for the static error
 		System.out.println("63-67: PP1A/src/main/java/controller/UserController.java");
 		Player player = new Player(null, null, null, null, 0);
 		
 		//change the player corresponding to the workaround
+=======
+		Player player = req.session().attribute("playerObj");
+		
+>>>>>>> origin/JJ
 		if(player.editProfile(oldId, newId, password, firstName, lastName, age) != null)
 		{
+			req.session().attribute("playerObj", player);
 			req.session().attribute("username", newId);
 			req.session().attribute("firstname", firstName);
 			req.session().attribute("lastname", lastName);
