@@ -50,11 +50,7 @@ public class LoginController {
 		String username	= req.queryParams("username");
 		String password	= req.queryParams("password");
 		
-<<<<<<< HEAD
-		User user = FileTools.LoadUser(username);
-=======
-		Player player = (Player)FileTools.LoadPlayer(username);
->>>>>>> origin/JJ
+		Player player = (Player)FileTools.LoadUser(username);
 		
 		if(player != null)
 		{
