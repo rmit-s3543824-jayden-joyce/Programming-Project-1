@@ -11,7 +11,7 @@
 
 <div class="userCenter">
 	<h1>This is the Player page</h1>
-	<h2>Player name</h2>
+	<h2>$firstname</h2>
 	<p>Player details</p>
 	<br>
 	
@@ -20,10 +20,10 @@
 	<div id="div1">
 		<h2>Show User Details</h2>
 		<table>
-			<tr><th class="userDet">Username: </th> <td> </td></tr>
-			<tr><th class="userDet">First name: </th> <td> </td></tr>
-			<tr><th class="userDet">Last name: </th> <td> </td></tr>
-			<tr><th class="userDet">Age: </th> <td> </td></tr>
+			<tr><th class="userDet">Username: </th> <td>$username </td></tr>
+			<tr><th class="userDet">First name: </th> <td>$firstname </td></tr>
+			<tr><th class="userDet">Last name: </th> <td>$lastname </td></tr>
+			<tr><th class="userDet">Age: </th> <td>$age </td></tr>
 		</table><br>
 	</div>
 	
@@ -32,10 +32,10 @@
 	<form action=javascript:void(0); ">
 		<h2>Edit Player Profile</h2>
 		<table>
-			<tr><td>User Name:</td> <td><input id="newID" type="text" required></td></tr>
-			<tr><td>First Name:</td> <td><input id="newFname" type="text" required></td></tr>
-			<tr><td>Last Name:</td> <td><input id="newLname" type="text" required></td></tr>
-			<tr><td>Age:</td> <td><input id="newAge" type="text" required></td></tr>		
+			<tr><td>User Name:</td> <td><input id="newID" type="text" value="$username" required></td></tr>
+			<tr><td>First Name:</td> <td><input id="newFname" type="text" value="$firstname" required></td></tr>
+			<tr><td>Last Name:</td> <td><input id="newLname" type="text" value="$lastname" required></td></tr>
+			<tr><td>Age:</td> <td><input id="newAge" type="text" value="$age" required></td></tr>		
 			<tr><td>Password:</td> <td><input id="newPassword" type="password" required></td></tr>
 			<tr><td>Confirm Password :</td> <td><input id="newPassword" type="password" required></td></tr>
 		</table><br><br>

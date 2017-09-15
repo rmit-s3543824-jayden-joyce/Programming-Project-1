@@ -2,6 +2,9 @@
 
 <h1 class="cText" >Login</h1>
 
+#if($authenticationFailed)
+	<script>alert("Login failed: Incorrect username or password");</script>
+#end
 <div align="center">
 	<form action='/redirectUser'>
 		<table>

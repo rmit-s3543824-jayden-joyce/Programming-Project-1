@@ -59,8 +59,11 @@ public class UserController {
 		int age = Integer.parseInt(req.queryParams("age"));
 		String password = req.queryParams("password");
 		
-		if(Player.editProfile(oldId, newId, password, firstName, lastName, age) != null)
+		Player player = req.session().attribute("playerObj");
+		
+		if(player.editProfile(oldId, newId, password, firstName, lastName, age) != null)
 		{
+			req.session().attribute("playerObj", player);
 			req.session().attribute("username", newId);
 			req.session().attribute("firstname", firstName);
 			req.session().attribute("lastname", lastName);
