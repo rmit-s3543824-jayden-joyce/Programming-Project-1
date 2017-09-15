@@ -52,7 +52,7 @@ var tabulate = function(data, columns) {
 	cells.filter(function(d, i) {return d.column ==="ASX code"})
 	.append("a")
 	.attr("href", function(d){
-		return "testCompanyPage?code=" + d.value
+		return "CompanyPage?code=" + d.value
 	})
 	.html(function(d){
 		return d.value

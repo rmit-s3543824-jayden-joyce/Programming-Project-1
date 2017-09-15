@@ -30,17 +30,30 @@ $.ajax({
 		data = companiesDetails(data);
 		
 		//displaying all data
-		document.getElementById("companyName").innerHTML = data[0];
-		document.getElementById("companyCode").innerHTML = data[1];
-		document.getElementById("companyGroup").innerHTML = data[2];
-		document.getElementById("companyPrice").innerHTML = data[3];
-		document.getElementById("companyHigh").innerHTML = data[4];
-		document.getElementById("companyLow").innerHTML = data[5];
-		document.getElementById("companyChange").innerHTML = data[6];
-		document.getElementById("companyVolume").innerHTML = data[7];
+		display("companyName", data[0]);
+		display("companyCode", data[1]);
+		display("companyGroup", data[2]);
+		display("companyPrice", data[3]);
+		display("companyHigh", data[4]);
+		display("companyLow", data[5]);
+		
+		display("companyChange", data[6]);
+		if(parseFloat(data[6]) > 0)
+			document.getElementById("companyChange").style.color="green";
+		else
+			document.getElementById("companyChange").style.color="red";
+		
+		display("companyVolume", data[7]);
 		
 	}
 });
+
+function display(id, data){
+	if(data === "")
+		document.getElementById(id).innerHTML = "N/A";
+	else
+		document.getElementById(id).innerHTML = data;
+}
 
 function companiesDetails(data){
 	var allRows = data.split(/\r?\n|\r/);

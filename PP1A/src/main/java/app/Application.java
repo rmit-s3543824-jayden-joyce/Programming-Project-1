@@ -34,9 +34,9 @@ public class Application {
 		get("/ConfirmEditProfile",     controller.UserController.confirmEditProfile);
 		get("/admin",                  controller.AdminController.adminPage);
 		get("/TransactionAccount",     controller.TransactionController.transactionAccount);
+		get("/CompanyPage", 			controller.CompanyPageController.companyPage);
 		
 		//an example for example vtl
-
 		get("/example",                  controller.ExampleController.examplePage);
 		
 		//to test table
@@ -46,17 +46,6 @@ public class Application {
 			model.put("template", "/mainpage/testTable.vtl");
 			
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
-		});
-		
-		//Testing comapany page with chart
-		//to test table
-		get("/testCompanyPage", (req, res) -> {
-			Map<String, Object> model = new HashMap<>();
-			
-			model.put("template", "/utils/CompanyDetails.vtl");
-			model.put("chart", "/utils/chart.vtl");
-			
-			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
-		});
+		});			
 	}
 }
