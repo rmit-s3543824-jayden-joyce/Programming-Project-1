@@ -57,7 +57,7 @@ public class Application {
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
 		});
 		
-		// Using Route
+		// For all pages not defined by the application
 		notFound(controller.ErrorPageController.ERROR_PAGE);
 	}
 }
