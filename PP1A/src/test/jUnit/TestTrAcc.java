@@ -3,6 +3,8 @@ import static org.junit.Assert.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+import model.InsufficientFundsException;
+import model.NoSharesException;
 import model.Shares;
 import model.TradingAcc;
 import model.Transaction;
@@ -25,7 +27,7 @@ public class TestTrAcc {
 	}
 	
 	@Test
-	public void testBuy() {
+	public void testBuy() throws InsufficientFundsException {
 		Transaction trans = trAcc.buyShares(testShare);
 		assertNotNull(trans);
 		assertEquals(trans.getID(), "testing");
@@ -35,15 +37,20 @@ public class TestTrAcc {
 	}
 	
 	//@Test
-	public void testBuyFail() {
+	public void testBuyFail() throws InsufficientFundsException {
 		trAcc.setCurrBal(new BigDecimal(2));
 		Transaction trans = trAcc.buyShares(testShare);
 		assertNull(trans);
 	}
 	
 	//@Test
-	public void testSell() {
-		trAcc.buyShares(testShare);
+	public void testSell() throws NoSharesException {
+		try {
+			trAcc.buyShares(testShare);
+		} catch (InsufficientFundsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Transaction trans = trAcc.sellShares(testShare);
 		assertNotNull(trans);
 		assertEquals(trans.getID(), "testing");
@@ -53,7 +60,7 @@ public class TestTrAcc {
 	}
 	
 	//@Test
-	public void testSellFail() {
+	public void testSellFail() throws NoSharesException {
 		Transaction trans = trAcc.sellShares(testShare);
 		assertNull(trans);
 	}
