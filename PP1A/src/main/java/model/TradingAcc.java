@@ -18,15 +18,17 @@ public class TradingAcc {
 		this.user_ID = user_ID;
 	}
 	
-	public Transaction buyShares(Shares share){
+	public Transaction buyShares(Shares share) throws InsufficientFundsException{
 		String currTimeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 		BigDecimal newBal;
 		Transaction buy;
 		
 		//return null if player don't have enough money
+		// throws exceptions because not enough funds
 		if (currBal.doubleValue() < share.getShareVal().doubleValue())
 		{
-			return null;
+			double amountNeeded = share.getShareVal().doubleValue() - currBal.doubleValue();
+			throw new InsufficientFundsException(amountNeeded);
 		}
 		else if (sharesOwned == null)
 		{
@@ -50,7 +52,7 @@ public class TradingAcc {
 		return buy;
 	}
 	
-	public Transaction sellShares(Shares share){
+	public Transaction sellShares(Shares share) throws NoSharesException{
 		String currTimeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 		BigDecimal newBal;
 		Transaction sell;
@@ -58,7 +60,7 @@ public class TradingAcc {
 		// if no shares, return null
 		if (sharesOwned == null)
 		{
-			return null;
+			throw new NoSharesException(sharesOwned);
 		}
 		
 		//set balance to (current balance + share value), remove share from list and create a transaction object if share in possession, else return null
