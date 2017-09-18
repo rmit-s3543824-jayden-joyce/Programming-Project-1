@@ -30,9 +30,10 @@ public class Application {
 		get("/redirectUser",           controller.LoginController.redirectUser);
 		get("/register",               controller.RegisterController.registerPage);
 		get("/regSuccess",             controller.RegisterController.regSuccess);
-		get("/user",                   controller.UserController.userPage);		
-		get("/EditProfile",            controller.UserController.editPage);
-		get("/ConfirmEditProfile",     controller.UserController.confirmEditProfile);
+		get("/user",                   controller.UserController.userPage);
+		get("/confirmEditProfile",     controller.UserController.confirmEditProfile);
+		get("/openTradingAccount",     controller.UserController.openTradingAcc);
+		get("/deleteTradingAccount",   controller.UserController.deleteTradingAcc);
 		get("/admin",                  controller.AdminController.adminPage);
 		get("/TransactionAccount",     controller.TransactionController.transactionAccount);
 		

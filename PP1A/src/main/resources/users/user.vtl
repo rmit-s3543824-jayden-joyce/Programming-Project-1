@@ -47,33 +47,33 @@
 
 		<!-- Edit Profile -->
 		<div id="div2">
-			<form action=javascript:void(0);">
+			<form action='/confirmEditProfile'>
 				<h2 class="func">Edit Player Profile</h2>
 				<table>
 					<tr>
 						<td>User Name:</td>
-						<td><input id="newID" type="text" value=$username required></td>
+						<td><input id="newID" name="newID" type="text" value=$username required></td>
 					</tr>
 					<tr>
 						<td>First Name:</td>
-						<td><input id="newFname" type="text" value=$firstname required></td>
+						<td><input id="newFname" name="newFname" type="text" value=$firstname required></td>
 					</tr>
 					<tr>
 						<td>Last Name:</td>
-						<td><input id="newLname" type="text" value=$lastname required></td>
+						<td><input id="newLname" name="newLname" type="text" value=$lastname required></td>
 					</tr>
 					<tr>
 						<td>Age:</td>
-						<td><input id="newAge" type="text" value=$age required></td>
+						<td><input id="newAge" name="newAge" type="text" value=$age required></td>
 					</tr>
 					<tr>
 						<td>Password:</td>
-						<td><input id="newPassword" type="password" value=$password
+						<td><input id="newPassword" name="newPassword" type="password" value=$password
 							required></td>
 					</tr>
 					<tr>
 						<td>Confirm Password :</td>
-						<td><input id="newPassword" type="password" required></td>
+						<td><input id="confirmPassword" name="confirmPassword" type="password" required></td>
 					</tr>
 				</table>
 				<br>
@@ -82,14 +82,18 @@
 			</form>
 			<br>
 		</div>
-
+		
 		<!-- Opening Trading Account -->
 		<div id="div3">
-			<form action=javascript:void(0);">
-				<h2 class="func">Open Trading Account</h2>
-				<input id="openAcc" type="submit" value="Open Trading Account">
-			</form>
-			<br>
+			#if($tradingAcc)
+				<h2 class="func">Trading account already open</h2>
+			#else
+				<form action='/openTradingAccount';">
+					<h2 class="func">Open Trading Account</h2>
+					<input id="openAcc" type="submit" value="Open Trading Account">
+				</form>
+				<br>
+			#end
 		</div>
 
 		<!-- Delete Trading Account -->
