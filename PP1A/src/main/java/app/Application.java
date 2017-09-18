@@ -3,9 +3,19 @@ package app;
 import static spark.Spark.*;
 
 import java.io.IOException;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.DispatcherType;
+import javax.servlet.http.HttpServletResponse;
+
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
+import org.eclipse.jetty.servlet.FilterHolder;
+import org.eclipse.jetty.webapp.WebAppContext;
+
+import View.Mainpage;
 import model.FileTools;
 import model.Menu;
 import model.Player;
@@ -14,13 +24,14 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import spark.Spark;
+import spark.servlet.SparkFilter;
 import spark.template.velocity.VelocityTemplateEngine;
 
 public class Application {
 	public static Menu menu;
 	
 	//this class is used to test for Velocity template
-	public static void main(String[] args){
+	public static void main(String[] args){	    
 		staticFiles.location("/public");
 		port(getHerokuAssignedPort());
 		menu = new Menu();
@@ -37,9 +48,7 @@ public class Application {
 		get("/TransactionAccount",     controller.TransactionController.transactionAccount);
 		
 		//an example for example vtl
-
-		get("/example",                  controller.ExampleController.examplePage);
-		
+		get("/ERROR_PAGE", controller.ErrorPageController.ERROR_PAGE);
 		//to test table
 		get("/testTable", (req, res) -> {
 			Map<String, Object> model = new HashMap<>();
@@ -48,6 +57,9 @@ public class Application {
 			
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
 		});
+		
+		// For all pages not defined by the application
+		notFound(controller.ErrorPageController.ERROR_PAGE);
 	}
 	
 	static int getHerokuAssignedPort() {
