@@ -26,6 +26,7 @@ public class FileTools {
 	public static final String CSV_RESOURCE_FOLDER = "src/main/resources/public/csv";
 	public static final String USER_DATA_FILE = CSV_RESOURCE_FOLDER + "/userData.csv";
 	public static final String USER_ACC_FILE = CSV_RESOURCE_FOLDER + "/accountData.csv";
+	public static final String USER_SHARES_OWNED_FILE = CSV_RESOURCE_FOLDER + "/sharesOwned.csv";
 	public static final String USER_TRANSACTION_LOG = CSV_RESOURCE_FOLDER + "transactionLog.csv";
 	public static final String ASX_COMPANIES_DATA_FILE = CSV_RESOURCE_FOLDER + "/ASXListedCompanies.csv";
 	public static final String ALPHA_ADVANTAGE_API_KEY = "MP9H93RQEUUFGX07";
@@ -93,7 +94,7 @@ public class FileTools {
 	}
 	
 	//reads entire csv file and return its contents as a List of string arrays
-	public List<String[]> readCSV(String filePath)throws IOException
+	public static List<String[]> readCSV(String filePath)throws IOException
 	{
 		CSVReader csvReader = new CSVReader(new FileReader(filePath));
 		List<String[]> csvContents = csvReader.readAll();
@@ -160,6 +161,7 @@ public class FileTools {
 		String firstName;
 		String lastName;
 		int age;
+		
 		//return null if searched players empty
 		if (searchedPlayers == null)
 		{
@@ -204,14 +206,31 @@ public class FileTools {
 	{		
 		ArrayList<String[]> matching = new ArrayList<String[]>();
 		String[] splitString = null;
+		List<String[]> list = null;
 		
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(filepath));
+			list = readCSV(filepath);
+			
+			if (list == null || list.isEmpty())
+			{
+				return null;
+			}
+			
+			for (String[] item : list)
+			{
+				if (item[0].contains(id) && !item[0].equals("user_ID"))
+				{
+					matching.add(item);
+				}
+			}
+			/*BufferedReader br = new BufferedReader(new FileReader(filepath));
 			String readLine = br.readLine();
 			
 			while (readLine != null)
 			{
 				splitString = readLine.split(",");
+				
+				//so that it will read properly whether id is <"id"> or <id>
 				if (splitString[0].contains(id) && !splitString[0].equals("user_ID"))
 				{
 					//adding matching players to the list
@@ -221,6 +240,7 @@ public class FileTools {
 			}
 
 			br.close();
+			*/
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
