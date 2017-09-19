@@ -27,7 +27,7 @@ public class FileTools {
 	public static final String USER_DATA_FILE = CSV_RESOURCE_FOLDER + "/userData.csv";
 	public static final String USER_ACC_FILE = CSV_RESOURCE_FOLDER + "/accountData.csv";
 	public static final String USER_SHARES_OWNED_FILE = CSV_RESOURCE_FOLDER + "/sharesOwned.csv";
-	public static final String USER_TRANSACTION_LOG = CSV_RESOURCE_FOLDER + "transactionLog.csv";
+	public static final String USER_TRANSACTION_LOG = CSV_RESOURCE_FOLDER + "/transactionLog.csv";
 	public static final String ASX_COMPANIES_DATA_FILE = CSV_RESOURCE_FOLDER + "/ASXListedCompanies.csv";
 	public static final String ALPHA_ADVANTAGE_API_KEY = "MP9H93RQEUUFGX07";
     public static final String URL_JSON_PATH_P1_INTRADAY = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=";
@@ -205,7 +205,6 @@ public class FileTools {
 	public static ArrayList<String[]> searchFile(String id, String filepath)
 	{		
 		ArrayList<String[]> matching = new ArrayList<String[]>();
-		String[] splitString = null;
 		List<String[]> list = null;
 		
 		try {
@@ -223,24 +222,6 @@ public class FileTools {
 					matching.add(item);
 				}
 			}
-			/*BufferedReader br = new BufferedReader(new FileReader(filepath));
-			String readLine = br.readLine();
-			
-			while (readLine != null)
-			{
-				splitString = readLine.split(",");
-				
-				//so that it will read properly whether id is <"id"> or <id>
-				if (splitString[0].contains(id) && !splitString[0].equals("user_ID"))
-				{
-					//adding matching players to the list
-					matching.add(splitString);
-				}
-				readLine = br.readLine();
-			}
-
-			br.close();
-			*/
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -276,7 +257,7 @@ public class FileTools {
 	public String trAccToString(TradingAcc tr){
 		String trAccString = null;
 		//getting player's shares
-		ArrayList<String> sharesOwned = tr.getSharesOwned();
+		ArrayList<String[]> sharesOwned = tr.getSharesOwned();
 		
 		trAccString = tr.getUser_ID() + "," + tr.getCurrBal() + ",";
 		//Listing all shares under player's possession
@@ -295,45 +276,64 @@ public class FileTools {
 	
 	//writing Trading account to file, need to do it differently because it has variable columns(not anymore)
 	public void trAccToFile(TradingAcc trAcc) throws IOException{
-		CsvListReader  listReader = new CsvListReader(new FileReader(FileTools.USER_ACC_FILE), CsvPreference.STANDARD_PREFERENCE);
-		List<List<String>> csvContents = new ArrayList<List<String>>();
-		List<String> line;
-		CsvListWriter listWriter;
+		List<String[]> trAccFileContent = readCSV(USER_ACC_FILE);
+		List<String[]> sharesOwnedFileContent = readCSV(USER_SHARES_OWNED_FILE);
 		boolean found = false;
 		
-		//read CSV contents and alter line if changes found, then close reader
-		while ((line = listReader.read()) != null)
+		//update tradingaccount file Content
+		for (String[] trAccInFile : trAccFileContent)
 		{
-			if (line.contains(trAcc.getUser_ID()))
+			if (trAccInFile[0].equals(trAcc.getUser_ID()))
 			{
-				line = Arrays.asList(trAccToString(trAcc).split(","));
+				trAccInFile[1] = trAcc.getCurrBal().toString();
 				found = true;
+				break;
 			}
-			csvContents.add(line);
 		}
-		listReader.close();
-		
-		//if not found append to contents
 		if (!found)
 		{
-			csvContents.add(Arrays.asList(trAccToString(trAcc).split(",")));
+			trAccFileContent.add(new String[]{trAcc.getUser_ID(), trAcc.getCurrBal().toString()});
 		}
 		
-		//write to csv
-		listWriter = new CsvListWriter(new FileWriter(FileTools.USER_ACC_FILE), CsvPreference.STANDARD_PREFERENCE);
-		for (List<String> row : csvContents)
+		//update sharesOwned File Content
+		for (String[] shareOwned : trAcc.getSharesOwned())
 		{
-			listWriter.write(row);
+			found = false;
+			for (String[] shareOwnedInFile : sharesOwnedFileContent)
+			{
+				if (shareOwnedInFile[0].equals(trAcc.getUser_ID()) && shareOwnedInFile[1].equals(shareOwned[0]))
+				{
+					if (shareOwned[1].equals(String.valueOf(0)))
+					{
+						sharesOwnedFileContent.remove(shareOwnedInFile);
+					}
+					else
+					{
+						shareOwnedInFile[2] = shareOwned[1];
+					}
+					
+					found = true;
+					break;
+				}
+			}
+			if (!found)
+			{
+				sharesOwnedFileContent.add(new String[]{trAcc.getUser_ID(), shareOwned[0], shareOwned[1]});
+			}
 		}
-		listWriter.close();
 		
+		//update files
+		overwriteCSV(trAccFileContent, USER_ACC_FILE);
+		overwriteCSV(sharesOwnedFileContent, USER_SHARES_OWNED_FILE);
 	}
 	
 	//adds a transaction
 	public void addToTransCSV(Transaction transaction, String filePath) throws IOException
 	{
 		List<String[]>transList = readCSV(USER_TRANSACTION_LOG);
-		String[] newTrans = {transaction.getID(), transaction.getTransType().toString(), transaction.getASXcode(), transaction.getCompName(), transaction.getShareVal().toString(), transaction.getDateTime()};
+		String[] newTrans = {transaction.getID(), transaction.getTransType().toString(), transaction.getASXcode(),
+				String.valueOf(transaction.getNumShares()), transaction.getCompName(), 
+				transaction.getShareVal().toString(), transaction.getDateTime()};
 		transList.add(newTrans);
 		overwriteCSV(transList, USER_TRANSACTION_LOG);
 	}
@@ -350,7 +350,7 @@ public class FileTools {
 				row[0] = newId;
 				
 				//only transaction log will contain multiple of the same userID
-				if (!filePath.equals(USER_TRANSACTION_LOG))
+				if (!filePath.equals(USER_TRANSACTION_LOG) || !filePath.equals(USER_SHARES_OWNED_FILE))
 				{
 					break;
 				}
@@ -413,15 +413,17 @@ public class FileTools {
 	public TradingAcc loadTrAcc(String userID)
 	{
 		TradingAcc trAcc = null;
-		ArrayList<String> sharesOwned;
+		ArrayList<String[]> sharesOwned = new ArrayList<String[]>();
 		
 		ArrayList<String[]> trAccList = searchFile(userID, USER_ACC_FILE);
+		ArrayList<String[]> sharesOwnedList = searchFile(userID, USER_SHARES_OWNED_FILE);
 		
 		if (trAccList == null)
 		{
 			return null;
 		}
 		
+		//load current balance
 		for (String[] trAccParams : trAccList)
 		{
 			if (trAccParams[0].equals(userID))
@@ -429,12 +431,25 @@ public class FileTools {
 				trAcc = new TradingAcc(userID);
 				trAcc.setCurrBal(new BigDecimal(trAccParams[1]));
 				//need to check if sharesOwned param exists or ArrayIndexOutOfBounds exception
-				if (trAccParams.length > 2)
+				/*if (trAccParams.length > 2)
 				{
 					sharesOwned = new ArrayList<String>(Arrays.asList(trAccParams[2].split(";")));
 					trAcc.setSharesOwned(sharesOwned);
-				}
+				}*/
 				break;
+			}
+		}
+		
+		//load sharesOwned
+		if (sharesOwnedList == null)
+		{
+			return trAcc;
+		}
+		for (String[] ownedShareInFile : sharesOwnedList)
+		{
+			if (ownedShareInFile[0].equals(trAcc.getUser_ID()))
+			{
+				sharesOwned.add(new String[]{ownedShareInFile[1], ownedShareInFile[2]});
 			}
 		}
 		

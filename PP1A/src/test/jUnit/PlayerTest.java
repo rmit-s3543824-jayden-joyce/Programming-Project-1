@@ -41,7 +41,7 @@ public class PlayerTest {
 		assertEquals(tr.getCurrBal(), tr.INIT_BAL);
 		
 		//new TradingAcc does not contain any shares
-		ArrayList<String> sharesOwned = tr.getSharesOwned();
+		ArrayList<String[]> sharesOwned = tr.getSharesOwned();
 		assertEquals(sharesOwned.size(), 0);
 	}
 

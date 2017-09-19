@@ -25,4 +25,14 @@ public class TransactionController {
 		
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 	};
+	
+	public void buy(Request req)
+	{
+		
+	}
+	
+	public void sell(Request req)
+	{
+		
+	}
 }
