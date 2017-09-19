@@ -303,6 +303,7 @@ public class FileTools {
 			{
 				if (shareOwnedInFile[0].equals(trAcc.getUser_ID()) && shareOwnedInFile[1].equals(shareOwned[0]))
 				{
+					//if no player no more of a share, delete it, else change numShares
 					if (shareOwned[1].equals(String.valueOf(0)))
 					{
 						sharesOwnedFileContent.remove(shareOwnedInFile);
@@ -430,12 +431,6 @@ public class FileTools {
 			{
 				trAcc = new TradingAcc(userID);
 				trAcc.setCurrBal(new BigDecimal(trAccParams[1]));
-				//need to check if sharesOwned param exists or ArrayIndexOutOfBounds exception
-				/*if (trAccParams.length > 2)
-				{
-					sharesOwned = new ArrayList<String>(Arrays.asList(trAccParams[2].split(";")));
-					trAcc.setSharesOwned(sharesOwned);
-				}*/
 				break;
 			}
 		}
