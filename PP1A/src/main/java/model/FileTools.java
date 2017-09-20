@@ -450,4 +450,32 @@ public class FileTools {
 		
 		return trAcc;
 	}
+	
+	//function to load a specific share from file
+	public static Shares loadShare(String ASXCode) throws IOException
+	{
+		Shares share = null;
+		int asxCodeIndex = 1;
+		List<String[]> searchList = searchFile(ASXCode, ASX_COMPANIES_DATA_FILE);
+		String compName;
+		String industryGroup;
+		BigDecimal shareVal;
+		
+		if (searchList != null)
+		{
+			for (String[] searchItem : searchList)
+			{
+				if (searchItem[asxCodeIndex].equals(ASXCode))
+				{
+					compName = searchItem[0];
+					industryGroup = searchItem[2];
+					shareVal = new BigDecimal(searchItem[3]);
+					share = new Shares(searchItem[asxCodeIndex], compName, industryGroup, shareVal);
+					break;
+				}
+			}
+		}
+		
+		return share;
+	}
 }
