@@ -103,8 +103,9 @@ public class LoginController {
 				req.session().attribute("age", age);
 				
 				player.loadTrAcc();
-				req.session().attribute("currBal", player.getTradingAcc().getCurrBal());
-				req.session().attribute("sharesOwned", player.getTradingAcc().getSharesOwned());
+				//returns error
+//				req.session().attribute("currBal", player.getTradingAcc().getCurrBal());
+//				req.session().attribute("sharesOwned", player.getTradingAcc().getSharesOwned());
 			
 				loadToModel(model, req);
 				model.put("template", "/users/user.vtl");
