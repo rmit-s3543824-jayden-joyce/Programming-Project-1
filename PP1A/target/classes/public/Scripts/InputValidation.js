@@ -1,169 +1,178 @@
-	var username = document.forms["regForm"]["username"];
+function regValidate() {
+	var user_name = document.forms["regForm"]["username"];
 	var first_name = document.forms["regForm"]["firstname"];
 	var last_name = document.forms["regForm"]["lastname"];
 	var age = document.forms["regForm"]["age"];
 	var password = document.forms["regForm"]["password"];
-	var confirm_Password = document.forms["regForm"]["confirmpassword"];
-	
-	var username_error = document.getElementById("username_error");
-	var first_name_error = document.getElementById("firstname_error");
-	var last_name_error = document.getElementById("lastname_error");
+	var confirm_password = document.forms["regForm"]["confirmpassword"];
+
+	var user_name_error = document.getElementById("user_name_error");
+	var first_name_error = document.getElementById("first_name_error");
+	var last_name_error = document.getElementById("last_name_error");
 	var age_error = document.getElementById("age_error");
 	var password_error = document.getElementById("password_error");
 	
-	username.addEventListener("blur", usernameVerify, true);
-	first_name.addEventListener("blur", firstNameVerify, true);
-	last_name.addEventListener("blur", lastNameVerify, true);
-	age.addEventListener("blur", ageVerify, true);
-	password.addEventListener("blur", passwordVerify, true);
-	
-	function Validate()
-	{
-		// username validation
-		if(isEmpty(username.value) || userExists(username.value))
-		{
-			username.style.border = "1px solid red";
-			username_error.textContent = "Valid username is required";
-			username.focus();
-			return false;
-		}
-		// first name validation
-		if(isEmpty(firstname.value) || !valName(firstname.value))
-		{
-			first_name.style.border = "1px solid red";
-			first_name_error.textContent = "Must have a capital letter at the start and only contains letters";
-			first_name.focus();
-			return false;
-		}
-		// last name validation
-		if(isEmpty(lastname/value) || !valName(lastname.value))
-		{
-			last_name.style.border = "1px solid red";
-			last_name_error.textContent = "Must have a capital letter at the start and only contains letters";
-			last_name.focus();
-			return false;
-		}
-		// age validation
-		if(isEmpty(age.value) || !valAge(age.value))
-		{
-			age.style.border = "1px solid red";
-			age_error.textContent = "Valid age is required";
-			age.focus();
-			return false;
-		}
-		// password validation
-		if(isEmpty(password.value) || !valPassword(lastname.value))
-		{
-			password.style.border = "1px solid red";
-			password_error.textContent = "Must have a capital letter at the start and only contains letters";
-			password.focus();
-			return false;
-		}
-		// check if passwords match
-		if(password.value != confirm_password.value)
-		{
-			password.style.border = "1px solid red";
-			confirm_password.style.border = "1px solid red";
-			password_error.innerHTML = "Passwords do not match";
-			return false;
-		}
-		
-		return true;
-	}
-	
-	function usernameVerify()
-	{
-		if(!isEmpty(username.value))
-		{
-			username.style.border = "1px solid black";
-			username_error.innerHTML = "";
-			return true;
-		}	
-	}
-	
-	function firstNameVerify()
-	{
-		if(!isEmpty(first_name.value))
-		{
-			first_name.style.border = "1px solid black";
-			first_name_error.innerHTML = "";
-			return true;
-		}	
-	}
-	
-	function lastNameVerify()
-	{
-		if(!isEmpty(last_name.value))
-		{
-			last_name.style.border = "1px solid black";
-			last_name_error.innerHTML = "";
-			return true;
-		}	
-	}
-	
-	function ageVerify()
-	{
-		if(!isEmpty(age.value))
-		{
-			age.style.border = "1px solid black";
-			age_error.innerHTML = "";
-			return true;
-		}	
-	}
-	
-	function passwordVerify()
-	{
-		if(!isEmpty(password.value))
-		{
-			password.style.border = "1px solid black";
-			password_error.innerHTML = "";
-			return true;
-		}	
-	}
-	
-	function usernameVerify()
-	{
-		if(!isEmpty(username.value))
-		{
-			//change format to normal
-			return true;
-		}	
-	}
-	
-	function isEmpty(value)
-	{
-		if(value == "")
-		{
+	// Checking if nothing has been entered
+	function isEmpty(value) {
+		if (value === "") {
 			return true;
 		}
-		return false;	
+		return false;
 	}
 	
-	function userExists(username)
-	{
-		var filePath = fileTool.USER_DATA_FILE;
-	
-		if(fileTool.searchFile(username, filePath) != null){
-			return true;
-		}
+	function csvToJSON(csv){
+	  var lines=csv.split("\n");
+
+	  var result = [];
+
+	  var headers=lines[0].split(",");
+
+	  for(var i=1;i<lines.length;i++){
+
+		  var obj = {};
+		  var currentline=lines[i].split(",");
+
+		  for(var j=0;j<headers.length;j++){
+			  obj[headers[j]] = currentline[j];
+		  }
+
+		  result.push(obj);
+
+	  }
+	  
+	  //return result; //JavaScript object
+	  return JSON.stringify(result); //JSON
 	}
 	
-	function valName(name)
-	{
+
+//	function userExists(username) {
+//		var userObj = csvToJSON("/UserData.csv");
+//		//console.log(userObj);
+//		return true;
+//	}
+	
+	// Validates user name
+	function valUserName(username) {
+		var isMatch = username.match(/^[a-zA-Z0-9]+$/g);
+		return isMatch;
+	}
+	
+	// Validates name
+	function valName(name) {
 		var isMatch = name.match(/^[A-Z][a-z]+$/g);
 		return isMatch;
 	}
 	
-	function valAge(age)
-	{
-		if (age > 0 && age <= 99)
-		{
+	// Validates age
+	function valAge(age) {
+		if (age > 0 && age <= 99) {
+			return true;
+		}
+	}
+
+	// Validates password
+	function valPassword(password) {
+		var isMatch = password.match(/^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$/g);
+		return isMatch;
+	}
+	
+	// Returns text box to normal upon correct input
+	function usernameVerify() {
+		if (!isEmpty(user_name.value)) {
+			user_name.style.border = "thin solid black";
+			return true;
+		}
+	}
+
+	function firstNameVerify() {
+		if (!isEmpty(first_name.value)) {
+			first_name.style.border = "thin solid black";
+			return true;
+		}
+	}
+
+	function lastNameVerify() {
+		if (!isEmpty(last_name.value)) {
+			last_name.style.border = "thin solid black";
+			return true;
+		}
+	}
+
+	function ageVerify() {
+		if (!isEmpty(age.value)) {
+			age.style.border = "thin solid black";
+			return true;
+		}
+	}
+
+	function passwordVerify() {
+		if (!isEmpty(password.value)) {
+			password.style.border = "thin solid black";
 			return true;
 		}
 	}
 	
-	function valPassword(password)
-	{
-		var isMatch = password.match(/^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$/g);
-		return isMatch;
+	// Event listeners for text boxes
+	user_name.addEventListener("blur", usernameVerify, true);
+	first_name.addEventListener("blur", firstNameVerify, true);
+	last_name.addEventListener("blur", lastNameVerify, true);
+	age.addEventListener("blur", ageVerify, true);
+	password.addEventListener("blur", passwordVerify, true);
+		
+	// user name validation
+	if (!valUserName(user_name.value)) {
+		user_name.style.border = "1px solid red";
+		user_name_error.textContent = "Valid username is required";
+		user_name.focus();
+		return false;
 	}
+	user_name_error.innerHTML = "";
+	// user name existence check
+//	if(userExists(user_name.value) {
+//		user_name.style.border = "1px solid red";
+//		user_name_error.textContent = "User name already is use";
+//		user_name.focus();
+//		return false;
+//	}
+//	user_name_error.innerHTML = "";
+	// first name validation
+	if (!valName(first_name.value)) {
+		first_name.style.border = "1px solid red";
+		first_name_error.textContent = "Must have a capital letter at the start and only contains letters";
+		first_name.focus();
+		return false;
+	}
+	first_name_error.innerHTML = "";
+	// last name validation
+	if (!valName(last_name.value)) {
+		last_name.style.border = "1px solid red";
+		last_name_error.textContent = "Must have a capital letter at the start and only contains letters";
+		last_name.focus();
+		return false;
+	}
+	last_name_error.innerHTML = "";
+	// age validation
+	if (!valAge(age.value)) {
+		age.style.border = "1px solid red";
+		age_error.textContent = "Valid age is required";
+		age.focus();
+		return false;
+	}
+	// password validation
+	if (!valPassword(password.value)) {
+		password.style.border = "1px solid red";
+		password_error.textContent = "Password must have at least: 8 characters, a number and special character";
+		password.focus();
+		return false;
+	}
+	password_error.innerHTML = "";
+	// check if passwords match
+	if (password.value !== confirm_password.value) {
+		password.style.border = "1px solid red";
+		confirm_password.style.border = "1px solid red";
+		password_error.innerHTML = "Passwords do not match";
+		return false;
+	}
+	password_error.innerHTML = "";
+	return true;
+}
