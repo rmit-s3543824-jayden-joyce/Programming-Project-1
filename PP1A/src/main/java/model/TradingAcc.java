@@ -11,33 +11,51 @@ public class TradingAcc {
 	public static final BigDecimal INIT_BAL = new BigDecimal(1000000);
 	private String user_ID;
 	private BigDecimal currBal;
-	private ArrayList<String> sharesOwned;
+	private ArrayList<String[]> sharesOwned;
 	FileTools fileTool = new FileTools();
 	
 	public TradingAcc(String user_ID){
 		this.user_ID = user_ID;
 	}
 	
-	public Transaction buyShares(Shares share){
+	public Transaction buyShares(Shares share, int amt) throws InsufficientFundsException{
 		String currTimeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 		BigDecimal newBal;
 		Transaction buy;
+		boolean found = false;
 		
 		//return null if player don't have enough money
-		if (currBal.doubleValue() < share.getShareVal().doubleValue())
+		// throws exceptions because not enough funds
+		if (currBal.doubleValue() < share.getShareVal().doubleValue() * amt)
 		{
-			return null;
+			double amountNeeded = share.getShareVal().doubleValue() - currBal.doubleValue();
+			throw new InsufficientFundsException(amountNeeded);
 		}
 		else if (sharesOwned == null)
 		{
-			sharesOwned = new ArrayList<String>();
+			sharesOwned = new ArrayList<String[]>();
 		}
 		
-		//set balance to (current balance - share value), add share to list and create a transaction object
-		newBal = currBal.subtract(share.getShareVal());
+		//set balance to (current balance - (share value * amt)), add share to list and create a transaction object
+		newBal = currBal.subtract(share.getShareVal().multiply(new BigDecimal(amt)));
 		setCurrBal(newBal);
-		sharesOwned.add(share.getASX_code());
-		buy = new Transaction(user_ID, Transaction.TransType.BUYING, share.getASX_code(), share.getCompName(), share.getShareVal(), currTimeStamp);
+		
+		//find if sharesOwned contains asx code, if yes, increase number, else add new
+		for (String[] ownedShare : sharesOwned)
+		{
+			if (ownedShare[0].equals(share.getASX_code()))
+			{
+				ownedShare[1] = String.valueOf(Integer.parseInt(ownedShare[1]) + amt);
+				found = true;
+				break;
+			}
+		}
+		if (!found)
+		{
+			sharesOwned.add(new String[] {share.getASX_code(), String.valueOf(amt)});
+		}
+		
+		buy = new Transaction(user_ID, Transaction.TransType.BUYING, share.getASX_code(), amt, share.getCompName(), share.getShareVal(), currTimeStamp);
 
 		//save transaction to file and update user account data file
 		try {
@@ -50,23 +68,43 @@ public class TradingAcc {
 		return buy;
 	}
 	
-	public Transaction sellShares(Shares share){
+	public Transaction sellShares(Shares share, int amt) throws NoSharesException{
 		String currTimeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 		BigDecimal newBal;
 		Transaction sell;
+		boolean found = false;
 		
 		// if no shares, return null
 		if (sharesOwned == null)
 		{
-			return null;
+			throw new NoSharesException(sharesOwned);
+		}
+		
+		//find share in sharesOwned and lower num of that share by amt
+		for (String[] ownedShare : sharesOwned)
+		{
+			if (ownedShare[0].equals(share.getASX_code()))
+			{
+				if (Integer.parseInt(ownedShare[1]) < amt)
+				{
+					return null;
+				}
+				else
+				{
+					ownedShare[1] = String.valueOf(Integer.parseInt(ownedShare[1]) - amt);
+				}
+				
+				found = true;
+				break;
+			}
 		}
 		
 		//set balance to (current balance + share value), remove share from list and create a transaction object if share in possession, else return null
-		if (sharesOwned.remove(share.getASX_code()))
+		if (found)
 		{
-			newBal = currBal.add(share.getShareVal());
+			newBal = currBal.add(share.getShareVal().multiply(new BigDecimal(amt)));
 			setCurrBal(newBal);
-			sell = new Transaction(user_ID, Transaction.TransType.SELLING, share.getASX_code(), share.getCompName(), share.getShareVal(), currTimeStamp);
+			sell = new Transaction(user_ID, Transaction.TransType.SELLING, share.getASX_code(), amt, share.getCompName(), share.getShareVal(), currTimeStamp);
 		}
 		else
 		{
@@ -94,15 +132,23 @@ public class TradingAcc {
 		return lastTrans;
 	}
 	
-	public BigDecimal showCurrStockVal(ArrayList<Shares> sharesOwned){
+	public BigDecimal showCurrStockVal(){
 		BigDecimal currStockVal = new BigDecimal(0);
 		List<String[]> allShares = null;
 		int priceIndex = 3;
+		int allSharesCodeIndex = 1;
 		int codeIndex = 0;
+		int amtIndex = 1;
+		
+		//return 0 if no shares owned
+		if (this.sharesOwned == null || this.sharesOwned.isEmpty())
+		{
+			return new BigDecimal(0);
+		}
 		
 		//read asx companies list
 		try {
-			allShares = fileTool.readCSV(FileTools.ASX_COMPANIES_DATA_FILE);
+			allShares = FileTools.readCSV(FileTools.ASX_COMPANIES_DATA_FILE);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -113,15 +159,15 @@ public class TradingAcc {
 		{
 			return null;
 		}
-		
+
 		//calculate total stock val
-		for (String ownedShare : this.sharesOwned)
+		for (String[] ownedShare : this.sharesOwned)
 		{
 			for (String[] share : allShares)
 			{
-				if (share[codeIndex].equals(ownedShare))
+				if (share[allSharesCodeIndex].equals(ownedShare[codeIndex]))
 				{
-					currStockVal.add(new BigDecimal(share[priceIndex]));
+					currStockVal = currStockVal.add(new BigDecimal(share[priceIndex]).multiply(new BigDecimal(ownedShare[amtIndex])));
 					break;
 				}
 			}
@@ -143,11 +189,11 @@ public class TradingAcc {
 		return currBal;
 	}
 	
-	public ArrayList<String> getSharesOwned(){
+	public ArrayList<String[]> getSharesOwned(){
 		return sharesOwned;
 	}
 	
-	public ArrayList<String> setSharesOwned(ArrayList<String> newShares){
+	public ArrayList<String[]> setSharesOwned(ArrayList<String[]> newShares){
 		sharesOwned = newShares;
 		return sharesOwned;
 	}
