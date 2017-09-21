@@ -9,10 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import org.json.JSONObject;
 import org.supercsv.io.CsvListReader;
@@ -29,6 +26,7 @@ public class FileTools {
 	public static final String USER_SHARES_OWNED_FILE = CSV_RESOURCE_FOLDER + "/sharesOwned.csv";
 	public static final String USER_TRANSACTION_LOG = CSV_RESOURCE_FOLDER + "/transactionLog.csv";
 	public static final String ASX_COMPANIES_DATA_FILE = CSV_RESOURCE_FOLDER + "/ASXListedCompanies.csv";
+	public static final String LEADERBOARD = CSV_RESOURCE_FOLDER + "/leaderboard.csv";
 	public static final String ALPHA_ADVANTAGE_API_KEY = "MP9H93RQEUUFGX07";
     public static final String URL_JSON_PATH_P1_INTRADAY = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=";
     public static final String URL_JSON_PATH_P2_INTRADAY = ".AX&interval=60min&apikey=" + ALPHA_ADVANTAGE_API_KEY;
