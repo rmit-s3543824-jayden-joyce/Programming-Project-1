@@ -123,7 +123,8 @@ $.getJSON(
 	        }
         }
         catch(err){
-        	document.getElementById("refreshTime").innerHTML = "Seems like there is no data for this share."
+        	document.getElementById("refreshTime").innerHTML = "Seems like there is no data currently available for this share."
+        	console.log(err);
         }        
         
 

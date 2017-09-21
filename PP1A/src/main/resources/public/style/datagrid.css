@@ -7,6 +7,8 @@
 }
 
 .datagrid {
+	width: 90%;
+	margin: auto;
 	font: normal 12px/150% Verdana, Arial, Helvetica, sans-serif;
 	background: #fff;
 	overflow: hidden;
@@ -31,7 +33,7 @@
 }
 
 .datagrid table thead th:first-child {
-	border: none;
+	border: auto;
 }
 
 .datagrid table tbody td {
@@ -53,4 +55,33 @@
 
 .datagrid table tbody tr:last-child td {
 	border-bottom: none;
+}
+
+/*styling for pagination*/
+div#DataTables_Table_0_filter {
+	padding: 10px;
+}
+#DataTables_Table_0_filter label{
+	font-weight: bold;
+	font-size: medium;
+}
+#DataTables_Table_0_filter input{
+	height: 30px;
+	border: 1px solid #ccc;
+    border-radius: 4px;
+}
+#DataTables_Table_0_filter input:focus{
+	background-color: #d7f0fd;
+}
+
+div#DataTables_Table_0_length {
+	padding: 25px 2px 2px 2px;
+}
+
+/*styling for scroll*/
+div.dataTables_scrollHeadInner{
+	margin: auto;
+}
+dic.dataTbles_scroll{
+	width: 100%;
 }

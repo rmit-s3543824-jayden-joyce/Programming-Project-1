@@ -3,7 +3,8 @@
  */
 
 var tabulate = function(data, columns) {
-	/* select id="companyList" */
+	/* select class="companyList" */
+	//class display for paginator
 	var table = d3.select('.companyList').append('table').classed('paging display', true)
 	var thead = table.append('thead')
 	var tbody = table.append('tbody')
@@ -66,3 +67,15 @@ d3.csv('/csv/ASXListedCompanies.csv', function(data) {
 	
 	tabulate(data, columns)
 })
+
+/* delay the pagination function as
+ * document.ready is inconsistent
+ */ 
+
+setTimeout(function(){
+	$(".paging").DataTable( {
+	    "scrollX": true,
+	    "pagingType": "full_numbers"
+	} );
+	document.getElementById("tableStatus").innerHTML = null;
+}, 500);
