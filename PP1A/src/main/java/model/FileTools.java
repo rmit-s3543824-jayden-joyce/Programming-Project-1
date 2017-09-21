@@ -286,6 +286,7 @@ public class FileTools {
 			if (trAccInFile[0].equals(trAcc.getUser_ID()))
 			{
 				trAccInFile[1] = trAcc.getCurrBal().toString();
+				trAccInFile[2] = trAcc.showCurrStockVal().toString();
 				found = true;
 				break;
 			}

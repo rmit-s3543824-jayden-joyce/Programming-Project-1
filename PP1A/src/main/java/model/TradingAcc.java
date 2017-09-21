@@ -176,6 +176,28 @@ public class TradingAcc {
 		return currStockVal;
 	}
 	
+	//read current stock value from file
+	public static BigDecimal showCurrStockVal(String userId)
+	{
+		BigDecimal currStockVal = new BigDecimal(0);
+		int idIndex = 0;
+		int stockValIndex = 2;
+		List<String[]> searchResult = FileTools.searchFile(userId, FileTools.USER_ACC_FILE);
+		
+		if (searchResult != null)
+		{
+			for (String[] result : searchResult)
+			{
+				if (result[idIndex].equals(userId))
+				{
+					currStockVal = new BigDecimal(result[stockValIndex]);
+				}
+			}
+		}
+		
+		return currStockVal;
+	}
+	
 	public String getUser_ID(){
 		return user_ID;
 	}
