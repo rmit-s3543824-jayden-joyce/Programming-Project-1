@@ -55,7 +55,6 @@ d3.csv('/csv/leaderboard.csv', function(data) {
 
 setTimeout(function(){
 	$(".paging").DataTable( {
-	    "scrollX": true,
 	    "pagingType": "full_numbers"
 	} );
 	document.getElementById("tableStatus").innerHTML = null;

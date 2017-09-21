@@ -49,17 +49,17 @@ public class LeaderboardController {
 				playerId = accountData.get(i)[0];
 				balance = accountData.get(i)[1];
 				
-//				BigDecimal totalSharesValue = TradingAcc.showCurrStockVal(playerId);
-//				
-//				//calculating marks
-//				if(totalSharesValue != null){
-//					int tempValue = totalSharesValue.intValue();
-//					playerScore += tempValue;
-//				}
+				BigDecimal totalSharesValue = TradingAcc.showCurrStockVal(playerId);
+				
+//				System.out.println(totalSharesValue);
+				int tempValue = totalSharesValue.intValue();
+				
+				playerScore += tempValue;
 				
 				int tempBalance = (int)Double.parseDouble(balance);
 				
 				playerScore += tempBalance;
+				System.out.println(playerScore);
 				
 				board.put(playerId, playerScore);
 			}
