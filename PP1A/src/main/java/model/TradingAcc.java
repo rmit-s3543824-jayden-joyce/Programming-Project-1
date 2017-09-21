@@ -186,11 +186,14 @@ public class TradingAcc {
 		
 		if (searchResult != null)
 		{
+			//calculate current stock value
 			for (String[] result : searchResult)
 			{
-				if (result[idIndex].equals(userId))
+				//only set surrStockVal if userId matches and is not empty
+				if (result[idIndex].equals(userId) && !result[stockValIndex].equals(""))
 				{
 					currStockVal = new BigDecimal(result[stockValIndex]);
+					break;
 				}
 			}
 		}
