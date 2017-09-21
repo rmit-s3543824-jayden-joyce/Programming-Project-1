@@ -7,11 +7,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import org.json.JSONObject;
 import org.supercsv.io.CsvListReader;
@@ -22,19 +20,41 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
 public class FileTools {
-	public static final String USER_DATA_FILE = "src/main/resources/userData.csv";
-	public static final String USER_ACC_FILE = "src/main/resources/accountData.csv";
-	public static final String USER_TRANSACTION_LOG = "src/main/resources/transactionLog.csv";
-	public static final String ASX_COMPANIES_DATA_FILE = "src/main/resources/ASXListedCompanies.csv";
+	public static final String CSV_RESOURCE_FOLDER = "src/main/resources/public/csv";
+	public static final String USER_DATA_FILE = CSV_RESOURCE_FOLDER + "/userData.csv";
+	public static final String USER_ACC_FILE = CSV_RESOURCE_FOLDER + "/accountData.csv";
+	public static final String USER_SHARES_OWNED_FILE = CSV_RESOURCE_FOLDER + "/sharesOwned.csv";
+	public static final String USER_TRANSACTION_LOG = CSV_RESOURCE_FOLDER + "/transactionLog.csv";
+	public static final String ASX_COMPANIES_DATA_FILE = CSV_RESOURCE_FOLDER + "/ASXListedCompanies.csv";
+	public static final String LEADERBOARD = CSV_RESOURCE_FOLDER + "/leaderboard.csv";
 	public static final String ALPHA_ADVANTAGE_API_KEY = "MP9H93RQEUUFGX07";
-    public static final String URL_JSON_PATH_P1 = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=";
-    public static final String URL_JSON_PATH_P2 = ".AX&interval=60min&apikey=" + ALPHA_ADVANTAGE_API_KEY;
+    public static final String URL_JSON_PATH_P1_INTRADAY = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=";
+    public static final String URL_JSON_PATH_P2_INTRADAY = ".AX&interval=60min&apikey=" + ALPHA_ADVANTAGE_API_KEY;
+    public static final String URL_JSON_PATH_P1_DAILY = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=";
+    public static final String URL_JSON_PATH_P2_DAILY = ".AX&apikey=" + ALPHA_ADVANTAGE_API_KEY;
+    public static final String HOURLY_TIME_SERIES_STRING = "Time Series (60min)";
+    public static final String DAILY_TIME_SERIES_STRING = "Time Series (Daily)";
+   
+    Util util = new Util();
 	
     //fetch data from a JSON in a url using its ASX code, if ASX code is not a key, then return null
-	public JSONObject fetchShareData(String ASXcode) throws IOException
+	public String fetchShareData(String ASXcode, String TimeSeriesString) throws IOException
 	{
-		JSONObject json = null;
-		URL url = new URL(URL_JSON_PATH_P1 + ASXcode + URL_JSON_PATH_P2);
+		String jsonString = null;
+		URL url = null;
+		
+		//returned data can be intraday(hourly) or daily
+		switch (TimeSeriesString){
+			case HOURLY_TIME_SERIES_STRING: 
+				url = new URL(URL_JSON_PATH_P1_INTRADAY + ASXcode + URL_JSON_PATH_P2_INTRADAY);
+				break;
+			case DAILY_TIME_SERIES_STRING:
+				url = new URL(URL_JSON_PATH_P1_DAILY + ASXcode + URL_JSON_PATH_P2_DAILY);
+				break;
+			default:
+				return null;
+		}
+		
 		InputStream is;
 		BufferedReader br;
 		
@@ -49,9 +69,9 @@ public class FileTools {
 			jsonStringBuilder.append(line);
 		}
 		
-		json = new JSONObject(jsonStringBuilder.toString());	
+		jsonString = jsonStringBuilder.toString();	
 		
-		if (!json.has("Time Series (60min)"))
+		if (!jsonString.contains(TimeSeriesString))
 		{
 			return null;
 		}
@@ -59,20 +79,20 @@ public class FileTools {
 		br.close();
 		is.close();
 		
-		return json;
+		return jsonString;
 	}
 	
 	//Separate function for writing changes to csv file after fetching data
-	public void overwriteCSV(List<String[]> companiesCSVlist, String filePath) throws IOException
+	public void overwriteCSV(List<String[]> content, String filePath) throws IOException
 	{
 		CSVWriter csvWriter = new CSVWriter(new FileWriter(filePath));
-		csvWriter.writeAll(companiesCSVlist);
+		csvWriter.writeAll(content);
 		csvWriter.flush();
 		csvWriter.close();
 	}
 	
 	//reads entire csv file and return its contents as a List of string arrays
-	public List<String[]> readCSV(String filePath)throws IOException
+	public static List<String[]> readCSV(String filePath)throws IOException
 	{
 		CSVReader csvReader = new CSVReader(new FileReader(filePath));
 		List<String[]> csvContents = csvReader.readAll();
@@ -85,6 +105,7 @@ public class FileTools {
 	{
 		try {
 			JSONObject json = null;
+			String jsonString = null;
 			List<String[]> companiesCSVlist;
 			Object[] jsonArray;
 			//read from csv and add edit vals
@@ -92,12 +113,26 @@ public class FileTools {
 			
 			for (int i = 1; i < companiesCSVlist.size(); i++)
 			{
-				json = fetchShareData(companiesCSVlist.get(i)[1]);
-				if (json != null)
+				jsonString = fetchShareData(companiesCSVlist.get(i)[1], HOURLY_TIME_SERIES_STRING);
+				if (jsonString != null)
 				{
+					json = new JSONObject(jsonString);
 					jsonArray = json.getJSONObject("Time Series (60min)").keySet().toArray();
 					Arrays.sort(jsonArray, Collections.reverseOrder());
-					companiesCSVlist.get(i)[3] = ((JSONObject) json.getJSONObject("Time Series (60min)").get(jsonArray[0].toString())).get("1. open").toString();
+					JSONObject priceDataList = json.getJSONObject("Time Series (60min)");
+					JSONObject latestData = (JSONObject) priceDataList.get(jsonArray[0].toString());
+					
+					companiesCSVlist.get(i)[3] = latestData.get("1. open").toString();
+					companiesCSVlist.get(i)[4] = latestData.getString("2. high").toString();
+					companiesCSVlist.get(i)[5] = latestData.getString("3. low").toString();
+					companiesCSVlist.get(i)[7] = latestData.getString("5. volume").toString();
+					
+					//some shares only have data for 1 time (don't have historical data)
+					if (priceDataList.length() > 1)
+					{
+						String lastPrice = ((JSONObject) priceDataList.get(jsonArray[1].toString())).get("1. open").toString();
+						companiesCSVlist.get(i)[6] = util.calculateChange(new BigDecimal(lastPrice), new BigDecimal(latestData.get("1. open").toString())).toString();
+					}
 				}
 				else
 				{
@@ -110,12 +145,12 @@ public class FileTools {
 			overwriteCSV(companiesCSVlist, ASX_COMPANIES_DATA_FILE);
 		}
 		catch (IOException e){
-			
+			System.out.println("something happened");
 		}
 	}
 
 	//use user ID to find player in a file and return it
-	public User LoadPlayer(String user_ID)
+	public static User LoadUser(String user_ID)
 	{
 		User user = null;
 		ArrayList<String[]> searchedPlayers = searchFile(user_ID, USER_DATA_FILE);
@@ -124,6 +159,12 @@ public class FileTools {
 		String firstName;
 		String lastName;
 		int age;
+		
+		//return null if searched players empty
+		if (searchedPlayers == null)
+		{
+			return null;
+		}
 		
 		for (String[] player : searchedPlayers)
 		{
@@ -137,7 +178,7 @@ public class FileTools {
 		//return null if can't find user_ID in file
 		if (parameters == null)
 		{
-			return user;
+			return null;
 		}
 		
 		//use these variables to make it easier to read
@@ -159,27 +200,26 @@ public class FileTools {
 	}
 	
 	//search a file for a specified id string and return row as a string array
-	public ArrayList<String[]> searchFile(String id, String filepath)
+	public static ArrayList<String[]> searchFile(String id, String filepath)
 	{		
 		ArrayList<String[]> matching = new ArrayList<String[]>();
-		String[] splitString = null;
+		List<String[]> list = null;
 		
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(filepath));
-			String readLine = br.readLine();
+			list = readCSV(filepath);
 			
-			while (readLine != null)
+			if (list == null || list.isEmpty())
 			{
-				splitString = readLine.split(",");
-				if (splitString[0].contains(id) && !splitString[0].equals("user_ID"))
-				{
-					//adding matching players to the list
-					matching.add(splitString);
-				}
-				readLine = br.readLine();
+				return null;
 			}
-
-			br.close();
+			
+			for (String[] item : list)
+			{
+				if (item[0].contains(id) && !item[0].equals("user_ID"))
+				{
+					matching.add(item);
+				}
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -215,60 +255,109 @@ public class FileTools {
 	public String trAccToString(TradingAcc tr){
 		String trAccString = null;
 		//getting player's shares
-		ArrayList<String> sharesOwned = tr.getSharesOwned();
+		ArrayList<String[]> sharesOwned = tr.getSharesOwned();
 		
-		trAccString = tr.getUser_ID() + "," + tr.getCurrBal();
+		trAccString = tr.getUser_ID() + "," + tr.getCurrBal() + ",";
 		//Listing all shares under player's possession
 		int i = 0;
 		while(i <= sharesOwned.size()-1){
-			trAccString = trAccString + "," + sharesOwned.get(i);
+			trAccString = trAccString + sharesOwned.get(i);
+			if (i != sharesOwned.size()-1)
+			{
+				trAccString = trAccString + ";";
+			}
 			i ++;
 		}
+
 		return trAccString;
 	}
 	
-	//writing Trading account to file, need to do it differently because it has variable columns
+	//writing Trading account to file, need to do it differently because it has variable columns(not anymore)
 	public void trAccToFile(TradingAcc trAcc) throws IOException{
-		CsvListReader  listReader = new CsvListReader(new FileReader(FileTools.USER_ACC_FILE), CsvPreference.STANDARD_PREFERENCE);
-		List<List<String>> csvContents = new ArrayList<List<String>>();
-		List<String> line;
-		CsvListWriter listWriter;
+		List<String[]> trAccFileContent = readCSV(USER_ACC_FILE);
+		List<String[]> sharesOwnedFileContent = readCSV(USER_SHARES_OWNED_FILE);
 		boolean found = false;
 		
-		//read CSV contents and alter line if changes found, then close reader
-		while ((line = listReader.read()) != null)
+		//update tradingaccount file Content
+		for (String[] trAccInFile : trAccFileContent)
 		{
-			if (line.contains(trAcc.getUser_ID()))
+			if (trAccInFile[0].equals(trAcc.getUser_ID()))
 			{
-				line = Arrays.asList(trAccToString(trAcc).split(","));
+				trAccInFile[1] = trAcc.getCurrBal().toString();
+				trAccInFile[2] = trAcc.showCurrStockVal().toString();
 				found = true;
+				break;
 			}
-			csvContents.add(line);
 		}
-		listReader.close();
-		
-		//if not found append to contents
 		if (!found)
 		{
-			csvContents.add(Arrays.asList(trAccToString(trAcc).split(",")));
+			trAccFileContent.add(new String[]{trAcc.getUser_ID(), trAcc.getCurrBal().toString()});
 		}
 		
-		//write to csv
-		listWriter = new CsvListWriter(new FileWriter(FileTools.USER_ACC_FILE), CsvPreference.STANDARD_PREFERENCE);
-		for (List<String> row : csvContents)
+		//update sharesOwned File Content
+		for (String[] shareOwned : trAcc.getSharesOwned())
 		{
-			listWriter.write(row);
+			found = false;
+			for (String[] shareOwnedInFile : sharesOwnedFileContent)
+			{
+				if (shareOwnedInFile[0].equals(trAcc.getUser_ID()) && shareOwnedInFile[1].equals(shareOwned[0]))
+				{
+					//if no player no more of a share, delete it, else change numShares
+					if (shareOwned[1].equals(String.valueOf(0)))
+					{
+						sharesOwnedFileContent.remove(shareOwnedInFile);
+					}
+					else
+					{
+						shareOwnedInFile[2] = shareOwned[1];
+					}
+					
+					found = true;
+					break;
+				}
+			}
+			if (!found)
+			{
+				sharesOwnedFileContent.add(new String[]{trAcc.getUser_ID(), shareOwned[0], shareOwned[1]});
+			}
 		}
-		listWriter.close();
 		
+		//update files
+		overwriteCSV(trAccFileContent, USER_ACC_FILE);
+		overwriteCSV(sharesOwnedFileContent, USER_SHARES_OWNED_FILE);
 	}
 	
-	public void updateTransCSV(Transaction transaction, String filePath) throws IOException
+	//adds a transaction
+	public void addToTransCSV(Transaction transaction, String filePath) throws IOException
 	{
 		List<String[]>transList = readCSV(USER_TRANSACTION_LOG);
-		String[] newTrans = {transaction.getID(), transaction.getTransType().toString(), transaction.getASXcode(), transaction.getCompName(), transaction.getShareVal().toString(), transaction.getDateTime()};
+		String[] newTrans = {transaction.getID(), transaction.getTransType().toString(), transaction.getASXcode(),
+				String.valueOf(transaction.getNumShares()), transaction.getCompName(), 
+				transaction.getShareVal().toString(), transaction.getDateTime()};
 		transList.add(newTrans);
 		overwriteCSV(transList, USER_TRANSACTION_LOG);
+	}
+	
+	//updates transaction csv if username is changed
+	public void updateIdInCSV( String oldId, String newId, String filePath) throws IOException
+	{
+		List<String[]> fileContents = readCSV(filePath);
+		
+		for (String[] row : fileContents)
+		{
+			if (row[0].equals(oldId))
+			{
+				row[0] = newId;
+				
+				//only transaction log will contain multiple of the same userID
+				if (!filePath.equals(USER_TRANSACTION_LOG) || !filePath.equals(USER_SHARES_OWNED_FILE))
+				{
+					break;
+				}
+			}
+		}
+		
+		overwriteCSV(fileContents, filePath);
 	}
 	
 	//got content of csv and make it a simple json string
@@ -318,5 +407,74 @@ public class FileTools {
 		}
 		
 		return jsonString;
+	}
+	
+	//loading trading account
+	public TradingAcc loadTrAcc(String userID)
+	{
+		TradingAcc trAcc = null;
+		ArrayList<String[]> sharesOwned = new ArrayList<String[]>();
+		
+		ArrayList<String[]> trAccList = searchFile(userID, USER_ACC_FILE);
+		ArrayList<String[]> sharesOwnedList = searchFile(userID, USER_SHARES_OWNED_FILE);
+		
+		if (trAccList == null)
+		{
+			return null;
+		}
+		
+		//load current balance
+		for (String[] trAccParams : trAccList)
+		{
+			if (trAccParams[0].equals(userID))
+			{
+				trAcc = new TradingAcc(userID);
+				trAcc.setCurrBal(new BigDecimal(trAccParams[1]));
+				break;
+			}
+		}
+		
+		//load sharesOwned
+		if (sharesOwnedList == null)
+		{
+			return trAcc;
+		}
+		for (String[] ownedShareInFile : sharesOwnedList)
+		{
+			if (ownedShareInFile[0].equals(trAcc.getUser_ID()))
+			{
+				sharesOwned.add(new String[]{ownedShareInFile[1], ownedShareInFile[2]});
+			}
+		}
+		
+		return trAcc;
+	}
+	
+	//function to load a specific share from file
+	public static Shares loadShare(String ASXCode) throws IOException
+	{
+		Shares share = null;
+		int asxCodeIndex = 1;
+		List<String[]> searchList = searchFile(ASXCode, ASX_COMPANIES_DATA_FILE);
+		String compName;
+		String industryGroup;
+		BigDecimal shareVal;
+		
+		if (searchList != null)
+		{
+			for (String[] searchItem : searchList)
+			{
+				if (searchItem[asxCodeIndex].equals(ASXCode))
+				{
+					compName = searchItem[0];
+					industryGroup = searchItem[2];
+					shareVal = new BigDecimal(searchItem[3]);
+					share = new Shares(searchItem[asxCodeIndex], compName, industryGroup, shareVal);
+					break;
+				}
+			}
+		}
+		
+		return share;
 	}
 }

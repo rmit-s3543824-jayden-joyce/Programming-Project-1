@@ -11,14 +11,16 @@ public class Transaction {
 	private String user_ID;
 	private TransType transType;
 	private String ASXcode;
+	private int numShares;
 	private String compName;
 	private BigDecimal shareVal;	
 	private String dateTime;
 	
-	public Transaction(String user_ID, TransType transType, String ASXcode, String compName, BigDecimal shareVal, String dateTime){
+	public Transaction(String user_ID, TransType transType, String ASXcode, int numShares, String compName, BigDecimal shareVal, String dateTime){
 		this.user_ID = user_ID;
 		this.transType = transType;
 		this.ASXcode = ASXcode;
+		this.numShares = numShares;
 		this.compName = compName;
 		this.shareVal = shareVal;
 		this.dateTime = dateTime;
@@ -76,6 +78,15 @@ public class Transaction {
 	
 	public String getASXcode(){
 		return ASXcode;
+	}
+	
+	public BigDecimal getTotalPrice()
+	{
+		return shareVal.multiply(new BigDecimal(numShares));
+	}
+	
+	public int getNumShares(){
+		return numShares;
 	}
 	
 }

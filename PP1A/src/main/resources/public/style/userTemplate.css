@@ -1,0 +1,61 @@
+.sideNav{
+	min-height: 100%;
+	width: 225px;
+	box-shadow: 0;
+	position: absolute;
+	z-index: 0;
+	padding-top: 125px;
+	top: 0;
+	left: 0;
+	background-color: #2C3E50;
+	overflow-x: hidden;
+	transition: 1s;
+}
+
+.wrapper{
+	min-height: 100%;
+	width: 100%;
+}
+
+/*center admin content*/
+.userCenter {
+	padding: 75px 12% 7.5%12%;
+}
+
+.sideNav a, .sideNav p {
+	padding: 5px 10px 10px 20px;
+	font-size: 17px;
+	text-decoration: none;
+	color: #FFFFFF;
+	display: block;
+	transition: 0.3s;
+}
+
+.sideNav .closebtn{
+	position absolute;
+	top: 0;
+	right: 25px;
+	font: 28px;
+	margen-left: 50px;
+}
+
+.sideNav a:hover, .sideNav p:hover {
+	font-size: 20px;
+	cursor: pointer;
+}
+
+#div1, #div2, #div3, #div4, #div5{
+	display: none;
+}
+
+.func{
+	color: #039be5;
+}
+
+.userDet{
+	float: left;
+}
+
+.warning{
+	color: #FF0000;
+}
