@@ -46,6 +46,8 @@ public class Application {
 		get("/openTradingAccount",     controller.UserController.openTradingAcc);
 		get("/deleteTradingAccount",   controller.UserController.deleteTradingAcc);
 		get("/admin",                  controller.AdminController.adminPage);
+		get("/searchPlayer",           controller.AdminController.searchPlayer);
+		get("/deletePlayer",           controller.AdminController.deletePlayer);
 		get("/TransactionAccount",     controller.TransactionController.transactionAccount);
 		
 		//an example for example vtl
