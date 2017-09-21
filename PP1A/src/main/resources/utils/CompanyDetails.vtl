@@ -1,0 +1,45 @@
+<!-- Share names -->
+<h1 id="companyName"></h1>
+
+<!-- Share's latest details -->
+
+<link rel='stylesheet' href='style/datagrid.css'>
+<div class="datagrid">
+	<table class="display">
+		<tr>
+			<th>ASX code</th>
+			<td id="companyCode"></td>
+		</tr>
+		<tr>
+			<th>GICS industry group</th>
+			<td id="companyGroup"></td>
+		</tr>
+		<tr>
+			<th>Price</th>
+			<td id="companyPrice"></td>
+		</tr>
+		<tr>
+			<th>High</th>
+			<td id="companyHigh"></td>
+		</tr>
+		<tr>
+			<th>Low</th>
+			<td id="companyLow"></td>
+		</tr>
+		<tr>
+			<th>Change</th>
+			<td id="companyChange"></td>
+		</tr>
+		<tr>
+			<th>Volume</th>
+			<td id="companyVolume"></td>
+		</tr>
+	</table>
+</div>
+
+<!-- Graph -->
+<div>
+	<h2>History change</h2>
+	Last Refreshed: <p style="display:inline-block;" id="refreshTime">Loading...Data may take awhile to load</p>
+	#parse($chart)
+</div>

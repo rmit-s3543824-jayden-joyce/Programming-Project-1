@@ -1,5 +1,10 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD
+Built-By: YQ Chew
+Build-Jdk: 1.8.0_144
+=======
 Built-By: Joyce
 Build-Jdk: 1.8.0_121
+>>>>>>> branch 'Controller' of https://github.com/rmit-s3543824-jayden-joyce/Programming-Project-1.git
 Created-By: Maven Integration for Eclipse
 

@@ -15,7 +15,6 @@ import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
 
-import View.Mainpage;
 import model.FileTools;
 import model.Menu;
 import model.Player;
@@ -36,28 +35,18 @@ public class Application {
 		port(getHerokuAssignedPort());
 		menu = new Menu();
 		
-		get("/",                       controller.LoginController.mainPage);
-		get("/login",                  controller.LoginController.loginPage);
-		get("/redirectUser",           controller.LoginController.redirectUser);
-		get("/register",               controller.RegisterController.registerPage);
-		get("/regSuccess",             controller.RegisterController.regSuccess);
-		get("/user",                   controller.UserController.userPage);
-		get("/confirmEditProfile",     controller.UserController.confirmEditProfile);
-		get("/openTradingAccount",     controller.UserController.openTradingAcc);
-		get("/deleteTradingAccount",   controller.UserController.deleteTradingAcc);
-		get("/admin",                  controller.AdminController.adminPage);
-		get("/TransactionAccount",     controller.TransactionController.transactionAccount);
-		
-		//an example for example vtl
-		get("/ERROR_PAGE", controller.ErrorPageController.ERROR_PAGE);
-		//to test table
-		get("/testTable", (req, res) -> {
-			Map<String, Object> model = new HashMap<>();
-			
-			model.put("template", "/mainpage/testTable.vtl");
-			
-			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
-		});
+		get("/",						controller.LoginController.mainPage);
+		get("/login",					controller.LoginController.loginPage);
+		get("/redirectUser",			controller.LoginController.redirectUser);
+		get("/register",				controller.RegisterController.registerPage);
+		get("/regSuccess",				controller.RegisterController.regSuccess);
+		get("/user",					controller.UserController.userPage);
+		get("/ConfirmEditProfile",		controller.UserController.confirmEditProfile);
+		get("/admin",					controller.AdminController.adminPage);
+		get("/TransactionAccount",		controller.TransactionController.transactionAccount);
+		get("/CompanyPage", 			controller.CompanyPageController.companyPage);
+		get("/Leaderboard", 			controller.LeaderboardController.leaderboard);
+		get("/ERROR_PAGE",				controller.ErrorPageController.ERROR_PAGE);
 		
 		// For all pages not defined by the application
 		notFound(controller.ErrorPageController.ERROR_PAGE);

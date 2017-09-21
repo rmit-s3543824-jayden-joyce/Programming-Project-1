@@ -1,20 +1,12 @@
-<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
-
-<!-- function for paginator -->
-<script>
-$(document).ready(function() {
-    $('.paging').DataTable( {
-        "pagingType": "full_numbers"
-    } );
-} ); 
-</script>
-
 <!-- script for formating paginator -->
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
-<link rel='stylesheet' href='style/layout.css'>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
 <link rel='stylesheet' href='style/datagrid.css'>
-<h1>Today market status</h1>
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script type='text/javascript' src='Scripts/companyTable.js'></script>
+
+<h1>Recent market status</h1>
+<p id="tableStatus">Loading...Data may take awhile to load</p>
 <div class="datagrid companyList">
-	<script type='text/javascript' src='../Scripts/companyTable.js'></script>
 </div>
