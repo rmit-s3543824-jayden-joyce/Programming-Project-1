@@ -12,6 +12,7 @@ import model.Menu;
 import model.NoSharesException;
 import model.Player;
 import model.Shares;
+import model.TradingAcc;
 import model.Transaction;
 import model.User;
 import spark.ModelAndView;
@@ -22,24 +23,65 @@ import spark.Spark;
 import spark.template.velocity.VelocityTemplateEngine;
 
 public class TransactionController {
+	
+	//Initialise transactionAccount page and details
 	public static Route transactionAccount = (req, res) -> {
 		Map<String, Object> model = new HashMap<>();
 		
-		model.put("userTemplate", "/users/TransactionAccount.vtl");
-		
-		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
+		Player player = req.session().attribute("playerObj");
+		if (player != null)
+		{
+			TradingAcc trAcc = player.getTradingAcc();
+			Transaction lastTrans = req.session().attribute("lastTrans");
+			
+			model.put("userId", trAcc.getUser_ID());
+			model.put("currBal", trAcc.getCurrBal());
+			model.put("stockVal", trAcc.showCurrStockVal());
+			
+			//load last trans if attribute is null
+			if (lastTrans == null)
+			{
+				lastTrans = Transaction.loadLastTrans(trAcc.getUser_ID());
+				if (lastTrans != null)
+				{
+					req.session().attribute("lastTrans", lastTrans);
+				}
+			}
+			
+			putTransToModel(model, lastTrans);
+			
+			}
+			
+			model.put("userTemplate", "/users/TransactionAccount.vtl");
+			
+			return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 	};
 	
-	public static Route buyShareConfirm = (req, res) -> {
+	//page to show user transaction right after buying/selling
+	public static Route ConfirmTransaction = (req, res) -> {
 		Map<String, Object> model = new HashMap<>();
 		Player player = req.session().attribute("playerObj");
-		Shares buyingShare;
-		int buyAmt = Integer.parseInt(req.queryParams("buyAmt"));
+		Transaction.TransType transType = Transaction.TransType.valueOf(req.queryParams("transType"));
+		int amtShares = Integer.parseInt(req.queryParams("amtShares"));
+		Shares share;
 		Transaction transaction = null;
 		
 		try {
-			buyingShare = FileTools.loadShare(req.queryParams("ASXCode"));
-			transaction = player.getTradingAcc().buyShares(buyingShare, buyAmt);
+			share = FileTools.loadShare(req.queryParams("ASXCode"));
+			
+			//do buy/sell transaction depending on transType
+			if (transType == Transaction.TransType.BUYING)
+			{
+				transaction = player.getTradingAcc().buyShares(share, amtShares);
+			}
+			else
+			{
+				transaction = player.getTradingAcc().sellShares(share, amtShares);
+			}
+			
+			req.session().attribute("lastTrans", transaction);
+			model.put("currBal", player.getTradingAcc().getCurrBal());
+			model.put("stockVal", player.getTradingAcc().showCurrStockVal());
 		} catch (InsufficientFundsException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -47,27 +89,7 @@ public class TransactionController {
 		
 		putTransToModel(model, transaction);
 		
-		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/buyShareConfirm.vtl"));
-	};
-	
-	public static Route sellShareConfirm = (req, res) -> {
-		Map<String, Object> model = new HashMap<>();
-		Player player = req.session().attribute("playerObj");
-		Shares sellingShare;
-		int sellAmt = Integer.parseInt(req.queryParams("sellAmt"));
-		Transaction transaction = null;
-		
-		try {
-			sellingShare = FileTools.loadShare(req.queryParams("ASXCode"));
-			transaction = player.getTradingAcc().sellShares(sellingShare, sellAmt);
-		} catch (NoSharesException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		putTransToModel(model, transaction);
-		
-		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/buyShareConfirm.vtl"));
+		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/ConfirmTransaction.vtl"));
 	};
 	
 	//loads transaction in model, used by both buy and sell in controller
