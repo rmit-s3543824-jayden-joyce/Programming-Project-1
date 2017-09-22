@@ -100,6 +100,26 @@ div.formFormat {
 	padding-bottom: 40px;
 }
 
+.errorBox {
+	background: #FFCDD2;
+	border: solid;
+	border-color: #E57373;
+	border-radius: 7px;
+	color: #E57373;
+	padding: 10px 0px 10px 0px;
+	text-align: center;
+}
+
+.successBox {
+	background: #C8E6C9;
+	border: solid;
+	border-color: #66BB6A;
+	border-radius: 7px;
+	color: #66BB6A;
+	padding: 10px 0px 10px 0px;
+	text-align: center;
+}
+
 /*button formatting*/
 .btnBlue {
   display: inline-border;

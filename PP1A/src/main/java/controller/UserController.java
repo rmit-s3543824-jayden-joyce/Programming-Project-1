@@ -32,16 +32,19 @@ public class UserController {
 	};
 	
 	public static Route openTradingAcc = (req, res) -> {
-		Map<String, Object> model = new HashMap<>();
-		openTradingAcc(model, req);
+		Map<String, Object> model = openTradingAcc(req.session().attribute("username"), req);
+		LoginController.loadToModel(model, req);
+		
+		model.put("userTemplate", "/users/user.vtl");
 		
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 	};
 	
 	public static Route deleteTradingAcc = (req, res) -> {
-		Map<String, Object> model = new HashMap<>();
-		deleteAccount(req.session().attribute("username"), req);
+		Map<String, Object> model = deleteAccount(req.session().attribute("username"), req);
+		LoginController.loadToModel(model, req);
 		
+		model.put("userTemplate", "/users/user.vtl");
 		model.put("tradingAcc", false);
 		
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
@@ -76,27 +79,27 @@ public class UserController {
 		return model;	
 	}
 	
-	public static void loadToModel(Map<String, Object> model, Request req)
-	{		
-		if (req.session().attribute("username") != null && req.session().attribute("firstname") != null)
-		{
-			model.put("username", req.session().attribute("username"));
-			model.put("firstname", req.session().attribute("firstname"));
-			model.put("lastname", req.session().attribute("lastname"));
-			model.put("age", req.session().attribute("age"));
-			model.put("password", req.session().attribute("password"));
-		}
-		
-		if (req.session().attribute("currBal") != null)
-		{
-			
-			model.put("tradingAcc", true);
-			model.put("currBal", req.session().attribute("currBal"));
-			model.put("sharesOwned", req.session().attribute("sharesOwned"));
-		}
-		else
-			model.put("tradingAcc", false);
-	}
+//	public static void loadToModel(Map<String, Object> model, Request req)
+//	{		
+//		if (req.session().attribute("username") != null && req.session().attribute("firstname") != null)
+//		{
+//			model.put("username", req.session().attribute("username"));
+//			model.put("firstname", req.session().attribute("firstname"));
+//			model.put("lastname", req.session().attribute("lastname"));
+//			model.put("age", req.session().attribute("age"));
+//			model.put("password", req.session().attribute("password"));
+//		}
+//		
+//		if (req.session().attribute("currBal") != null)
+//		{
+//			
+//			model.put("tradingAcc", true);
+//			model.put("currBal", req.session().attribute("currBal"));
+//			model.put("sharesOwned", req.session().attribute("sharesOwned"));
+//		}
+//		else
+//			model.put("tradingAcc", false);
+//	}
 	
 	public void loadTradingAccToSession(Request req)
 	{
@@ -109,9 +112,10 @@ public class UserController {
 		}
 	}
 	
-	public static void deleteAccount(String username, Request req)
+	public static Map<String, Object> deleteAccount(String username, Request req)
 	{
-		Player player = (Player) FileTools.LoadUser(req.session().attribute("username"));
+		Map<String, Object> model = new HashMap<>();
+		Player player = req.session().attribute("playerObj");
 		
 		try {
 			player.deleteAcc();
@@ -119,19 +123,26 @@ public class UserController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		model.put("accountDeleted", true);
+		return model;
 	}
 	
-	public static void openTradingAcc(Map<String, Object> model, Request req)
+	public static Map<String, Object> openTradingAcc(String username, Request req)
 	{
+		Map<String, Object> model = new HashMap<>();
 		Player player = (Player) FileTools.LoadUser(req.session().attribute("username"));
+		//Player player = req.session().attribute("playerObj");
 		TradingAcc trAcc = null;
 		
 		if (player.getTradingAcc() == null)
 		{
 			try {
 				trAcc = Player.openTradeAcc(player.getID());
+				player.setTradingAcc(trAcc);
 				
 				model.put("tradingAcc", true);
+				model.put("tradingAccSuccess", true);
 				model.put("currBal", player.getTradingAcc().getCurrBal());
 				model.put("sharesOwned", player.getTradingAcc().getSharesOwned());
 			} catch (IOException e) {
@@ -139,5 +150,6 @@ public class UserController {
 				e.printStackTrace();
 			}
 		}
+		return model;
 	}
 }
