@@ -43,19 +43,27 @@ var tabulate = function(data, columns) {
 	return table;
 }
 
-d3.csv('/csv/leaderboard.csv', function(data) {
-	var columns = [ 'Rank', 'User', 'Points']
-	
-	tabulate(data, columns)
-})
+//d3.csv('/csv/leaderboard.csv', function(data) {
+//	var columns = [ 'Rank', 'User', 'Points']
+//	
+//	tabulate(data, columns)
+//})
+
+//wait for csv
+setTimeout(function(){
+	d3.csv('/csv/leaderboard.csv', function(data) {
+		var columns = [ 'Rank', 'User', 'Points']
+		
+		tabulate(data, columns)
+	})
+}, 500);
 
 /* delay the pagination function as
  * document.ready is inconsistent
  */ 
-
 setTimeout(function(){
 	$(".paging").DataTable( {
 	    "pagingType": "full_numbers"
 	} );
 	document.getElementById("tableStatus").innerHTML = null;
-}, 500);
+}, 800);
