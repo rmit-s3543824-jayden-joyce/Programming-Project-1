@@ -43,11 +43,33 @@
 		<!-- Functions -->
 		<!-- Search for player -->
 		<div id="div1">
-			<form action=javascript:void(0);">
+			<form action='/searchPlayer'>
 				<h2 class="func">Search for player</h2>
-				<input id="searchPlayerID" type="text" required> <input
-					id="searchPlayer" type="submit" value="Search Player">
+				<input id="searchPlayerID" name="searchPlayerID" type="text" required> <input
+					id="findPlayer" type="submit" value="Find Player">
 			</form>
+			#if($userNotFound)
+				<p class="errorBox">Error: user not found</p>
+			#elseif($userFound)
+				<table>
+					<tr>
+						<th class="userDet">Username:</th>
+						<td>$userUsername</td>
+					</tr>
+					<tr>
+						<th class="userDet">First name:</th>
+						<td>$userFirstName</td>
+					</tr>
+					<tr>
+						<th class="userDet">Last name:</th>
+						<td>$userLastName</td>
+					</tr>
+					<tr>
+						<th class="userDet">Age:</th>
+						<td>$userAge</td>
+					</tr>
+				</table>
+			#end
 			<br>
 		</div>
 
@@ -62,11 +84,16 @@
 
 		<!-- Delete Player -->
 		<div id="div3">
-			<form action=javascript:void(0);">
+			<form action='/deletePlayer'>
 				<h2 class="func">Delete player</h2>
-				<input id="deletePlayerID" type="text" required> <input
+				<input id="deletePlayerID" name="deletePlayerID" type="text" required> <input
 					id="searchUser" type="submit" value="Search User">
 			</form>
+			#if($deletionSucceeded)
+				<p class="successBox">Player successfully deleted</p>
+			#elseif($deletionFailed)
+				<p class="errorBox">Error: player not found</p>
+			#end
 			<br>
 		</div>
 
