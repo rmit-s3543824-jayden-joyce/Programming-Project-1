@@ -48,12 +48,15 @@ public class Application {
 		get("/searchPlayer",			controller.AdminController.searchPlayer);
 		get("/deletePlayer",			controller.AdminController.deletePlayer);
 		get("/TransactionAccount",		controller.TransactionController.transactionAccount);
+		get("/ConfirmTransaction",		controller.ConfirmTransactionController.companyTransaction);
 		get("/CompanyPage", 			controller.CompanyPageController.companyPage);
 		get("/Leaderboard", 			controller.LeaderboardController.leaderboard);
-		get("/ERROR_PAGE",				controller.ErrorPageController.ERROR_PAGE);
+		
+		get("/ERROR_PAGE",				controller.ErrorPageController.NOT_FOUND_PAGE);
 		
 		// For all pages not defined by the application
-		notFound(controller.ErrorPageController.ERROR_PAGE);
+		notFound(controller.ErrorPageController.NOT_FOUND_PAGE);
+		internalServerError(controller.ErrorPageController.INTERNAL_SERVER_ERROR_PAGE);
 	}
 	
 	static int getHerokuAssignedPort() {
