@@ -43,7 +43,7 @@ public class LoginController {
 	public static Route redirectUser = (req, res) -> {
 		Map<String, Object> model = login(req);
 		
-		return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
+		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 	};
 	
 	public static Map<String, Object> login(Request req){
