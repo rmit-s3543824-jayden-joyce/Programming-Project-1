@@ -76,7 +76,7 @@ public class LoginController {
 				req.session().attribute("age", age);
 				
 				loadToModel(model, req);
-				model.put("template", "/users/admin.vtl");
+				model.put("userTemplate", "/users/admin.vtl");
 			}
 			else
 			{
@@ -109,7 +109,7 @@ public class LoginController {
 //				req.session().attribute("sharesOwned", player.getTradingAcc().getSharesOwned());
 			
 				loadToModel(model, req);
-				model.put("template", "/users/user.vtl");
+				model.put("userTemplate", "/users/user.vtl");
 			}
 			else
 			{
