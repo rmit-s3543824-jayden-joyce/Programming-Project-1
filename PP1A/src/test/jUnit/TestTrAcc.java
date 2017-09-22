@@ -31,13 +31,13 @@ public class TestTrAcc {
 		testShare = FileTools.loadShare("BHP");
 	}
 	
-	@Test
+	//@Test
 	public void testBuy() throws InsufficientFundsException {
-		Transaction trans = trAcc.buyShares(testShare, 1);
+		Transaction trans = trAcc.buyShares(testShare, 3);
 		assertNotNull(trans);
-		/*assertEquals(trans.getID(), "testing");
-		assertEquals(trans.getASXcode(), "TST");
-		assertEquals(trans.getCompName(), "testCompany");*/
+		assertEquals(trans.getID(), "testing");
+		assertEquals(trans.getASXcode(), "BHP");
+		assertEquals(trans.getCompName(), "BHP BILLITON LIMITED");
 		assertEquals(trans.getTransType(), Transaction.TransType.BUYING);
 	}
 	
@@ -48,10 +48,10 @@ public class TestTrAcc {
 		assertNull(trans);
 	}
 	
-	//@Test
+	@Test
 	public void testSell() throws NoSharesException {
 		try {
-			trAcc.buyShares(testShare, 3);
+			trAcc.buyShares(testShare, 1);
 		} catch (InsufficientFundsException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -59,8 +59,8 @@ public class TestTrAcc {
 		Transaction trans = trAcc.sellShares(testShare, 1);
 		assertNotNull(trans);
 		assertEquals(trans.getID(), "testing");
-		assertEquals(trans.getASXcode(), "TST");
-		assertEquals(trans.getCompName(), "testCompany");
+		assertEquals(trans.getASXcode(), "BHP");
+		assertEquals(trans.getCompName(), "BHP BILLITON LIMITED");
 		assertEquals(trans.getTransType(), Transaction.TransType.SELLING);
 	}
 	
