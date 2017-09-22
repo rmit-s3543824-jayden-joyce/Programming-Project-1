@@ -96,6 +96,12 @@ public class Player extends User{
 		return trAcc;
 	}
 	
+	//TODO
+	public void setTradingAcc(TradingAcc newAcc)
+	{
+		trAcc = newAcc;
+	}
+	
 	public void loadTrAcc()
 	{
 		FileTools ft = new FileTools();

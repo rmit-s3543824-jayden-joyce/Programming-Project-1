@@ -91,19 +91,25 @@
 					<h2 class="func">Open Trading Account</h2>
 					<input id="openAcc" type="submit" value="Open Trading Account">
 				</form>
+				#if($tradingAccSuccess)
+					<p class="successBox">Trading account created</p>
+				#end
 				<br>
 			#end
 		</div>
 
 		<!-- Delete Trading Account -->
 		<div id="div4">
-			<form action=javascript:void(0);">
+			<form action='/deleteTradingAccount'>
 				<h2 class="func">Delete Trading Account</h2>
 				<h3 class="warning">--- Warning ---</h3>
 				<p class="warning">
 					<b>Be cautioned that your Account cannot be recovered once it
 						is deactivate and deleted.</b>
 				</p>
+				#if($accountDeleted)
+					<p class="successBox">Trading account deleted!</p>
+				#end
 				<br>
 				<br> <input id="deleteAcc" type="submit"
 					value="Delete Trading Account">
