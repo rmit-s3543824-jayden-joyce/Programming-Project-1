@@ -33,7 +33,6 @@ public class TransactionController {
 		{
 			TradingAcc trAcc = player.getTradingAcc();
 			Transaction lastTrans = req.session().attribute("lastTrans");
-			System.out.println(player.getID());
 			
 			if (trAcc == null)
 			{

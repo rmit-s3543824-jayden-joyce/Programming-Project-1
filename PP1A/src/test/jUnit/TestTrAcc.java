@@ -88,6 +88,7 @@ public class TestTrAcc {
 		Player player = (Player) FileTools.LoadUser("bobby123");
 		System.out.println(player.getFName());
 		System.out.println(player.getTradingAcc().getCurrBal());
+		System.out.println(player.getTradingAcc().getSharesOwned().get(0)[0]);
 	}
 
 	@After
