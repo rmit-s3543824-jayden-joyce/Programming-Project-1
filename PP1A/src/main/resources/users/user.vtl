@@ -75,7 +75,7 @@
 					</tr>
 				</table>
 				<br>
-				<br> <input id="editPlayer" type="submit"
+				<br> <input class="btnBlue" id="editPlayer" type="submit"
 					value="Update Profile">
 			</form>
 			<br>
@@ -88,7 +88,7 @@
 			#else
 				<form action='/openTradingAccount';">
 					<h2 class="func">Open Trading Account</h2>
-					<input id="openAcc" type="submit" value="Open Trading Account">
+					<input class="btnBlue" id="openAcc" type="submit" value="Open Trading Account">
 				</form>
 				#if($tradingAccSuccess)
 					<p class="successBox">Trading account created</p>
@@ -110,7 +110,7 @@
 					<p class="successBox">Trading account deleted!</p>
 				#end
 				<br>
-				<br> <input id="deleteAcc" type="submit"
+				<br> <input class="btnRed" id="deleteAcc" type="submit"
 					value="Delete Trading Account">
 			</form>
 			<br>
