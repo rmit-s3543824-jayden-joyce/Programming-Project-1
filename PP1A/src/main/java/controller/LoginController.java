@@ -69,6 +69,7 @@ public class LoginController {
 				String lastName = admin.getLName();
 				int age = admin.getAge();
 						
+				//need to check if return val is true or false later or else any pw will log you in
 				if(app.Application.menu.login(username, password))
 				{		
 					req.session().attribute("adminObj", admin);
@@ -98,6 +99,7 @@ public class LoginController {
 				String lastName = player.getLName();
 				int age = player.getAge();
 						
+				//need to check if return val is true or false later or else any pw will log you in
 				if(app.Application.menu.login(username, password))
 				{		
 					req.session().attribute("playerObj", player);
