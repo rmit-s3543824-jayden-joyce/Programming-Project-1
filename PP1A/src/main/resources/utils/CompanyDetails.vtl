@@ -2,7 +2,6 @@
 <h1 id="companyName"></h1>
 
 <!-- Share's latest details -->
-
 <link rel='stylesheet' href='style/datagrid.css'>
 <div class="datagrid">
 	<table class="display">
@@ -37,9 +36,56 @@
 	</table>
 </div>
 
+<!-- buy and sell button, hidden by default -->
+<div id="buySellBtn" hidden>
+<p>Hello $username</p>
+
+<button id="buyShares" class="btnBlue">Buy</button>
+
+<!-- disabled by default -->
+<button id="sellShares" class="btnRed" disabled>Sell</button>
+</div>
+
 <!-- Graph -->
 <div>
 	<h2>History change</h2>
 	Last Refreshed: <p style="display:inline-block;" id="refreshTime">Loading...Data may take awhile to load</p>
 	#parse($chart)
 </div>
+
+#if($username)
+<thead>
+<tr>
+<td>ASX Code</td>
+<td>Amount</td>
+</tr>
+</thead>
+
+<tbody>
+#foreach($share in $shareList)
+<tr>
+	#foreach($shareDetails in $share)
+	<td>$shareDetails.toString()</td>
+	#end
+</tr>
+#end
+</tbody>
+
+	<script>
+	document.getElementById("buySellBtn").hidden = false;
+	//send shares and user data onclick
+	function buy(){
+		var confirm = confirm("Confirm buying this shares?");
+		if(confirm){
+			//proceed to confirm transaction
+		}
+	}
+	
+	function sell(){
+		var confirm = confirm("Confirm selling thins shares");
+		if(confirm){
+			//proceed to confirm transaction
+		}
+	}
+	</script>
+#end
