@@ -69,17 +69,18 @@ public class LoginController {
 				String lastName = admin.getLName();
 				int age = admin.getAge();
 						
-				app.Application.menu.login(username, password);
-						
-				req.session().attribute("adminObj", admin);
-				req.session().attribute("username", username);
-				req.session().attribute("password", password);
-				req.session().attribute("firstname", firstName);
-				req.session().attribute("lastname", lastName);
-				req.session().attribute("age", age);
-				
-				loadToModel(model, req);
-				model.put("userTemplate", "/users/admin.vtl");
+				if(app.Application.menu.login(username, password))
+				{		
+					req.session().attribute("adminObj", admin);
+					req.session().attribute("username", username);
+					req.session().attribute("password", password);
+					req.session().attribute("firstname", firstName);
+					req.session().attribute("lastname", lastName);
+					req.session().attribute("age", age);
+					
+					loadToModel(model, req);
+					model.put("userTemplate", "/users/admin.vtl");
+				}
 			}
 			else
 			{
