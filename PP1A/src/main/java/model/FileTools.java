@@ -410,7 +410,7 @@ public class FileTools {
 	}
 	
 	//loading trading account
-	public TradingAcc loadTrAcc(String userID)
+	public static TradingAcc loadTrAcc(String userID)
 	{
 		TradingAcc trAcc = null;
 		ArrayList<String[]> sharesOwned = new ArrayList<String[]>();
@@ -446,6 +446,7 @@ public class FileTools {
 				sharesOwned.add(new String[]{ownedShareInFile[1], ownedShareInFile[2]});
 			}
 		}
+		trAcc.setSharesOwned(sharesOwned);
 		
 		return trAcc;
 	}

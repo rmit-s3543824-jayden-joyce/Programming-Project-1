@@ -104,7 +104,6 @@ public class Player extends User{
 	
 	public void loadTrAcc()
 	{
-		FileTools ft = new FileTools();
-		ft.loadTrAcc(this.getID());
+		trAcc = FileTools.loadTrAcc(this.getID());
 	}
 }
