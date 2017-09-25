@@ -40,10 +40,10 @@
 <div id="buySellBtn" hidden>
 <p>Hello $username</p>
 
-<button id="buyShares" class="btnBlue">Buy</button>
+<button type="button" id="buyShares" class="btnBlue" value="buy" onclick="buy()">Buy</button>
 
 <!-- disabled by default -->
-<button id="sellShares" class="btnRed" disabled>Sell</button>
+<button type="button" id="sellShares" class="btnRed" value="sell" onclick="sell()" disabled>Sell</button>
 </div>
 
 <!-- Graph -->
@@ -54,37 +54,25 @@
 </div>
 
 #if($username)
-<thead>
-<tr>
-<td>ASX Code</td>
-<td>Amount</td>
-</tr>
-</thead>
-
-<tbody>
-#foreach($share in $shareList)
-<tr>
-	#foreach($shareDetails in $share)
-	<td>$shareDetails.toString()</td>
-	#end
-</tr>
-#end
-</tbody>
-
+<!-- will list out shares the user owned -->
+	
 	<script>
 	document.getElementById("buySellBtn").hidden = false;
+	
 	//send shares and user data onclick
 	function buy(){
-		var confirm = confirm("Confirm buying this shares?");
-		if(confirm){
+		var check = confirm("Confirm buying this shares?");
+		if(check){
 			//proceed to confirm transaction
+			window.location.replace("/ConfirmTransaction");
 		}
 	}
 	
 	function sell(){
-		var confirm = confirm("Confirm selling thins shares");
-		if(confirm){
+		var check = confirm("Confirm selling this shares");
+		if(check){
 			//proceed to confirm transaction
+			window.location.replace("/ConfirmTransaction");
 		}
 	}
 	</script>
