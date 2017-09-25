@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import model.FileTools;
 import model.InsufficientFundsException;
 import model.NoSharesException;
+import model.Player;
 import model.Shares;
 import model.TradingAcc;
 import model.Transaction;
@@ -48,7 +49,7 @@ public class TestTrAcc {
 		assertNull(trans);
 	}
 	
-	@Test
+	//@Test
 	public void testSell() throws NoSharesException {
 		try {
 			trAcc.buyShares(testShare, 1);
@@ -79,6 +80,14 @@ public class TestTrAcc {
 		trAcc.setSharesOwned(testSharesOwned);
 		System.out.println(trAcc.showCurrStockVal());
 		assertFalse(trAcc.showCurrStockVal() == new BigDecimal(0));
+	}
+	
+	@Test 
+	public void testLoadTrAcc()
+	{
+		Player player = (Player) FileTools.LoadUser("bobby123");
+		System.out.println(player.getFName());
+		System.out.println(player.getTradingAcc().getCurrBal());
 	}
 
 	@After

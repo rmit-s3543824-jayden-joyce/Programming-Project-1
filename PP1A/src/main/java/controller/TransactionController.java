@@ -33,7 +33,12 @@ public class TransactionController {
 		{
 			TradingAcc trAcc = player.getTradingAcc();
 			Transaction lastTrans = req.session().attribute("lastTrans");
+			System.out.println(player.getID());
 			
+			if (trAcc == null)
+			{
+				player.loadTrAcc();
+			}
 			model.put("userId", trAcc.getUser_ID());
 			model.put("currBal", trAcc.getCurrBal());
 			model.put("stockVal", trAcc.showCurrStockVal());
@@ -95,12 +100,16 @@ public class TransactionController {
 	//loads transaction in model, used by both buy and sell in controller
 	public static void putTransToModel(Map<String, Object> model, Transaction transaction)
 	{
-		model.put("transUserId", transaction.getID());
-		model.put("ASXcode", transaction.getASXcode());
-		model.put("shareVal", transaction.getShareVal());
-		model.put("numShares", transaction.getNumShares());
-		model.put("totalPrice", transaction.getTotalPrice());
-		model.put("transType", transaction.getTransType());
-		model.put("transDate", transaction.getDateTime());
+		if (transaction != null)
+		{
+			model.put("transUserId", transaction.getID());
+			model.put("ASXcode", transaction.getASXcode());
+			model.put("compName", transaction.getCompName());
+			model.put("shareVal", transaction.getShareVal());
+			model.put("numShares", transaction.getNumShares());
+			model.put("totalPrice", transaction.getTotalPrice());
+			model.put("transType", transaction.getTransType());
+			model.put("transDate", transaction.getDateTime());
+		}
 	}
 }
