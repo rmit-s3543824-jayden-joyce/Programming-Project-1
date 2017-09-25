@@ -15,7 +15,6 @@ import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
 
-import View.Mainpage;
 import model.FileTools;
 import model.Menu;
 import model.Player;
@@ -36,33 +35,28 @@ public class Application {
 		port(getHerokuAssignedPort());
 		menu = new Menu();
 		
-		get("/",                       controller.LoginController.mainPage);
-		get("/login",                  controller.LoginController.loginPage);
-		get("/redirectUser",           controller.LoginController.redirectUser);
-		get("/register",               controller.RegisterController.registerPage);
-		get("/regSuccess",             controller.RegisterController.regSuccess);
-		get("/user",                   controller.UserController.userPage);
-		get("/confirmEditProfile",     controller.UserController.confirmEditProfile);
-		get("/openTradingAccount",     controller.UserController.openTradingAcc);
-		get("/deleteTradingAccount",   controller.UserController.deleteTradingAcc);
-		get("/admin",                  controller.AdminController.adminPage);
-		get("/searchPlayer",           controller.AdminController.searchPlayer);
-		get("/deletePlayer",           controller.AdminController.deletePlayer);
-		get("/TransactionAccount",     controller.TransactionController.transactionAccount);
+		get("/",						controller.LoginController.mainPage);
+		get("/login",					controller.LoginController.loginPage);
+		get("/redirectUser",			controller.LoginController.redirectUser);
+		get("/register",				controller.RegisterController.registerPage);
+		get("/regSuccess",				controller.RegisterController.regSuccess);
+		get("/user",					controller.UserController.userPage);
+		get("/confirmEditProfile",		controller.UserController.confirmEditProfile);
+		get("/openTradingAccount",		controller.UserController.openTradingAcc);
+		get("/deleteTradingAccount",	controller.UserController.deleteTradingAcc);
+		get("/admin",					controller.AdminController.adminPage);
+		get("/searchPlayer",			controller.AdminController.searchPlayer);
+		get("/deletePlayer",			controller.AdminController.deletePlayer);
+		get("/TransactionAccount",		controller.TransactionController.transactionAccount);
+		get("/ConfirmTransaction",		controller.ConfirmTransactionController.companyTransaction);
+		get("/CompanyPage", 			controller.CompanyPageController.companyPage);
+		get("/Leaderboard", 			controller.LeaderboardController.leaderboard);
 		
-		//an example for example vtl
-		get("/ERROR_PAGE", controller.ErrorPageController.ERROR_PAGE);
-		//to test table
-		get("/testTable", (req, res) -> {
-			Map<String, Object> model = new HashMap<>();
-			
-			model.put("template", "/mainpage/testTable.vtl");
-			
-			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
-		});
+		get("/ERROR_PAGE",				controller.ErrorPageController.NOT_FOUND_PAGE);
 		
 		// For all pages not defined by the application
-		notFound(controller.ErrorPageController.ERROR_PAGE);
+		notFound(controller.ErrorPageController.NOT_FOUND_PAGE);
+		internalServerError(controller.ErrorPageController.INTERNAL_SERVER_ERROR_PAGE);
 	}
 	
 	static int getHerokuAssignedPort() {

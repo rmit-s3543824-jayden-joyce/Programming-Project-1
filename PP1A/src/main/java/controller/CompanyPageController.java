@@ -17,21 +17,12 @@ import spark.Route;
 import spark.Spark;
 import spark.template.velocity.VelocityTemplateEngine;
 
-public class ErrorPageController {
-	public static Route NOT_FOUND_PAGE = (req, res) -> {
-		
+public class CompanyPageController {
+	public static Route companyPage = (req, res) -> {
 		Map<String, Object> model = new HashMap<>();
 		
-		model.put("template", "/ERROR/404_PAGE.vtl");
-		
-		return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
-	};
-	
-	public static Route INTERNAL_SERVER_ERROR_PAGE = (req, res) -> {
-		
-		Map<String, Object> model = new HashMap<>();
-		
-		model.put("template", "/ERROR/ISE_PAGE.vtl");
+		model.put("template", "/utils/CompanyDetails.vtl");
+		model.put("chart", "/utils/chart.vtl");
 		
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
 	};

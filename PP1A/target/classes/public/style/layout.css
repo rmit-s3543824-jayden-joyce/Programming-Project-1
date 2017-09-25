@@ -80,7 +80,7 @@ h3.userTitle {
 
 /*center graph */
 .center {
-	padding: 0 5% 0 5%;
+	padding: 5px 5% 0 5%;
 	margin: 0 5% 0 5%;
 	width: 80%;
 	min-height: 600px;
@@ -98,6 +98,26 @@ div.formFormat {
 	margin-top: 40px;
 	padding-top: 40px;
 	padding-bottom: 40px;
+}
+
+.errorBox {
+	background: #FFCDD2;
+	border: solid;
+	border-color: #E57373;
+	border-radius: 7px;
+	color: #E57373;
+	padding: 10px 0px 10px 0px;
+	text-align: center;
+}
+
+.successBox {
+	background: #C8E6C9;
+	border: solid;
+	border-color: #66BB6A;
+	border-radius: 7px;
+	color: #66BB6A;
+	padding: 10px 0px 10px 0px;
+	text-align: center;
 }
 
 /*button formatting*/
@@ -150,12 +170,7 @@ div.formFormat {
   background-image: linear-gradient(to bottom, #ff5e52, #f44236);
   text-decoration: none;
 }
-/* formating for table */
-.datagrid table {
-	border-collapse: collapse;
-	text-align: left;
-	width: 100%;
-}
+
 /*formating chartdiv*/
 #chartdiv {
 	width: 80%;

@@ -1,4 +1,9 @@
-user_ID,currentBalance,sharesOwned
-bobby123,1000000
-testing,999994.5,TST
-DaveD,1000000
+"user_ID","currentBalance","totalStockVal"
+"bobby123","1000000","0"
+"testing","999972.3550","27.6450"
+"bobby1","100000","55.723"
+"testing2","998972.3550","427.6450"
+"bobby2","1000","0"
+"testing3","988972.3550","5327.6450"
+"bobby3","1000000","0"
+"testin4g","972.3550","27.6450"

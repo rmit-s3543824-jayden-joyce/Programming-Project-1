@@ -80,13 +80,13 @@ public class testFileTools {
 		assertEquals(user.getFName(), "Colonel");
 	}
 	
-	//@Test
+	@Test
 	public void testLoadPlayer() {
 		User user = fileTool.LoadUser("bobby123");
-		assertEquals(user.getFName(), "Bobby");
+		assertEquals(user.getFName(), "Dave");
 	}
 	
-	@Test
+	//@Test
 	public void testReadDailyJSON() {
 		try {
 			JSONObject json = new JSONObject(fileTool.fetchShareData("BHP", FileTools.DAILY_TIME_SERIES_STRING));
@@ -99,7 +99,7 @@ public class testFileTools {
 		assertTrue(true);
 	}
 	
-	@Test
+	//@Test
 	public void testReadHourlyJSON() {
 		try {
 			JSONObject json = new JSONObject(fileTool.fetchShareData("BHP", FileTools.HOURLY_TIME_SERIES_STRING));
@@ -113,7 +113,7 @@ public class testFileTools {
 	}
 	
 	//this test takes long as heck due to function
-	@Test
+	//@Test
 	public void testFetchAll() {
 		fileTool.fetchAllShareData();
 		assertTrue(true);

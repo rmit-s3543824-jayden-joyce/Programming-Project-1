@@ -49,6 +49,7 @@ public class Player extends User{
 				{
 					ft.updateIdInCSV(oldId, user_ID, FileTools.USER_ACC_FILE);
 					ft.updateIdInCSV(oldId, user_ID, FileTools.USER_TRANSACTION_LOG);
+					ft.updateIdInCSV(oldId, user_ID, FileTools.USER_SHARES_OWNED_FILE);
 					trAcc.updateId(this);
 				}
 				
@@ -66,7 +67,7 @@ public class Player extends User{
 		TradingAcc newAcc = new TradingAcc(user_ID);
 		//set initial balance
 		newAcc.setCurrBal(newAcc.INIT_BAL);
-		newAcc.setSharesOwned(new ArrayList<String>());	
+		newAcc.setSharesOwned(new ArrayList<String[]>());	
 		
 		ft.trAccToFile(newAcc);
 		System.out.println("Successfully Open a Trading Account!");	
