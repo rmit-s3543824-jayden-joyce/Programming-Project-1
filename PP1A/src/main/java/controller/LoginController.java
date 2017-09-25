@@ -43,7 +43,10 @@ public class LoginController {
 	public static Route redirectUser = (req, res) -> {
 		Map<String, Object> model = login(req);
 		
-		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
+		if(model.containsKey("userTemplate"))
+			return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
+		else
+			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
 	};
 	
 	public static Map<String, Object> login(Request req){
@@ -94,22 +97,23 @@ public class LoginController {
 				String lastName = player.getLName();
 				int age = player.getAge();
 						
-				app.Application.menu.login(username, password);
-						
-				req.session().attribute("playerObj", player);
-				req.session().attribute("username", username);
-				req.session().attribute("password", password);
-				req.session().attribute("firstname", firstName);
-				req.session().attribute("lastname", lastName);
-				req.session().attribute("age", age);
+				if(app.Application.menu.login(username, password))
+				{		
+					req.session().attribute("playerObj", player);
+					req.session().attribute("username", username);
+					req.session().attribute("password", password);
+					req.session().attribute("firstname", firstName);
+					req.session().attribute("lastname", lastName);
+					req.session().attribute("age", age);
 				
-				player.loadTrAcc();
-				//returns error
-//				req.session().attribute("currBal", player.getTradingAcc().getCurrBal());
-//				req.session().attribute("sharesOwned", player.getTradingAcc().getSharesOwned());
-			
-				loadToModel(model, req);
-				model.put("userTemplate", "/users/user.vtl");
+					player.loadTrAcc();
+					//returns error
+					req.session().attribute("currBal", player.getTradingAcc().getCurrBal());
+					req.session().attribute("sharesOwned", player.getTradingAcc().getSharesOwned());
+				
+					loadToModel(model, req);
+					model.put("userTemplate", "/users/user.vtl");
+				}	
 			}
 			else
 			{
@@ -134,12 +138,13 @@ public class LoginController {
 		//TODO returns null always
 		if (req.session().attribute("currBal") != null)
 		{
+			System.out.println("Has trading account");
 			model.put("tradingAcc", true);
 			model.put("currBal", req.session().attribute("currBal"));
 			model.put("sharesOwned", req.session().attribute("sharesOwned"));
 		}
 		else
-			System.out.println("no trading account");
+			System.out.println("No trading account");
 			model.put("tradingAcc", false);
 	}
 }
