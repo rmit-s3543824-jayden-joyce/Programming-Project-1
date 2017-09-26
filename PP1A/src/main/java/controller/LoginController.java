@@ -58,7 +58,6 @@ public class LoginController {
 		String username	= req.queryParams("username");
 		String password	= req.queryParams("password");
 		
-		
 		if(username.contains("admin"))
 		{
 			admin = (Admin)FileTools.LoadUser(username);
@@ -109,9 +108,9 @@ public class LoginController {
 					req.session().attribute("age", age);
 				
 					player.loadTrAcc();
-					//returns error
-					req.session().attribute("currBal", player.getTradingAcc().getCurrBal());
-					req.session().attribute("sharesOwned", player.getTradingAcc().getSharesOwned());
+					//returns error when player hasn't opened a trading account yet
+					//req.session().attribute("currBal", player.getTradingAcc().getCurrBal());
+					//req.session().attribute("sharesOwned", player.getTradingAcc().getSharesOwned());
 				
 					loadToModel(model, req);
 					model.put("userTemplate", "/users/user.vtl");
