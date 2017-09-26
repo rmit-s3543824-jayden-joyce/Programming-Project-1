@@ -20,7 +20,6 @@ import spark.Spark;
 import spark.template.velocity.VelocityTemplateEngine;
 
 public class CompanyPageController {
-	private TradingAcc ta;
 	
 	public static Route companyPage = (req, res) -> {		
 		Map<String, Object> model = new HashMap<>();
@@ -33,19 +32,25 @@ public class CompanyPageController {
 		if(req.session().attribute("username") != null){
 			String username = req.session().attribute("username");
 			model.put("username", req.session().attribute("username"));
-			controller.userDetails(model, username);
+//			controller.userDetails(model, username);
 		}
 		
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
 	};
 	
+	/* Check for available shares from user 
+	 * So user know shares they owned
+	 */
 	public void userDetails(Map<String, Object> model, String username){
-		this.ta = new TradingAcc(username);
+		TradingAcc ta = FileTools.loadTrAcc(username);
 		
 		ArrayList<String[]> shareList = ta.getSharesOwned();
+
+		System.out.println(ta.getSharesOwned()+ ": shareList before if");
 		
 		//list user shares
-		if(shareList != null){
+		if(!shareList.isEmpty()){
+			System.out.println(shareList.toString());
 			model.put("shareList", shareList);
 		}		
 	}

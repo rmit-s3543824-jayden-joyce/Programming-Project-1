@@ -93,7 +93,9 @@ public class TransactionController {
 		
 		putTransToModel(model, transaction);
 		
-		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/ConfirmTransaction.vtl"));
+		model.put("template", "/utils/ConfirmTransaction.vtl");
+		
+		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 	};
 	
 	//loads transaction in model, used by both buy and sell in controller
