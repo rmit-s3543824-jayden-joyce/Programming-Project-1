@@ -38,7 +38,7 @@ public class TransactionController {
 			{
 				player.loadTrAcc();
 			}
-			model.put("userId", trAcc.getUser_ID());
+			model.put("username", trAcc.getUser_ID());
 			model.put("currBal", trAcc.getCurrBal());
 			model.put("stockVal", trAcc.showCurrStockVal());
 			
