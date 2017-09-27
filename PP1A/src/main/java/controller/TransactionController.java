@@ -70,7 +70,7 @@ public class TransactionController {
 		Shares share;
 		Transaction transaction = null;
 		
-		if (req.queryParams("amtShares") == null || req.queryParams("amtShares").isEmpty())
+		if (req.queryParams("amtShares").isEmpty())
 		{
 			amtShares = 1;
 		}
@@ -102,10 +102,9 @@ public class TransactionController {
 			e.printStackTrace();
 		}
 		
-		model.put("template", "/utils/ConfirmTransaction.vtl");
+		model.put("userTemplate", "/utils/ConfirmTransaction.vtl");
 		
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
-		//return new VelocityTemplateEngine().render(new ModelAndView(model, "utils/ConfirmTransaction.vtl"));
 	};
 	
 	//loads transaction in model, used by both buy and sell in controller
