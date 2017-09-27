@@ -1,6 +1,8 @@
 package model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Transaction {
 	public enum TransType {
@@ -24,6 +26,38 @@ public class Transaction {
 		this.compName = compName;
 		this.shareVal = shareVal;
 		this.dateTime = dateTime;
+	}
+	
+	public static Transaction loadLastTrans(String userId)
+	{
+		Transaction lastTrans = null;
+		List<String[]> userTrans = FileTools.searchFile(userId, FileTools.USER_TRANSACTION_LOG);
+		List<String[]> notUserTrans = new ArrayList<String[]>();
+		String[] lastTransParams;
+		
+		if (userTrans != null)
+		{
+			//remove all rows where userId and row user_ID is not exactly the same
+			for (String[] trans : userTrans)
+			{
+				if (!trans[0].equals(userId))
+				{
+					notUserTrans.add(trans);
+				}
+			}
+			userTrans.removeAll(notUserTrans);
+			
+			if (!userTrans.isEmpty())
+			{
+				//get last transaction
+				lastTransParams = userTrans.get(userTrans.size() - 1);
+				lastTrans = new Transaction(lastTransParams[0], TransType.valueOf(lastTransParams[1]), lastTransParams[2], Integer.parseInt(lastTransParams[3])
+						,lastTransParams[4], new BigDecimal(lastTransParams[5]), lastTransParams[6]);
+			}
+			
+		}
+		
+		return lastTrans;
 	}
 	
 	public String getID(){
