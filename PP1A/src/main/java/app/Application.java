@@ -48,7 +48,7 @@ public class Application {
 		get("/searchPlayer",			controller.AdminController.searchPlayer);
 		get("/deletePlayer",			controller.AdminController.deletePlayer);
 		get("/TransactionAccount",		controller.TransactionController.transactionAccount);
-		get("/ConfirmTransaction",		controller.ConfirmTransactionController.companyTransaction);
+		get("/ConfirmTransaction",		controller.TransactionController.ConfirmTransaction);
 		get("/CompanyPage", 			controller.CompanyPageController.companyPage);
 		get("/Leaderboard", 			controller.LeaderboardController.leaderboard);
 		

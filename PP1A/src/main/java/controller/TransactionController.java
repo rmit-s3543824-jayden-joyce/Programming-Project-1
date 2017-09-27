@@ -34,7 +34,11 @@ public class TransactionController {
 			TradingAcc trAcc = player.getTradingAcc();
 			Transaction lastTrans = req.session().attribute("lastTrans");
 			
-			model.put("userId", trAcc.getUser_ID());
+			if (trAcc == null)
+			{
+				player.loadTrAcc();
+			}
+			model.put("username", trAcc.getUser_ID());
 			model.put("currBal", trAcc.getCurrBal());
 			model.put("stockVal", trAcc.showCurrStockVal());
 			
@@ -62,9 +66,18 @@ public class TransactionController {
 		Map<String, Object> model = new HashMap<>();
 		Player player = req.session().attribute("playerObj");
 		Transaction.TransType transType = Transaction.TransType.valueOf(req.queryParams("transType"));
-		int amtShares = Integer.parseInt(req.queryParams("amtShares"));
+		int amtShares;
 		Shares share;
 		Transaction transaction = null;
+		
+		if (req.queryParams("amtShares").isEmpty())
+		{
+			amtShares = 1;
+		}
+		else
+		{
+			amtShares = Integer.parseInt(req.queryParams("amtShares"));
+		}
 		
 		try {
 			share = FileTools.loadShare(req.queryParams("ASXCode"));
@@ -82,25 +95,31 @@ public class TransactionController {
 			req.session().attribute("lastTrans", transaction);
 			model.put("currBal", player.getTradingAcc().getCurrBal());
 			model.put("stockVal", player.getTradingAcc().showCurrStockVal());
+			
+			putTransToModel(model, transaction);
 		} catch (InsufficientFundsException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		putTransToModel(model, transaction);
+		model.put("userTemplate", "/utils/ConfirmTransaction.vtl");
 		
-		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/ConfirmTransaction.vtl"));
+		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 	};
 	
 	//loads transaction in model, used by both buy and sell in controller
 	public static void putTransToModel(Map<String, Object> model, Transaction transaction)
 	{
-		model.put("transUserId", transaction.getID());
-		model.put("ASXcode", transaction.getASXcode());
-		model.put("shareVal", transaction.getShareVal());
-		model.put("numShares", transaction.getNumShares());
-		model.put("totalPrice", transaction.getTotalPrice());
-		model.put("transType", transaction.getTransType());
-		model.put("transDate", transaction.getDateTime());
+		if (transaction != null)
+		{
+			model.put("transUserId", transaction.getID());
+			model.put("ASXcode", transaction.getASXcode());
+			model.put("compName", transaction.getCompName());
+			model.put("shareVal", transaction.getShareVal());
+			model.put("numShares", transaction.getNumShares());
+			model.put("totalPrice", transaction.getTotalPrice());
+			model.put("transType", transaction.getTransType());
+			model.put("transDate", transaction.getDateTime());
+		}
 	}
 }

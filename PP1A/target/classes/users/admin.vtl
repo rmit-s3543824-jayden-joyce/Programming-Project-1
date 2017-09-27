@@ -46,7 +46,7 @@
 			<form action='/searchPlayer'>
 				<h2 class="func">Search for player</h2>
 				<input id="searchPlayerID" name="searchPlayerID" type="text" required> <input
-					id="findPlayer" type="submit" value="Find Player">
+				 class="btnBlue" id="findPlayer" type="submit" value="Find Player">
 			</form>
 			#if($userNotFound)
 				<p class="errorBox">Error: user not found</p>
@@ -77,7 +77,7 @@
 		<div id="div2">
 			<form action=javascript:void(0);">
 				<h2 class="func">List All Player</h2>
-				<input id="listPlayer" type="submit" value="List Players">
+				<input class="btnBlue" id="listPlayer" type="submit" value="List Players">
 			</form>
 			<br>
 		</div>
@@ -87,7 +87,7 @@
 			<form action='/deletePlayer'>
 				<h2 class="func">Delete player</h2>
 				<input id="deletePlayerID" name="deletePlayerID" type="text" required> <input
-					id="searchUser" type="submit" value="Search User">
+				 class="btnRed" id="searchUser" type="submit" value="Search User">
 			</form>
 			#if($deletionSucceeded)
 				<p class="successBox">Player successfully deleted</p>
@@ -102,7 +102,7 @@
 			<form action=javascript:void(0);">
 				<h2 class="func">List player transaction</h2>
 				<input id="listPlayerID" type="text" required> <input
-					id="listPlayerTrans" type="submit" value="List Transactions">
+					class="btnBlue" id="listPlayerTrans" type="submit" value="List Transactions">
 			</form>
 			<br>
 		</div>
@@ -111,7 +111,7 @@
 		<div id="div5">
 			<form action=javascript:void(0);">
 				<h2 class="func">List All Transaction</h2>
-				<input id="listTransaction" type="submit" value="List Transactions">
+				<input class="btnBlue" id="listTransaction" type="submit" value="List Transactions">
 			</form>
 			<br>
 		</div>
@@ -122,7 +122,7 @@
 		<form action=javascript:void(0);">
 			<h2>Search for player</h2>
 			<input id="searchPlayerID" type="text" required> <input
-				id="searchPlayer" type="submit" value="Search Player">
+				class="btnBlue" id="searchPlayer" type="submit" value="Search Player">
 		</form>
 		<br>
 	</div>
@@ -131,7 +131,7 @@
 	<div id="div2">
 		<form action=javascript:void(0);">
 			<h2>List All Player</h2>
-			<input id="listPlayer" type="submit" value="List Players">
+			<input class="btnBlue" id="listPlayer" type="submit" value="List Players">
 		</form>
 		<br>
 	</div>
@@ -141,7 +141,7 @@
 		<form action=javascript:void(0);">
 			<h2>Delete player</h2>
 			<input id="deletePlayerID" type="text" required> <input
-				id="searchUser" type="submit" value="Search User">
+				class="btnRed" id="searchUser" type="submit" value="Search User">
 		</form>
 		<br>
 	</div>
@@ -151,7 +151,7 @@
 		<form action=javascript:void(0);">
 			<h2>List player transaction</h2>
 			<input id="listPlayerID" type="text" required> <input
-				id="listPlayerTrans" type="submit" value="List Transactions">
+				class="btnBlue" id="listPlayerTrans" type="submit" value="List Transactions">
 		</form>
 		<br>
 	</div>
@@ -160,7 +160,7 @@
 	<div id="div5">
 		<form action=javascript:void(0);">
 			<h2>List All Transaction</h2>
-			<input id="listTransaction" type="submit" value="List Transactions">
+			<input class="btnBlue" id="listTransaction" type="submit" value="List Transactions">
 		</form>
 		<br>
 	</div>

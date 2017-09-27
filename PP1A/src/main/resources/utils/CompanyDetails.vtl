@@ -2,7 +2,6 @@
 <h1 id="companyName"></h1>
 
 <!-- Share's latest details -->
-
 <link rel='stylesheet' href='style/datagrid.css'>
 <div class="datagrid">
 	<table class="display">
@@ -37,9 +36,61 @@
 	</table>
 </div>
 
+<!-- buy and sell button, hidden by default -->
+<div id="buySellBtn" hidden>
+<p>Hello $username</p>
+
+<!-- <button type="button" id="buyShares" class="btnBlue" value="buy" onclick="buy()">Buy</button> -->
+<!-- disabled by default -->
+<!-- <button type="button" id="sellShares" class="btnRed" value="sell" onclick="sell()" disabled>Sell</button> -->
+
+<form action='/ConfirmTransaction'>
+	<table class="display">
+		<tr>
+			<th>ASX code: </th>
+			<td><input type="text" id="ASXCode" name="ASXCode" value="BHP" ></td>
+		</tr>
+		<tr>
+			<th>Qty: </th>
+			<td><input type="text" id="amtShares" name="amtShares" value="1" ></td>
+		</tr>
+	</table>
+
+	<button type="submit" id="buyShares" name="transType" value="BUYING" class="btnBlue">Buy</button>
+	
+	<button type="submit" id="transType" name="transType" value="SELLING" class="btnRed" disabled>Sell</button>
+</form>
+
+</div>
+
 <!-- Graph -->
 <div>
 	<h2>History change</h2>
 	Last Refreshed: <p style="display:inline-block;" id="refreshTime">Loading...Data may take awhile to load</p>
 	#parse($chart)
 </div>
+
+#if($username)
+<!-- will list out shares the user owned -->
+	
+	<script>
+	document.getElementById("buySellBtn").hidden = false;
+	
+	//send shares and user data onclick
+	function buy(){
+		var check = confirm("Confirm buying this shares?");
+		if(check){
+			//proceed to confirm transaction
+			window.location.replace("/ConfirmTransaction");
+		}
+	}
+	
+	function sell(){
+		var check = confirm("Confirm selling this shares");
+		if(check){
+			//proceed to confirm transaction
+			window.location.replace("/ConfirmTransaction");
+		}
+	}
+	</script>
+#end
