@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import model.FileTools;
+import model.Shares;
 import model.User;
 
 import org.json.JSONObject;
@@ -124,6 +125,21 @@ public class testFileTools {
 		String json = fileTool.csvToJsonString(FileTools.USER_DATA_FILE);
 		System.out.println(json);
 		assertNotNull(json);
+	}
+	
+	@Test
+	public void testLoadShare()
+	{
+		String ASXCode = "1AG";
+		Shares share = null;
+		try {
+			share = FileTools.loadShare(ASXCode);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertTrue(share.getASX_code().equals(ASXCode));
 	}
 	
 	@AfterClass

@@ -456,14 +456,14 @@ public class FileTools {
 	{
 		Shares share = null;
 		int asxCodeIndex = 1;
-		List<String[]> searchList = searchFile(ASXCode, ASX_COMPANIES_DATA_FILE);
+		List<String[]> fileContent = readCSV(ASX_COMPANIES_DATA_FILE);
 		String compName;
 		String industryGroup;
 		BigDecimal shareVal;
 		
-		if (searchList != null)
+		if (fileContent != null)
 		{
-			for (String[] searchItem : searchList)
+			for (String[] searchItem : fileContent)
 			{
 				if (searchItem[asxCodeIndex].equals(ASXCode))
 				{

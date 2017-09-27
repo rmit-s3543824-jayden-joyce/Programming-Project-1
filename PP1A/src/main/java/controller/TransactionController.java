@@ -102,6 +102,7 @@ public class TransactionController {
 			e.printStackTrace();
 		}
 		
+		model.put("username", player.getID());
 		model.put("userTemplate", "/utils/ConfirmTransaction.vtl");
 		
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));

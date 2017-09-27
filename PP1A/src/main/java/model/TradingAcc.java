@@ -23,7 +23,7 @@ public class TradingAcc {
 		BigDecimal newBal;
 		Transaction buy;
 		boolean found = false;
-		
+
 		//return null if player don't have enough money
 		// throws exceptions because not enough funds
 		if (currBal.doubleValue() < share.getShareVal().doubleValue() * amt)
