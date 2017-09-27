@@ -42,9 +42,12 @@ public class LoginController {
 	
 	public static Route redirectUser = (req, res) -> {
 		Map<String, Object> model = login(req);
-		
-		if(model.containsKey("userTemplate"))
-			return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
+
+		if(model.containsKey("userTemplate")){
+			//redirect to user page
+			
+			return null;
+		}
 		else
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
 	};
