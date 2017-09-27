@@ -5,7 +5,7 @@
 <link rel='stylesheet' href='style/datagrid.css'>
 <div class="datagrid">
 	<table class="display">
-		<tr>
+		<tr id="code">
 			<th>ASX code</th>
 			<td id="companyCode"></td>
 		</tr>
@@ -38,7 +38,7 @@
 
 <!-- buy and sell button, hidden by default -->
 <div id="buySellBtn" hidden>
-<p>Hello $username</p>
+<p>Wish to buy or sell?</p>
 
 <!-- <button type="button" id="buyShares" class="btnBlue" value="buy" onclick="buy()">Buy</button> -->
 <!-- disabled by default -->
@@ -47,12 +47,12 @@
 <form action='/ConfirmTransaction'>
 	<table class="display">
 		<tr>
-			<th>ASX code: </th>
-			<td><input type="text" id="ASXCode" name="ASXCode" value="BHP" ></td>
+			<th style="text-align: right;">ASX code: </th>
+			<td><input type="text" id="ASXCode" name="ASXCode" disabled></td>
 		</tr>
 		<tr>
-			<th>Qty: </th>
-			<td><input type="text" id="amtShares" name="amtShares" value="1" ></td>
+			<th style="text-align: right;">Qty : </th>
+			<td><input type="number" id="amtShares" name="amtShares" value="1" ></td>
 		</tr>
 	</table>
 
@@ -75,6 +75,16 @@
 	
 	<script>
 	document.getElementById("buySellBtn").hidden = false;
+
+	//set asx code after company details is loaded
+	setTimeout(function(){
+		var row = document.getElementById("code");
+		var cells = row.getElementsByTagName("td");
+		console.log(cells[0].innerText);
+		document.getElementById("ASXCode").value = (cells[0].innerText);
+	}, 100);
+	
+	
 	
 	//send shares and user data onclick
 	function buy(){
