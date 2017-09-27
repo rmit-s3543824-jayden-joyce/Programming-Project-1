@@ -1,3 +1,4 @@
+
 <link rel="stylesheet" href="../style/userTemplate.css">
 <br>
 
@@ -47,6 +48,20 @@
 			<!-- Show current stock value -->
 			<div id="div4">
 				<form action=javascript:void(0);">
+					<table>
+						<tr>
+							<th>Username:</th>
+							<td>$userId</td>
+						</tr>
+						<tr>
+							<th>Current balance:</th>
+							<td>$ $currBal</td>
+						</tr>
+						<tr>
+							<th class="userDet">Total stock value:</th>
+							<td>$ $stockVal</td>
+						</tr>
+					</table>
 					<h2 class="func">MyShares and Stock-Value</h2>
 					<input id="currStockVal" type="submit" value="List">
 				</form>
@@ -96,4 +111,5 @@
 	function showD4() {
 		document.getElementById("div4").style.display = 'block';
 	}
+
 </script>

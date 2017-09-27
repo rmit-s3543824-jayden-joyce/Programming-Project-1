@@ -446,6 +446,7 @@ public class FileTools {
 				sharesOwned.add(new String[]{ownedShareInFile[1], ownedShareInFile[2]});
 			}
 		}
+		trAcc.setSharesOwned(sharesOwned);
 		
 		return trAcc;
 	}
