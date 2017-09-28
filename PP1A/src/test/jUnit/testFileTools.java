@@ -81,7 +81,7 @@ public class testFileTools {
 		assertEquals(user.getFName(), "Colonel");
 	}
 	
-	@Test
+	//@Test
 	public void testLoadPlayer() {
 		User user = fileTool.LoadUser("bobby123");
 		assertEquals(user.getFName(), "Dave");
@@ -127,7 +127,7 @@ public class testFileTools {
 		assertNotNull(json);
 	}
 	
-	@Test
+	//@Test
 	public void testLoadShare()
 	{
 		String ASXCode = "1AG";
@@ -140,6 +140,19 @@ public class testFileTools {
 		}
 		
 		assertTrue(share.getASX_code().equals(ASXCode));
+	}
+	
+	@Test
+	public void testUpdateAllStockVal()
+	{
+		try {
+			fileTool.updateAllPlayerStockVal();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertTrue(true);
 	}
 	
 	@AfterClass
