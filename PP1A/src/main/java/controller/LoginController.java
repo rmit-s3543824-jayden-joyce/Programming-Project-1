@@ -82,14 +82,18 @@ public class LoginController {
 				int age = admin.getAge();
 						
 				//need to check if return val is true or false later or else any pw will log you in
-				app.Application.menu.login(username, password);
-						
-				req.session().attribute("adminObj", admin);
-				req.session().attribute("username", username);
-				req.session().attribute("password", password);
-				req.session().attribute("firstname", firstName);
-				req.session().attribute("lastname", lastName);
-				req.session().attribute("age", age);
+				if(app.Application.menu.login(username, password))
+				{		
+					req.session().attribute("adminObj", admin);
+					req.session().attribute("username", username);
+					req.session().attribute("password", password);
+					req.session().attribute("firstname", firstName);
+					req.session().attribute("lastname", lastName);
+					req.session().attribute("age", age);
+					
+					loadToModel(model, req);
+					model.put("userTemplate", "/users/admin.vtl");
+				}
 			}
 			else
 			{
