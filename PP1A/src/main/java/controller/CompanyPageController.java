@@ -5,6 +5,7 @@ import static spark.Spark.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import model.FileTools;
@@ -24,6 +25,9 @@ public class CompanyPageController {
 	public static Route companyPage = (req, res) -> {		
 		Map<String, Object> model = new HashMap<>();
 		CompanyPageController controller = new CompanyPageController();
+		Player player;
+		List<String[]> ownedShareList;
+		int numShareOwned = 0;
 		
 		model.put("template", "/utils/CompanyDetails.vtl");
 		model.put("chart", "/utils/chart.vtl");
@@ -33,6 +37,23 @@ public class CompanyPageController {
 			String username = req.session().attribute("username");
 			model.put("username", req.session().attribute("username"));
 //			controller.userDetails(model, username);
+			
+			//calculate how many of the share player currently has and put it into the model
+			player = req.session().attribute("playerObj");
+			ownedShareList = player.getTradingAcc().getSharesOwned();
+			
+			if (ownedShareList != null && !ownedShareList.isEmpty())
+			{
+				for (String[] ownedShare : ownedShareList)
+				{
+					if (req.queryParams("code").equals(ownedShare[0]))
+					{
+						numShareOwned = Integer.parseInt(ownedShare[1]);
+						break;
+					}
+				}
+			}
+			model.put("ownedShareAmt", numShareOwned);
 		}
 		
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
