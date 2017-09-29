@@ -41,6 +41,7 @@ public class TransactionController {
 			model.put("userId", trAcc.getUser_ID());
 			model.put("currBal", trAcc.getCurrBal());
 			model.put("stockVal", trAcc.showCurrStockVal());
+			model.put("shareList", trAcc.getSharesOwned());
 			
 			//load last trans if attribute is null
 			if (lastTrans == null)

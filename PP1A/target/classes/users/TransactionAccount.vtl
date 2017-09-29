@@ -30,12 +30,49 @@
 
 			<!-- sell shares -->
 			<div id="div2">
-				<form action=javascript:void(0);">
+			
+			<!-- Show user's share and amount -->			
+			#if($shareList)
+			<h2>Your shares</h2>
+				<link rel='stylesheet' href='style/datagrid.css'>
+				<div class="datagrid">
+					<table class="display">
+						<thead>
+							<tr>
+								<th>ASX Code</th>
+								<th>Amount</th>
+							</tr>
+						</thead>
+						<tbody>
+							#foreach($shares in $shareList)
+								<tr>
+									<td><a href="/CompanyPage?code=$shares[0]">$shares[0]</a></td>
+									<td>$shares[1]</td>
+								</tr>
+							#end
+						</tbody>
+					</table>
+				</div>
+				
+				<form action=/ConfirmTransaction">
 					<h2 class="func">Sell shares</h2>
-					<input id="sellSharesID" type="text" value="Shares ID" required>
-					<input id="sellShares" type="submit" value="Search Shares">
+					
+					<!-- test -->
+					<select id="maxCount" onchange="changeMax()">
+						<option>---Select one---</option>
+					#foreach($shares in $shareList)
+						<option value='$shares[0], $shares[1]'>$shares[0]</option>
+					#end
+					</select>
+					
+					<input id="ASXCode" name="ASXCode" hidden></input>
+					<input id="amtShares" name="amtShares" type="number" min="0" required ></input><br/>
+					
+					<!-- This should become functional sell button -->
+					<button type="submit" id="transType" name="transType" value="SELLING" class="btnRed">Sell</button>
 				</form>
 			</div>
+			#end
 
 			<!-- Show Last Transaction -->
 			<div id="div3">
@@ -101,15 +138,33 @@
 
 	function showD1() {
 		document.getElementById("div1").style.display = 'block';
+		closeNav();
 	}
 	function showD2() {
 		document.getElementById("div2").style.display = 'block';
+		closeNav();
 	}
 	function showD3() {
 		document.getElementById("div3").style.display = 'block';
+		closeNav();
 	}
 	function showD4() {
 		document.getElementById("div4").style.display = 'block';
+		closeNav();
 	}
-
+	
+	//to set max available value and code
+	function changeMax(){
+		//get value
+		var test = document.getElementById("maxCount").value;
+		test = test.split(',');
+		console.log(test);
+		console.log(test[0]);
+		console.log(test[1]);
+				
+		document.getElementById("ASXCode").value = test[0];
+		
+		//ensure return value is integer
+		document.getElementById("amtShares").max = test[1]*1;
+	}
 </script>
