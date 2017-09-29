@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 <link rel="stylesheet" href="../style/userTemplate.css">
 <br>
 
@@ -48,6 +48,20 @@
 			<!-- Show current stock value -->
 			<div id="div4">
 				<form action=javascript:void(0);">
+					<table>
+						<tr>
+							<th>Username:</th>
+							<td>$userId</td>
+						</tr>
+						<tr>
+							<th>Current balance:</th>
+							<td>$ $currBal</td>
+						</tr>
+						<tr>
+							<th class="userDet">Total stock value:</th>
+							<td>$ $stockVal</td>
+						</tr>
+					</table>
 					<h2 class="func">MyShares and Stock-Value</h2>
 					<input id="currStockVal" type="submit" value="List">
 				</form>
@@ -97,41 +111,5 @@
 	function showD4() {
 		document.getElementById("div4").style.display = 'block';
 	}
-</script>
-=======
-<h1>Account main page</h1>
 
-<div>#parse($chart)</div>
-<br><br>
-<div>
-	<!-- buy shares -->
-	<form action=javascript:void(0); ">
-		<h2>Buy shares</h2>
-		<input id="buySharesID" type="text" value="Shares ID" required>
-			<input class="btnBlue" id="buyShares" type="submit" value="Search Shares">
-	</form>
-	<br>
-	
-	<!-- sell shares -->
-	<form action=javascript:void(0); ">
-		<h2>Sell shares</h2>
-		<input id="sellSharesID" type="text" value="Shares ID" required>
-			<input class="btnBlue" id="sellShares" type="submit" value="Search Shares">
-	</form>
-	<br>
-	
-	<!-- Show Last Transaction -->
-	<form action=javascript:void(0); ">
-		<h2>Show Last Transaction</h2>
-		<input class="btnBlue" id="lastTrans" type="submit" value="List">
-	</form>
-	<br>
-	
-	<!-- Show current stock value -->
-	<form action=javascript:void(0); ">
-		<h2>Show Current Stock Value</h2>
-		<input class="btnBlue" id="currStockVal" type="submit" value="List">
-	</form>
-	<br>
-</div>		
->>>>>>> YQ
+</script>

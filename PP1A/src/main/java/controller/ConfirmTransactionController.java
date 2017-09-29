@@ -19,10 +19,11 @@ import spark.template.velocity.VelocityTemplateEngine;
 
 public class ConfirmTransactionController {
 	public static Route companyTransaction = (req, res) -> {
+		System.out.println("company Transaction Page reached");
 		Map<String, Object> model = new HashMap<>();
 		
-		model.put("template", "/utils/ConfirmTransaction.vtl");
+		model.put("template", "utils/ConfirmTransaction.vtl");
 		
-		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
+		return new VelocityTemplateEngine().render(new ModelAndView(model, "utils/ConfirmTransaction.vtl"));
 	};
 }

@@ -22,6 +22,18 @@ public class UserController {
 	public static Route userPage = (req, res) -> {
 		Map<String, Object> model = new HashMap<>();
 		
+		LoginController.loadToModel(model, req);
+		model.put("userTemplate", "/users/user.vtl");
+		
+		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
+	};
+	
+	public static Route adminPage = (req, res) -> {
+		Map<String, Object> model = new HashMap<>();
+		
+		LoginController.loadToModel(model, req);
+		model.put("userTemplate", "/users/admin.vtl");
+		
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 	};
 	
@@ -79,27 +91,27 @@ public class UserController {
 		return model;	
 	}
 	
-//	public static void loadToModel(Map<String, Object> model, Request req)
-//	{		
-//		if (req.session().attribute("username") != null && req.session().attribute("firstname") != null)
-//		{
-//			model.put("username", req.session().attribute("username"));
-//			model.put("firstname", req.session().attribute("firstname"));
-//			model.put("lastname", req.session().attribute("lastname"));
-//			model.put("age", req.session().attribute("age"));
-//			model.put("password", req.session().attribute("password"));
-//		}
-//		
-//		if (req.session().attribute("currBal") != null)
-//		{
-//			
-//			model.put("tradingAcc", true);
-//			model.put("currBal", req.session().attribute("currBal"));
-//			model.put("sharesOwned", req.session().attribute("sharesOwned"));
-//		}
-//		else
-//			model.put("tradingAcc", false);
-//	}
+	public static void loadToModel(Map<String, Object> model, Request req)
+	{		
+		if (req.session().attribute("username") != null && req.session().attribute("firstname") != null)
+		{
+			model.put("username", req.session().attribute("username"));
+			model.put("firstname", req.session().attribute("firstname"));
+			model.put("lastname", req.session().attribute("lastname"));
+			model.put("age", req.session().attribute("age"));
+			model.put("password", req.session().attribute("password"));
+		}
+		
+		if (req.session().attribute("currBal") != null)
+		{
+			
+			model.put("tradingAcc", true);
+			model.put("currBal", req.session().attribute("currBal"));
+			model.put("sharesOwned", req.session().attribute("sharesOwned"));
+		}
+		else
+			model.put("tradingAcc", false);
+	}
 	
 	public void loadTradingAccToSession(Request req)
 	{
