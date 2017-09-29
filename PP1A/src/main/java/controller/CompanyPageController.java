@@ -32,7 +32,6 @@ public class CompanyPageController {
 		if(req.session().attribute("username") != null){
 			String username = req.session().attribute("username");
 			model.put("username", req.session().attribute("username"));
-//			controller.userDetails(model, username);
 		}
 		
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
@@ -46,7 +45,7 @@ public class CompanyPageController {
 		
 		ArrayList<String[]> shareList = ta.getSharesOwned();
 
-		System.out.println(ta.getSharesOwned()+ ": shareList before if");
+		System.out.println(ta.getSharesOwned() + ": shareList before if");
 		
 		//list user shares
 		if(!shareList.isEmpty()){

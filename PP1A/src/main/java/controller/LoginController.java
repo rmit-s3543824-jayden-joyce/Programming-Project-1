@@ -43,13 +43,23 @@ public class LoginController {
 	public static Route redirectUser = (req, res) -> {
 		Map<String, Object> model = login(req);
 
-		if(model.containsKey("userTemplate")){
-			//redirect to user page
-			
+		//check for admin by username
+		String username	= req.queryParams("username");
+		
+		if(model.containsKey("template")){
+			//authenticationFailed
+			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
+		}
+		else if(username.contains("admin")){
+			//redirect to adminPage
+			res.redirect("/adminPage");
 			return null;
 		}
-		else
-			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
+		else{
+			//redirect to user page
+			res.redirect("/userPage");
+			return null;
+		}			
 	};
 	
 	public static Map<String, Object> login(Request req){
@@ -60,7 +70,7 @@ public class LoginController {
 		
 		String username	= req.queryParams("username");
 		String password	= req.queryParams("password");
-		
+				
 		if(username.contains("admin"))
 		{
 			admin = (Admin)FileTools.LoadUser(username);
@@ -80,9 +90,6 @@ public class LoginController {
 				req.session().attribute("firstname", firstName);
 				req.session().attribute("lastname", lastName);
 				req.session().attribute("age", age);
-				
-				loadToModel(model, req);
-				model.put("userTemplate", "/users/admin.vtl");
 			}
 			else
 			{
@@ -114,9 +121,6 @@ public class LoginController {
 					//returns error when player hasn't opened a trading account yet
 					//req.session().attribute("currBal", player.getTradingAcc().getCurrBal());
 					//req.session().attribute("sharesOwned", player.getTradingAcc().getSharesOwned());
-				
-					loadToModel(model, req);
-					model.put("userTemplate", "/users/user.vtl");
 				}	
 			}
 			else
