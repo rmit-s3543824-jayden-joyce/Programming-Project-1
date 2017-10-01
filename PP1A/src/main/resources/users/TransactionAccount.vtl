@@ -20,7 +20,7 @@
 	
 		<!-- Stock data of player's highest count shares -->
 			<div id="div0" style="display:block;">
-			<h1>Hello $userId</h1>
+			<h1>Hello $username</h1>
 			<p>Credit Remaining: $ $currBal</p><br>
 			
 			#if($topShare)
@@ -79,18 +79,27 @@
 					</table>
 				</div>
 				
-				<form action=/ConfirmTransaction">
+				<form action=/ConfirmTransaction>
 					<h2 class="func">Sell shares</h2>
 					
 					<!-- test -->
-					<select id="maxCount" onchange="changeMax()">
+<!--		not working, doesn't pass ASX code to next page
+					<select id="maxCount" name="ASXCode" onchange="changeMax()">
 						<option>---Select one---</option>
 					#foreach($shares in $shareList)
 						<option value='$shares[0], $shares[1]'>$shares[0]</option>
 					#end
 					</select>
 					
-					<input id="ASXCode" name="ASXCode" hidden></input>
+					<input id="ASXCode"  hidden></input>
+-->
+					<!-- KL experiments (able to pass ASX code to next page) -->
+					<select id="maxCount" name="ASXCode" onchange="changeMax()">
+						<option>---Select one---</option>
+					#foreach($shares in $shareList)
+						<option value="$shares[0]">$shares[0]</option>
+					#end
+					</select>
 					<input id="amtShares" name="amtShares" type="number" min="0" required ></input><br/>
 					
 					<!-- This should become functional sell button -->
