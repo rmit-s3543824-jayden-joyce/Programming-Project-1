@@ -41,6 +41,13 @@ public class TransactionController {
 			model.put("username", trAcc.getUser_ID());
 			model.put("currBal", trAcc.getCurrBal());
 			model.put("stockVal", trAcc.showCurrStockVal());
+			model.put("shareList", trAcc.getSharesOwned());
+			
+			//show player topshares details
+			model.put("topShare", trAcc.getSharesOwned().get(0));
+			
+			//show all company to buy
+			model.put("table", "utils/companyTable.vtl");
 			
 			//load last trans if attribute is null
 			if (lastTrans == null)

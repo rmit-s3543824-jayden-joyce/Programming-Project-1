@@ -67,7 +67,7 @@ public class CompanyPageController {
 		
 		ArrayList<String[]> shareList = ta.getSharesOwned();
 
-		System.out.println(ta.getSharesOwned()+ ": shareList before if");
+		System.out.println(ta.getSharesOwned() + ": shareList before if");
 		
 		//list user shares
 		if(!shareList.isEmpty()){
