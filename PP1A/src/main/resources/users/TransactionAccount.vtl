@@ -6,25 +6,50 @@
 	<!-- Side Navbar -->
 	<div id="trSideNav" class="sideNav">
 		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+		<p onclick="hideFunc(); showD0();">Home page</p>
 		<p onclick="hideFunc(); showD1();">Buy Shares</p>
 		<p onclick="hideFunc(); showD2();">Sell Shares</p>
 		<p onclick="hideFunc(); showD3();">Last Transaction</p>
 		<p onclick="hideFunc(); showD4();">
 			MyShares &<br>StockValue
 		</p>
-		<a href='/'>Home page</a>
+		<a href='/'>Back to Home page</a>
 	</div>
 
-	<!-- Stock data tag by player -->
 	<div class="userCenter">
-		<h1>Account main page</h1>
-		<div>
+	
+		<!-- Stock data of player's highest count shares -->
+			<div id="div0" style="display:block;">
+			<h1>Hello $userId</h1>
+			<p>Credit Remaining: $ $currBal</p><br>
+			
+			#if($topShare)
+				<h3>Your Highest shares: $topShare[0]</h3>
+				<p>Count: $topShare[1]</p>
+				<input id="topShare" value="$topShare[0]" hidden></input>
+				Last Refreshed: <p style="display:inline-block;" id="refreshTime">Loading...Data may take awhile to load</p>
+				
+				<!-- Company graph -->
+				<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+				<script src="../../code/highstock.js"></script>
+				<script src="../../code/modules/exporting.js"></script>
+				<script src="../Scripts/chart.js"></script>
+				<div id="container" style="height: 400px; min-width: 310px"></div>
+			#else
+				<p>Seems like you haven't buy any shares. You could buy shares at "Buy shares" by selecting a company!.			
+			#end			
+			</div>
+			
 			<!-- buy shares -->
 			<div id="div1">
-				<form action=javascript:void(0);">
-					<h2 class="func">Buy shares</h2>
-					<input id="buySharesID" type="text" value="Shares ID" required>
-					<input id="buyShares" type="submit" value="Search Shares">
+			#parse($table)
+				<form action="/ConfirmTransaction">
+					<h2 class="func">Please enter the shares code and amount</h2>
+					
+					<input id="ASXCode" name="ASXCode" type="text" placeholder="ASX Code" required>
+					<input id="amtShares" name="amtShares" type="text" placeholder="Amount" required>
+
+					<button type="submit" id="buyShares" name="transType" value="BUYING" class="btnBlue">Buy</button>
 				</form>
 			</div>
 
@@ -117,11 +142,15 @@
 	}
 
 	function hideFunc() {
+		var d0 = document.getElementById("div0");
 		var d1 = document.getElementById("div1");
 		var d2 = document.getElementById("div2");
 		var d3 = document.getElementById("div3");
 		var d4 = document.getElementById("div4");
 
+		if (d0.style.display === 'block') {
+			d0.style.display = 'none';
+		}		
 		if (d1.style.display === 'block') {
 			d1.style.display = 'none';
 		}
@@ -136,6 +165,10 @@
 		}
 	}
 
+	function showD0(){
+		document.getElementById("div0").style.display = 'block';
+		closeNav();
+	}
 	function showD1() {
 		document.getElementById("div1").style.display = 'block';
 		closeNav();
