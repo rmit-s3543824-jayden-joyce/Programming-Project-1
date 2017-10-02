@@ -9,13 +9,14 @@
 	<body>
 		<!-- navbar -->
 		<ul class="navbar">
-			<li class="navbar">
-				<a href="/register">Sign up</a>
-			</li>
-			<li class="navbar">
-				<a href="/login">Login</a>
-			</li>
-
+		#if ($username)
+			<li class="navbar"><a href="#">Logout</a></li>
+			<li class="navbar"><a href="/TransactionAccount.vtl">My Trading Account</a></li>
+			<li class="navbar"><a href="/userPage.vtl">$username</a></li>
+		#else
+			<li class="navbar"><a href="/register">Sign up</a></li>
+			<li class="navbar"><a href="/login">Login</a></li>
+		#end
 			<li class="navbar title">
 				<a href="/">Stock Market Simulator</a>
 			</li>
