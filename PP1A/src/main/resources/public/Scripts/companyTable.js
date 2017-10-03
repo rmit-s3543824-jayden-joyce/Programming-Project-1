@@ -24,8 +24,9 @@ var tabulate = function(data, columns) {
 			}
 		})
 	}).enter().append('td').text(function(d) {
-		if (d.value == "")
-			return "NA"
+		if (d.value == ""){
+			return "NA"			
+		}
 		else if(d.column === "ASX code")
 			return null
 		else

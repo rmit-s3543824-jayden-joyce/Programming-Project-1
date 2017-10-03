@@ -26,6 +26,7 @@ public class LoginController {
 		// put "value" inside "cardholder"
 		model.put("template", "/mainpage/mainpage.vtl");
 		model.put("table", "utils/companyTable.vtl");
+		model.put("leaderboard", "utils/leaderboard.vtl");
 		
 		// The vtl files are located under the resources directory
 		// The line below are required to make the page works
