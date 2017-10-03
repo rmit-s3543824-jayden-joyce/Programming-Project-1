@@ -86,19 +86,21 @@ public class TransactionController {
 			amtShares = Integer.parseInt(req.queryParams("amtShares"));
 		}
 		
-		try {
-			share = FileTools.loadShare(req.queryParams("ASXCode"));
-			
+		try {			
 			//do buy/sell transaction depending on transType
 			if (transType == Transaction.TransType.BUYING)
 			{
+				share = FileTools.loadShare(req.queryParams("ASXCode"));
 				transaction = player.getTradingAcc().buyShares(share, amtShares);
 			}
-			else
+			else //get sell details
 			{
+				share = FileTools.loadShare(req.queryParams("ASXCode-sell"));
+				amtShares = Integer.parseInt(req.queryParams("amtShares-sell"));
 				transaction = player.getTradingAcc().sellShares(share, amtShares);
 			}
 			
+			//to load into latest transaction
 			req.session().attribute("lastTrans", transaction);
 			model.put("currBal", player.getTradingAcc().getCurrBal());
 			model.put("stockVal", player.getTradingAcc().showCurrStockVal());

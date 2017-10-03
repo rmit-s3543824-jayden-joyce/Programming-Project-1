@@ -1,7 +1,6 @@
 .sideNav{
-	min-height: 100%;
+	height: 800px;
 	width: 225px;
-	box-shadow: 0;
 	position: absolute;
 	z-index: 0;
 	padding-top: 125px;
@@ -10,6 +9,7 @@
 	background-color: #2C3E50;
 	overflow-x: hidden;
 	transition: 1s;
+	box-shadox: 3px;
 }
 
 .wrapper{
