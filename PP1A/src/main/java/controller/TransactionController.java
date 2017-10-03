@@ -95,8 +95,7 @@ public class TransactionController {
 			}
 			else //get sell details
 			{
-				share = FileTools.loadShare(req.queryParams("ASXCode-sell"));
-				amtShares = Integer.parseInt(req.queryParams("amtShares-sell"));
+				share = FileTools.loadShare(req.queryParams("ASXCode"));
 				transaction = player.getTradingAcc().sellShares(share, amtShares);
 			}
 			
