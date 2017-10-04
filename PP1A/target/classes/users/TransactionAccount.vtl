@@ -35,7 +35,7 @@
 				<script src="../Scripts/chart.js"></script>
 				<div id="container" style="height: 400px; min-width: 310px"></div>
 			#else
-				<p>Seems like you haven't buy any shares. You could buy shares at "Buy shares" by selecting a company!.			
+				<p>Seems like you haven't bought any shares. You could buy shares at "Buy shares" by selecting a company!			
 			#end			
 			</div>
 			
@@ -78,31 +78,27 @@
 					</table>
 				</div>
 				
-				<form action=/ConfirmTransaction>
+				<form action="/ConfirmTransaction">
 					<h2 class="func">Sell shares</h2>
 					
 					<!-- test -->
-<!--		not working, doesn't pass ASX code to next page
-					<select id="maxCount" name="ASXCode" onchange="changeMax()">
+					<select id="maxCount" onchange="changeMax()">
 						<option>---Select one---</option>
 					#foreach($shares in $shareList)
 						<option value='$shares[0], $shares[1]'>$shares[0]</option>
 					#end
 					</select>
 					
-					<input id="ASXCode"  hidden></input>
--->
-					<!-- KL experiments (able to pass ASX code to next page) -->
-					<select id="maxCount" name="ASXCode" onchange="changeMax()">
-						<option>---Select one---</option>
-					#foreach($shares in $shareList)
-						<option value="$shares[0]">$shares[0]</option>
-					#end
-					</select>
-					<input id="amtShares" name="amtShares" type="number" min="0" required ></input><br/>
+					<br><br>
+					<p>
+					Sell details:
+					<input id="ASXCode-sell" name="ASXCode"  placeholder="ASX Code" readonly></input>
+					<input style="display: inline-block;width:100px;" id="amtShares-sell" name="amtShares" type="number" min="0" placeholder="Amount" required></input><br/>
+					</p>
 					
 					<!-- This should become functional sell button -->
 					<button type="submit" id="transType" name="transType" value="SELLING" class="btnRed">Sell</button>
+					
 				</form>
 			</div>
 			#end
@@ -199,13 +195,17 @@
 		//get value
 		var test = document.getElementById("maxCount").value;
 		test = test.split(',');
-		console.log(test);
-		console.log(test[0]);
-		console.log(test[1]);
+		//console.log(test[0]);
 				
-		document.getElementById("ASXCode").value = test[0];
+		document.getElementById("ASXCode-sell").value = test[0];
+		document.getElementById("ASXCode-sell").innerHTML = test[0];
 		
 		//ensure return value is integer
 		document.getElementById("amtShares").max = test[1]*1;
+	}
+	
+	//confirmation sell
+	function confirmSell(){
+		return confirm("Confirm selling " + document.getElementById("amtShares-sell").value);
 	}
 </script>

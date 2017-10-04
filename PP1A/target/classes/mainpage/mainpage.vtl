@@ -5,11 +5,25 @@
 		<!-- Div for showing all company details -->
 		<div>#parse($table)</div>
 
-		<!-- stock market news -->
-		<div>#parse($news)</div>
+		<!-- stock market Leaderboard -->
+		<div style="float:left;">
+		<p>
+		Are you on the leaderboard?<br>
+		Check it out now!
+		</p>
+		
+		<!-- link to leaderboard -->
+		<button><a href="/Leaderboard">Leaderboard</a></button>
+		</div>
 
 		<!-- login and register -->
-		<div style="display: inline-block;">
+		<div style="float:right;">
+
+		<p>Join now!</p>
+		<button><a href="/register">Register here</a></button>
+
+		<p>Already a member?</p>
+		<button><a href="/login">Login here!</a></button>
 		</div>
 	</div>
 

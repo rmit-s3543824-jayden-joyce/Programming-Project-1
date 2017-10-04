@@ -27,6 +27,7 @@ public class LoginController {
 		model.put("template", "/mainpage/mainpage.vtl");
 		model.put("username", req.session().attribute("username"));
 		model.put("table", "utils/companyTable.vtl");
+		model.put("leaderboard", "utils/leaderboard.vtl");
 		
 		// The vtl files are located under the resources directory
 		// The line below are required to make the page works
