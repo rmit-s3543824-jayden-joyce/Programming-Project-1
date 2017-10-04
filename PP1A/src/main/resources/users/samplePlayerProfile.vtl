@@ -16,7 +16,10 @@
 		<li class="navbar adminSideNav" onclick="openNav()" &>Menu</li>
 		<li class="navbar">
 			<a href="/user">$username</a>
+		#if (!$admin)
 			<a href="/TransactionAccount">My Trading Account</a>
+		#else
+		#end
 		</li>
 	</ul>
 
@@ -31,16 +34,14 @@
 	<!-- else shown empty, link to trading -->
 	
 	<footer>
+		<h3>Stock-Market Simulator</h3>
+		<table>
+			<tr><th>Developers: </th><th></th><th>Sponsors: </th><th></th></tr>
+			<tr><td>Yi Quan Chew<br><a href="mailto:s3522101@student.rmit.edu.au">s3522101</a></td><td>Jayden Joyce<br><a href="mailto:s3543824@student.rmit.edu.au">s3543824</a></td><td><a href="https:/www.rmit.edu.au">RMIT</a></td></tr>
+			<tr><td>John Nguyen<br><a href="mailto:s3542969@student.rmit.edu.au">s3542969</a></td><td>Karsten Luu<br><a href="mailto:s3542764@student.rmit.edu.au">s3542764</a></td><td>Homy Ashrafzadeh<br>amirhomayoon.ashrafzadeh@rmit.edu.au</td></tr>
+			<tr></tr>
+		</table><br>
 		<p>
-			Created by:<br>
-			Yi Quan Chew<br>
-			<a href="mailto:s3522101@student.rmit.edu.au">s3522101</a><br>
-			Jayden Joyce<br>
-			<a href="mailto:s3543824@student.rmit.edu.au">s3543824</a><br>
-			John Nguyen<br>
-			<a href="mailto:s3542969@student.rmit.edu.au">s3542969</a><br>
-			Karsten Luu<br>
-			<a href="mailto:s3542764@student.rmit.edu.au">s3542764</a><br><br>
 			COPYRIGHT ©2017 TEAM_WAN, ALL RIGHTS RESERVED
 		</p>
 	</footer>

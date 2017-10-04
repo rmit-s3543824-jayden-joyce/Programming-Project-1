@@ -24,6 +24,7 @@ public class UserController {
 		
 		LoginController.loadToModel(model, req);
 		model.put("userTemplate", "/users/user.vtl");
+		model.put("admin", req.session().attribute("adminObj"));
 		
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 	};
@@ -33,6 +34,7 @@ public class UserController {
 		
 		LoginController.loadToModel(model, req);
 		model.put("userTemplate", "/users/admin.vtl");
+		model.put("admin", req.session().attribute("adminObj"));
 		
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 	};

@@ -198,6 +198,20 @@ footer {
 	z-index: 1;
 }
 
+footer h3{
+	color: #039be5;
+	font-weight: bold;
+}s
+
+footer th, footer td{
+	width: 150px;
+	padding: 3px 0;
+}
+
+footer table{
+	text-align: left;
+}
+
 footer a{
 	text-decoration: none;
 	color: #FFFFFF
