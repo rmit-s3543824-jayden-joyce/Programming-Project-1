@@ -58,8 +58,17 @@ public class AdminController {
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 	};
 	
-	public static Route lastTransaction = (req, res) -> {
-		Map<String, Object> model = lastTransaction(req);
+	public static Route userTransactions = (req, res) -> {
+		Map<String, Object> model = userTransactions(req);
+		LoginController.loadToModel(model, req);
+		
+		model.put("userTemplate", "/users/admin.vtl");
+		
+		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
+	};
+	
+	public static Route allTransactions = (req, res) -> {
+		Map<String, Object> model = allTransactions(req);
 		LoginController.loadToModel(model, req);
 		
 		model.put("userTemplate", "/users/admin.vtl");
@@ -138,21 +147,39 @@ public class AdminController {
 		return model;
 	}
 	
-	private static Map<String, Object> lastTransaction(Request req) {
+	private static Map<String, Object> userTransactions(Request req) {
 		Map<String, Object> model = new HashMap<>();
 		String userId = req.queryParams("listPlayerID");
 		
-		Transaction lastTransaction = Transaction.loadLastTrans(userId);
+		List<String[]> transactionLogs = null;
+		try {
+			transactionLogs = Admin.viewUserTrans(userId, FileTools.USER_TRANSACTION_LOG);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		model.put("userId", userId);
-		model.put("transType", lastTransaction.getTransType());
-		model.put("ASXcode", lastTransaction.getASXcode());
-		model.put("numShares", lastTransaction.getNumShares());
-		model.put("compName", lastTransaction.getCompName());
-		model.put("shareVal", lastTransaction.getShareVal());
-		model.put("dateTime", lastTransaction.getDateTime());
+		model.put("transactionLogs", transactionLogs);
+		model.put("userTransactions", true);
+		return model;
+	}
+	
+	private static Map<String, Object> allTransactions(Request req) {
+		Map<String, Object> model = new HashMap<>();
 		
-		model.put("lastTransaction", true);
+		List<String[]> allTransLogs = null;
+		try {
+			allTransLogs = Admin.viewAllTrans(FileTools.USER_TRANSACTION_LOG);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		// removes line containing field headers
+		allTransLogs.remove(0);
+		
+		model.put("allTransLogs", allTransLogs);
+		model.put("allTransactions", true);
 		return model;
 	}
 }
