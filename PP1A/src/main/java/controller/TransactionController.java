@@ -3,6 +3,7 @@ package controller;
 import static spark.Spark.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,14 +59,16 @@ public class TransactionController {
 					req.session().attribute("lastTrans", lastTrans);
 				}
 			}
-			
 			putTransToModel(model, lastTrans);
 			
-			}
-			
-			model.put("userTemplate", "/users/TransactionAccount.vtl");
-			
-			return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
+			//transaction history
+			ArrayList<String[]> transList = FileTools.getTransactionLog(trAcc.getUser_ID());
+			model.put("transList", transList);
+		}
+		
+		model.put("userTemplate", "/users/TransactionAccount.vtl");
+		
+		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 	};
 	
 	//page to show user transaction right after buying/selling

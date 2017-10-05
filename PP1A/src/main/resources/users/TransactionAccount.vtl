@@ -106,8 +106,70 @@
 			<!-- Show Last Transaction -->
 			<div id="div3">
 				<form action=javascript:void(0);">
-					<h2 class="func">Show Last Transaction</h2>
-					<input id="lastTrans" type="submit" value="List">
+					<h2 class="func">Latest transaction</h2>
+					#if($lastTrans)
+					<div class="datagrid">
+						<!-- show latest transaction -->
+						<table class="display">
+							<thead>
+								<tr>
+									<th>Type</th>
+									<th>ASX Code</th>
+									<th>Company Name</th>
+									<th>Share Value</th>
+									<th>Count</th>
+									<th>Total Price</th>
+									<th>Date/Time</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>$transType</td>
+									<td>$ASXcode</td>
+									<td>$compName</td>
+									<td>$shareVal</td>
+									<td>$numShares</td>
+									<td>$totalPrice</td>
+									<td>$transDate</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					#else
+					<p class="successBox">Nothing to show now</p>
+					#end
+					
+					<h2>Transaction history</h2>
+					#if($transList)
+					<!-- show history transaction -->
+					<div class="datagrid">
+					<table class="display paging">
+						<thead>
+							<tr>
+								<th>Type</th>
+								<th>ASX Code</th>
+								<th>Company Name</th>
+								<th>Share Value</th>
+								<th>Count</th>
+								<th>Date/Time</th>
+							</tr>
+						</thead>
+						<tbody>
+							#foreach($data in $transList)
+							<tr>
+								<td>$data[1]</td>	<!-- type -->
+								<td>$data[2]</td>	<!-- ASXcode -->
+								<td>$data[4]</td>	<!-- Comp name -->
+								<td>$data[5]</td>	<!-- shareVal -->
+								<td>$data[3]</td>	<!-- Amount -->
+								<td>$data[6]</td>	<!-- date time -->
+							</tr>
+							#end
+						</tbody>
+					</table>
+					</div>
+					#end
+					
 				</form>
 			</div>
 
