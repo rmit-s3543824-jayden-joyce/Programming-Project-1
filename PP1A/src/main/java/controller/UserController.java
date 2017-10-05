@@ -26,6 +26,15 @@ public class UserController {
 		model.put("userTemplate", "/users/user.vtl");
 		model.put("admin", req.session().attribute("adminObj"));
 		
+		//load trading account
+		Player player = (Player) FileTools.LoadUser(req.session().attribute("username"));
+		if(player.getTradingAcc() != null){
+			model.put("tradingAcc", true);
+			model.put("tradingAccSuccess", true);
+			model.put("currBal", player.getTradingAcc().getCurrBal());
+			model.put("sharesOwned", player.getTradingAcc().getSharesOwned());
+		}
+		
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 	};
 	
