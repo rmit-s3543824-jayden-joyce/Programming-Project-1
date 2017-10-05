@@ -34,6 +34,8 @@ public class UserController {
 			model.put("currBal", player.getTradingAcc().getCurrBal());
 			model.put("sharesOwned", player.getTradingAcc().getSharesOwned());
 		}
+		else
+			model.put("tradingAcc", false);
 		
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 	};
@@ -112,16 +114,6 @@ public class UserController {
 			model.put("age", req.session().attribute("age"));
 			model.put("password", req.session().attribute("password"));
 		}
-		
-		if (req.session().attribute("currBal") != null)
-		{
-			
-			model.put("tradingAcc", true);
-			model.put("currBal", req.session().attribute("currBal"));
-			model.put("sharesOwned", req.session().attribute("sharesOwned"));
-		}
-		else
-			model.put("tradingAcc", false);
 	}
 	
 	public void loadTradingAccToSession(Request req)

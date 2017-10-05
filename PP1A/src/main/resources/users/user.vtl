@@ -1,4 +1,6 @@
 <link rel="stylesheet" href="../style/userTemplate.css">
+<!-- paging -->
+<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 <br>
 
 <div class="wrapper">
@@ -6,9 +8,15 @@
 		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 		<p onclick="hideFunc(); showD1();">Show User Details</p>
 		<p onclick="hideFunc(); showD2();">Edit Player Profile</p>
+		#if($tradingAcc)
+		<p onclick="hideFunc(); showD3();">
+			My Trading <br>Account
+		</p>
+		#else
 		<p onclick="hideFunc(); showD3();">
 			Open Trading <br>Account
 		</p>
+		#end
 		<p onclick="hideFunc(); showD4();">Delete Trading Account</p>
 		<a href='/'>Home page</a>
 	</div>
@@ -84,7 +92,35 @@
 		<!-- Opening Trading Account -->
 		<div id="div3">
 			#if($tradingAcc)
-				<h2 class="func">Trading account already open</h2>
+				<h2 class="func">My Trading Account</h2>
+				<!-- current Balance -->
+				#if($currBal)
+				<p>Current Balance:	$ $currBal</p>
+				#end
+				
+				#if($sharesOwned)
+				<h2>My shares</h2>
+					<link rel='stylesheet' href='style/datagrid.css'>
+					<div class="datagrid">
+						<table class="display paging">
+							<thead>
+								<tr>
+									<th>ASX Code</th>
+									<th>Amount</th>
+								</tr>
+							</thead>
+							<tbody>
+								#foreach($shares in $sharesOwned)
+									<tr>
+										<td><a href="/CompanyPage?code=$shares[0]">$shares[0]</a></td>
+										<td>$shares[1]</td>
+									</tr>
+								#end
+							</tbody>
+						</table>
+					</div>
+				#end
+				
 				<input class="btnBlue" type="button" value="Go to Trading Account" onclick="window.location='/TransactionAccount'">
 			#else
 				<form action='/openTradingAccount';">
