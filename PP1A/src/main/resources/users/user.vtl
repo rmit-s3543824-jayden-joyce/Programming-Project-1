@@ -10,7 +10,7 @@
 			Open Trading <br>Account
 		</p>
 		<p onclick="hideFunc(); showD4();">Delete Trading Account</p>
-		<a href='/'>Home page</a>
+		<a href='/userPage'>Home page</a>
 	</div>
 
 	<div class="userCenter">
@@ -90,28 +90,22 @@
 					<h2 class="func">Open Trading Account</h2>
 					<input class="btnBlue" id="openAcc" type="submit" value="Open Trading Account">
 				</form>
-				#if($tradingAccSuccess)
-					<p class="successBox">Trading account created</p>
-				#end
 				<br>
 			#end
 		</div>
 
-		<!-- Delete Trading Account -->
+		<!-- Delete Account -->
 		<div id="div4">
-			<form action='/deleteTradingAccount'>
-				<h2 class="func">Delete Trading Account</h2>
-				<h3 class="warning">--- Warning ---</h3>
-				<p class="warning">
-					<b>Be cautioned that your Account cannot be recovered once it
-						is deactivate and deleted.</b>
-				</p>
-				#if($accountDeleted)
-					<p class="successBox">Trading account deleted!</p>
-				#end
-				<br>
-				<br> <input class="btnRed" id="deleteAcc" type="submit"
-					value="Delete Trading Account">
+			<form action='/deleteAccount'>
+					<h2 class="func">Delete Account</h2>
+					<h3 class="warning">--- Warning ---</h3>
+					<p class="warning">
+						<b>Be cautioned that your Account cannot be recovered once it
+							is deactivate and deleted.</b>
+					</p>
+					<br>
+					<br> <input class="btnRed" id="deleteAcc" type="submit"
+						value="Delete Account">
 			</form>
 			<br>
 		</div>

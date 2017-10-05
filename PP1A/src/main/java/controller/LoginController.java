@@ -40,13 +40,20 @@ public class LoginController {
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
 	};
 	
+	public static Route logout = (req, res) -> {
+		logoutUser(req);
+		
+		res.redirect("/login");
+		return null;
+	};
+	
 	public static Route redirectUser = (req, res) -> {
 		Map<String, Object> model = login(req);
 
 		//check for admin by username
 		String username	= req.queryParams("username");
 		
-		if(model.containsKey("template")){
+		if(model.containsKey("authenticationFailed")){
 			//authenticationFailed
 			return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
 		}
@@ -80,7 +87,7 @@ public class LoginController {
 				String firstName = admin.getFName();
 				String lastName = admin.getLName();
 				int age = admin.getAge();
-						
+				
 				//need to check if return val is true or false later or else any pw will log you in
 				if(app.Application.menu.login(username, password))
 				{		
@@ -91,8 +98,13 @@ public class LoginController {
 					req.session().attribute("lastname", lastName);
 					req.session().attribute("age", age);
 					
-					loadToModel(model, req);
+					AdminController.loadToModel(model, req);
 					model.put("userTemplate", "/users/admin.vtl");
+				}
+				else
+				{
+					model.put("authenticationFailed", true);
+					model.put("template", "/mainpage/login.vtl");
 				}
 			}
 			else
@@ -110,7 +122,7 @@ public class LoginController {
 				String firstName = player.getFName();
 				String lastName = player.getLName();
 				int age = player.getAge();
-						
+				
 				//need to check if return val is true or false later or else any pw will log you in
 				if(app.Application.menu.login(username, password))
 				{		
@@ -122,10 +134,17 @@ public class LoginController {
 					req.session().attribute("age", age);
 				
 					player.loadTrAcc();
-					//returns error when player hasn't opened a trading account yet
-					//req.session().attribute("currBal", player.getTradingAcc().getCurrBal());
-					//req.session().attribute("sharesOwned", player.getTradingAcc().getSharesOwned());
-				}	
+					if(player.getTradingAcc() != null)
+					{
+						//returns error when player hasn't opened a trading account yet
+						UserController.loadTradingAccToSession(req);
+					}
+				}
+				else
+				{
+					model.put("authenticationFailed", true);
+					model.put("template", "/mainpage/login.vtl");
+				}
 			}
 			else
 			{
@@ -135,6 +154,24 @@ public class LoginController {
 		}
 		
 		return model;		
+	}
+	
+	public static void logoutUser(Request req)
+	{
+		String username = req.session().attribute("username");
+		if(username.contains("admin"))
+			req.session().removeAttribute("adminObj");
+		else
+		{
+			UserController.removeTradAccfromSession(req);
+			req.session().removeAttribute("playerObj");
+		}
+		
+		req.session().removeAttribute("username");
+		req.session().removeAttribute("password");
+		req.session().removeAttribute("firstname");
+		req.session().removeAttribute("lastname");
+		req.session().removeAttribute("age");
 	}
 	
 	public static void loadToModel(Map<String, Object> model, Request req)
@@ -150,13 +187,11 @@ public class LoginController {
 		//TODO returns null always
 		if (req.session().attribute("currBal") != null)
 		{
-			System.out.println("Has trading account");
 			model.put("tradingAcc", true);
 			model.put("currBal", req.session().attribute("currBal"));
 			model.put("sharesOwned", req.session().attribute("sharesOwned"));
 		}
 		else
-			System.out.println("No trading account");
 			model.put("tradingAcc", false);
 	}
 }
