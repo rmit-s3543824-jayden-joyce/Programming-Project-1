@@ -27,6 +27,7 @@ public class AdminController {
 		
 		loadToModel(model, req);
 		model.put("userTemplate", "/users/admin.vtl");
+		model.put("admin", req.session().attribute("adminObj"));
 		
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 	};
@@ -36,6 +37,7 @@ public class AdminController {
 		LoginController.loadToModel(model, req);
 		
 		model.put("userTemplate", "/users/admin.vtl");
+		model.put("admin", req.session().attribute("adminObj"));
 		
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 	};
@@ -54,6 +56,7 @@ public class AdminController {
 		LoginController.loadToModel(model, req);
 		
 		model.put("userTemplate", "/users/admin.vtl");
+		model.put("admin", req.session().attribute("adminObj"));
 		
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 	};

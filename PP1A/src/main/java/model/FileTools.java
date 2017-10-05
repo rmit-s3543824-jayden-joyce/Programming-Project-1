@@ -83,7 +83,7 @@ public class FileTools {
 	}
 	
 	//Separate function for writing changes to csv file after fetching data
-	public void overwriteCSV(List<String[]> content, String filePath) throws IOException
+	public synchronized void overwriteCSV(List<String[]> content, String filePath) throws IOException
 	{
 		CSVWriter csvWriter = new CSVWriter(new FileWriter(filePath));
 		csvWriter.writeAll(content);
@@ -138,11 +138,14 @@ public class FileTools {
 				{
 					companiesCSVlist.get(i)[3] = null;
 				}
-				System.out.println(i);
+				//print for debugging
+				//System.out.println(i);
 			}
 						
 			//write to csv (rewrite everything)
 			overwriteCSV(companiesCSVlist, ASX_COMPANIES_DATA_FILE);
+			updateAllPlayerStockVal();
+			System.out.println("updated csv");
 		}
 		catch (IOException e){
 			System.out.println("something happened");
@@ -456,14 +459,14 @@ public class FileTools {
 	{
 		Shares share = null;
 		int asxCodeIndex = 1;
-		List<String[]> searchList = searchFile(ASXCode, ASX_COMPANIES_DATA_FILE);
+		List<String[]> fileContent = readCSV(ASX_COMPANIES_DATA_FILE);
 		String compName;
 		String industryGroup;
 		BigDecimal shareVal;
 		
-		if (searchList != null)
+		if (fileContent != null)
 		{
-			for (String[] searchItem : searchList)
+			for (String[] searchItem : fileContent)
 			{
 				if (searchItem[asxCodeIndex].equals(ASXCode))
 				{
@@ -477,5 +480,59 @@ public class FileTools {
 		}
 		
 		return share;
+	}
+	
+	//function to update player stock val after fetching data
+	public void updateAllPlayerStockVal() throws IOException
+	{
+		List<String[]> trAccList = readCSV(USER_ACC_FILE);
+		Player player;
+		BigDecimal newStockVal;
+		
+		if (trAccList != null && !trAccList.isEmpty())
+		{
+			for (String[] trAccDetails : trAccList)
+			{
+				if (trAccDetails != trAccList.get(0))
+				{
+					player = (Player) LoadUser(trAccDetails[0]);
+					newStockVal = player.getTradingAcc().showCurrStockVal();
+					trAccDetails[2] = newStockVal.toString();
+				}
+			}
+			
+			overwriteCSV(trAccList, USER_ACC_FILE);
+		}
+		
+	}
+
+	/* 
+	 * For getting Player log based on
+	 */
+	public static ArrayList<String[]> getTransactionLog(String id) throws IOException{
+		//read from csv
+		ArrayList<String[]> transactionLog = new ArrayList<String []>();
+		List<String[]> temp = readCSV(USER_TRANSACTION_LOG);
+		
+		//from admin, ask for all
+		if(id.equals("ALL")){
+			for(String[] data : temp){
+				transactionLog.add(data);
+			}
+		}
+		else{
+			for(String[] data : temp){
+				if(data[0].equals(id)){
+					transactionLog.add(data);
+				}
+			}			
+		}
+		
+		//error handling of for null 0 elements matching
+		if(transactionLog.size() == 0){
+			return null;
+		}
+		
+		return transactionLog;
 	}
 }

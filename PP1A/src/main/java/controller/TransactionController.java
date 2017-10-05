@@ -3,6 +3,7 @@ package controller;
 import static spark.Spark.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,9 +39,16 @@ public class TransactionController {
 			{
 				player.loadTrAcc();
 			}
-			model.put("userId", trAcc.getUser_ID());
+			model.put("username", trAcc.getUser_ID());
 			model.put("currBal", trAcc.getCurrBal());
 			model.put("stockVal", trAcc.showCurrStockVal());
+			model.put("shareList", trAcc.getSharesOwned());
+			
+			//show player topshares details
+			model.put("topShare", trAcc.getSharesOwned().get(0));
+			
+			//show all company to buy
+			model.put("table", "utils/companyTable.vtl");
 			
 			//load last trans if attribute is null
 			if (lastTrans == null)
@@ -51,14 +59,16 @@ public class TransactionController {
 					req.session().attribute("lastTrans", lastTrans);
 				}
 			}
-			
 			putTransToModel(model, lastTrans);
 			
-			}
-			
-			model.put("userTemplate", "/users/TransactionAccount.vtl");
-			
-			return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
+			//transaction history
+			ArrayList<String[]> transList = FileTools.getTransactionLog(trAcc.getUser_ID());
+			model.put("transList", transList);
+		}
+		
+		model.put("userTemplate", "/users/TransactionAccount.vtl");
+		
+		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 	};
 	
 	//page to show user transaction right after buying/selling
@@ -79,19 +89,20 @@ public class TransactionController {
 			amtShares = Integer.parseInt(req.queryParams("amtShares"));
 		}
 		
-		try {
-			share = FileTools.loadShare(req.queryParams("ASXCode"));
-			
+		try {			
 			//do buy/sell transaction depending on transType
 			if (transType == Transaction.TransType.BUYING)
 			{
+				share = FileTools.loadShare(req.queryParams("ASXCode"));
 				transaction = player.getTradingAcc().buyShares(share, amtShares);
 			}
-			else
+			else //get sell details
 			{
+				share = FileTools.loadShare(req.queryParams("ASXCode"));
 				transaction = player.getTradingAcc().sellShares(share, amtShares);
 			}
 			
+			//to load into latest transaction
 			req.session().attribute("lastTrans", transaction);
 			model.put("currBal", player.getTradingAcc().getCurrBal());
 			model.put("stockVal", player.getTradingAcc().showCurrStockVal());
@@ -102,6 +113,7 @@ public class TransactionController {
 			e.printStackTrace();
 		}
 		
+		model.put("username", player.getID());
 		model.put("userTemplate", "/utils/ConfirmTransaction.vtl");
 		
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));

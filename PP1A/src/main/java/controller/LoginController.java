@@ -25,7 +25,10 @@ public class LoginController {
 		
 		// put "value" inside "cardholder"
 		model.put("template", "/mainpage/mainpage.vtl");
+		model.put("username", req.session().attribute("username"));
 		model.put("table", "utils/companyTable.vtl");
+		model.put("leaderboard", "utils/leaderboard.vtl");
+		model.put("admin", req.session().attribute("adminObj"));
 		
 		// The vtl files are located under the resources directory
 		// The line below are required to make the page works
@@ -36,6 +39,7 @@ public class LoginController {
 		Map<String, Object> model = new HashMap<>();
 		
 		model.put("template", "/mainpage/login.vtl");
+		model.put("username", req.session().attribute("username"));
 		
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "layout.vtl"));
 	};

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.http.HttpServletResponse;
@@ -68,6 +69,9 @@ public class Application {
 		// For all pages not defined by the application
 		notFound(controller.ErrorPageController.NOT_FOUND_PAGE);
 		internalServerError(controller.ErrorPageController.INTERNAL_SERVER_ERROR_PAGE);
+		
+		//start fetching data every hour
+		startDataFetching();
 	}
 	
 	static int getHerokuAssignedPort() {
@@ -77,5 +81,29 @@ public class Application {
 			return Integer.parseInt(processBuilder.environment().get("PORT"));
 		}
 		return 4567;
+	}
+	
+	//starts fetching data and repeat every our
+	private static void startDataFetching()
+	{
+		FileTools fileTool = new FileTools();
+		
+		//fetch date from url every hour in another thread while program is running
+		new Thread(){
+			public void run()
+			{
+				while (true)
+				{
+					fileTool.fetchAllShareData();
+					
+					try {
+						TimeUnit.HOURS.sleep(1);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}.start();
 	}
 }
