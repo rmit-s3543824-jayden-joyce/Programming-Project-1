@@ -11,7 +11,7 @@
 		<p onclick="hideFunc(); showD3();">Delete Player</p>
 		<p onclick="hideFunc(); showD4();">Player Transactions</p>
 		<p onclick="hideFunc(); showD5();">All Transactions</p>
-		<a href='/'>Home page</a>
+		<a href='/adminPage'>Home page</a>
 	</div>
 
 	<!-- body content -->
@@ -43,43 +43,76 @@
 		<!-- Functions -->
 		<!-- Search for player -->
 		<div id="div1">
-			<form action='/searchPlayer'>
+			<form method="post" action='/searchPlayer'>
 				<h2 class="func">Search for player</h2>
 				<input id="searchPlayerID" name="searchPlayerID" type="text" required> <input
 				 class="btnBlue" id="findPlayer" type="submit" value="Find Player">
 			</form>
-			#if($userNotFound)
-				<p class="errorBox">Error: user not found</p>
-			#elseif($userFound)
-				<table>
-					<tr>
-						<th class="userDet">Username:</th>
-						<td>$userUsername</td>
-					</tr>
-					<tr>
-						<th class="userDet">First name:</th>
-						<td>$userFirstName</td>
-					</tr>
-					<tr>
-						<th class="userDet">Last name:</th>
-						<td>$userLastName</td>
-					</tr>
-					<tr>
-						<th class="userDet">Age:</th>
-						<td>$userAge</td>
-					</tr>
-				</table>
-			#end
 			<br>
+			#if($userFound)
+				<link rel='stylesheet' href='style/datagrid.css'>
+				<div class="datagrid">
+					<table class="display">
+						<thead>
+							<tr>
+								<th>Username</th>
+								<th>First name</th>
+								<th>Last name</th>
+								<th>Age</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>$userUsername</td>
+								<td>$userFirstName</td>
+								<td>$userLastName</td>
+								<td>$userAge</td>
+							</tr>
+						</tbody>	
+					</table>
+				</div>
+			#end
+			#if ($userNotFound)
+				<p class="errorBox">Error: User not found!</p>	
+			#end	
 		</div>
 
 		<!-- View player -->
 		<div id="div2">
-			<form action=javascript:void(0);">
+			<form action= '/listPlayers'>
 				<h2 class="func">List All Player</h2>
-				<input class="btnBlue" id="listPlayer" type="submit" value="List Players">
+				#if(!$listPlayers)
+					<input class="btnBlue" id="listPlayer" type="submit" value="List Players">
+				#end
 			</form>
 			<br>
+			#if($listPlayers)
+				<link rel='stylesheet' href='style/datagrid.css'>
+				<div class="datagrid">
+					<table class="display">
+						<thead>
+							<tr>
+								<th>Username</th>
+								<th>First name</th>
+								<th>Last name</th>
+								<th>Age</th>
+								<th>Password</th>
+							</tr>
+						</thead>
+						<tbody>
+							#foreach ($player in $playerList)
+								<tr>
+									<td>$player[0]</td>
+									<td>$player[2]</td>
+									<td>$player[3]</td>
+									<td>$player[4]</td>
+									<td>$player[1]</td>
+								</tr>
+							#end
+						</tbody>	
+					</table>
+				</div>
+			#end
 		</div>
 
 		<!-- Delete Player -->
@@ -99,12 +132,41 @@
 
 		<!-- list player transaction -->
 		<div id="div4">
-			<form action=javascript:void(0);">
+			<form action='/lastTransaction'>
 				<h2 class="func">List player transaction</h2>
 				<input id="listPlayerID" type="text" required> <input
 					class="btnBlue" id="listPlayerTrans" type="submit" value="List Transactions">
 			</form>
 			<br>
+			#if($lastTransaction)
+				<link rel='stylesheet' href='style/datagrid.css'>
+				<div class="datagrid">
+					<table class="display">
+						<thead>
+							<tr>
+								<th>Username</th>
+								<th>Transaction Type</th>
+								<th>ASX Code</th>
+								<th>No. of shares</th>
+								<th>Company Name</th>
+								<th>Share value</th>
+								<th>Date/Time</th>
+							</tr>
+						</thead>
+						<tbody>
+								<tr>
+									<td>$userId</td>
+									<td>$transType</td>
+									<td>$ASXcode</td>
+									<td>$numShares</td>
+									<td>$compName</td>
+									<td>$shareVal</td>
+									<td>$dateTime</td>
+								</tr>
+						</tbody>	
+					</table>
+				</div>
+			#end
 		</div>
 
 		<!-- list all transaction -->

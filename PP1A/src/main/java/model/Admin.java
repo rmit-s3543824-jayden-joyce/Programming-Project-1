@@ -16,7 +16,7 @@ public class Admin extends User{
 	}
 
 	//Search file for a matching substring and returns arrayList
-	public static ArrayList<String[]> searchPlayer(String user_ID, String filePath){
+	public ArrayList<String[]> searchPlayer(String user_ID, String filePath){
 		FileTools ft = new FileTools();
 		ArrayList<String[]> matchingPlayer;
 		//calls and returns array of matching players
@@ -44,12 +44,11 @@ public class Admin extends User{
 				}
 				readLine = br.readLine();
 			}
-
 			br.close();
 		} catch (IOException e) {
 			
 			e.printStackTrace();
-		}		
+		}
 		return allPlayers;
 	}
 	
