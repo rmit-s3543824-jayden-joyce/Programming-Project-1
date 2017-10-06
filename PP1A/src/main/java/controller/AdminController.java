@@ -156,7 +156,7 @@ public class AdminController {
 		
 		List<String[]> transactionLogs = null;
 		try {
-			transactionLogs = Admin.viewUserTrans(userId, FileTools.USER_TRANSACTION_LOG);
+			transactionLogs = FileTools.getTransactionLog(userId);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
