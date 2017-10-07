@@ -134,7 +134,7 @@
 		<div id="div4">
 			<form action='/userTransactions'>
 				<h2 class="func">List player transaction</h2>
-				<input id="listPlayerID" type="text" required> <input
+				<input id="listPlayerID" name="listPlayerID" type="text" required> <input
 					class="btnBlue" id="listPlayerTrans" type="submit" value="List Transactions">
 			</form>
 			<br>
@@ -154,7 +154,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							#foreach ($item in $transactionLogs)
+							#foreach ($transaction in $transactionLogs)
 								<tr>
 									<td>$transaction[0]</td>
 									<td>$transaction[1]</td>
