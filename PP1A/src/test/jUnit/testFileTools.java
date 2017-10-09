@@ -3,6 +3,7 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import model.FileTools;
 import model.Shares;
@@ -143,7 +144,7 @@ public class testFileTools {
 		assertTrue(share.getASX_code().equals(ASXCode));
 	}
 	
-	@Test
+	//@Test
 	public void testUpdateAllStockVal()
 	{
 		String username = "testing";
@@ -155,6 +156,33 @@ public class testFileTools {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	@Test
+	public void testGetTransactionLog()
+	{
+		String id = "bobby123";
+		List<String[]> list;
+		try {
+			list = FileTools.getTransactionLog(id);
+			if (list == null || list.isEmpty())
+			{
+				fail();
+			}
+			
+			for ( String[] a : list)
+			{
+				for (String b : a)
+				{
+					System.out.print(b + ", ");
+				}
+				System.out.println();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertTrue(true);
 	}
 	
 	@AfterClass
