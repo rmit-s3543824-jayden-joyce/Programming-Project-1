@@ -132,13 +132,13 @@
 
 		<!-- list player transaction -->
 		<div id="div4">
-			<form action='/lastTransaction'>
+			<form action='/userTransactions'>
 				<h2 class="func">List player transaction</h2>
-				<input id="listPlayerID" type="text" required> <input
+				<input id="listPlayerID" name="listPlayerID" type="text" required> <input
 					class="btnBlue" id="listPlayerTrans" type="submit" value="List Transactions">
 			</form>
 			<br>
-			#if($lastTransaction)
+			#if($userTransactions)
 				<link rel='stylesheet' href='style/datagrid.css'>
 				<div class="datagrid">
 					<table class="display">
@@ -154,15 +154,17 @@
 							</tr>
 						</thead>
 						<tbody>
+							#foreach ($transaction in $transactionLogs)
 								<tr>
-									<td>$userId</td>
-									<td>$transType</td>
-									<td>$ASXcode</td>
-									<td>$numShares</td>
-									<td>$compName</td>
-									<td>$shareVal</td>
-									<td>$dateTime</td>
+									<td>$transaction[0]</td>
+									<td>$transaction[1]</td>
+									<td>$transaction[2]</td>
+									<td>$transaction[3]</td>
+									<td>$transaction[4]</td>
+									<td>$transaction[5]</td>
+									<td>$transaction[6]</td>
 								</tr>
+							#end
 						</tbody>	
 					</table>
 				</div>
@@ -171,11 +173,52 @@
 
 		<!-- list all transaction -->
 		<div id="div5">
-			<form action=javascript:void(0);">
+			<form action='/allTransactions'>
 				<h2 class="func">List All Transaction</h2>
 				<input class="btnBlue" id="listTransaction" type="submit" value="List Transactions">
 			</form>
 			<br>
+			#if($allTransactions)
+				<link rel='stylesheet' href='style/datagrid.css'>
+				<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+				<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js">
+				setTimeout(function(){
+					$(".paging").DataTable( {
+					    "scrollX": true,
+					    "pagingType": "full_numbers"
+					} );
+					document.getElementById("tableStatus").innerHTML = null;
+				}, 500);
+				</script>
+				<div class="datagrid">
+					<table class="display paging">
+						<thead>
+							<tr>
+								<th>Username</th>
+								<th>Transaction Type</th>
+								<th>ASX Code</th>
+								<th>No. of shares</th>
+								<th>Company Name</th>
+								<th>Share value</th>
+								<th>Date/Time</th>
+							</tr>
+						</thead>
+						<tbody>
+							#foreach ($transaction in $allTransLogs)
+								<tr>
+									<td>$transaction[0]</td>
+									<td>$transaction[1]</td>
+									<td>$transaction[2]</td>
+									<td>$transaction[3]</td>
+									<td>$transaction[4]</td>
+									<td>$transaction[5]</td>
+									<td>$transaction[6]</td>
+								</tr>
+							#end
+						</tbody>	
+					</table>
+				</div>
+			#end
 		</div>
 	</div>
 	<!-- Functions -->
