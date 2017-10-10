@@ -10,7 +10,7 @@
 		<p onclick="hideFunc(); showD2();">Sell Shares</p>
 		<p onclick="hideFunc(); showD3();">Last Transaction</p>
 		<p onclick="hideFunc(); showD4();">
-			MyShares &<br>StockValue
+			MyShares &<br>Stock Value
 		</p>
 		<a href='/userPage'>Home page</a>
 	</div>
@@ -175,24 +175,38 @@
 
 			<!-- Show current stock value -->
 			<div id="div4">
-				<form action=javascript:void(0);">
-					<table>
-						<tr>
-							<th>Username:</th>
-							<td>$username</td>
-						</tr>
-						<tr>
-							<th>Current balance:</th>
-							<td>$ $currBal</td>
-						</tr>
-						<tr>
-							<th class="userDet">Total stock value:</th>
-							<td>$ $stockVal</td>
-						</tr>
+				<h2 class="func">My shares and total stock value</h2>
+				<table>
+					<tr>
+						<th style="text-align:left;">Current balance:</th>
+						<td>$ $currBal</td>
+					</tr>
+					<tr>
+						<th style="text-align:left;">Total stock value:</th>
+						<td>$ $stockVal</td>
+					</tr>
+				</table>
+				#if($shareList)
+				<link rel='stylesheet' href='style/datagrid.css'>
+				<div class="datagrid">
+					<table class="display">
+						<thead>
+							<tr>
+								<th>ASX Code</th>
+								<th>Amount</th>
+							</tr>
+						</thead>
+						<tbody>
+							#foreach($shares in $shareList)
+								<tr>
+									<td><a href="/CompanyPage?code=$shares[0]">$shares[0]</a></td>
+									<td>$shares[1]</td>
+								</tr>
+							#end
+						</tbody>
 					</table>
-					<h2 class="func">MyShares and Stock-Value</h2>
-					<input id="currStockVal" type="submit" value="List">
-				</form>
+				#end
+					</div>
 			</div>
 		</div>
 	</div>
