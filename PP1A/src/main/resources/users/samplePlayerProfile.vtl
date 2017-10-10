@@ -1,6 +1,14 @@
 <!DOCTYPE>
 <head>
-	<title>Stock Market Simulator</title>
+	<link rel="icon" href="SMS_logo.png">
+	<!-- change based on user -->
+	<title>Stock Market Simulator | 
+	#if($admin)
+		Admin Page
+	#else
+		User Page
+	#end
+	</title>
 	<link rel="stylesheet" href="../style/layout.css">
 </head>
 
@@ -8,18 +16,22 @@
 	<!-- player navbar -->
 	<ul class="navbar">
 		<!-- maybe add a picture here for the logo -->
-		<li class="navbar title"><a href="/">Stock Market Simulator</a></li>
-		<li class="navbar">
-			<a href="/">Logout</a>
+		<h3 class="userTitle title">
+			<img src="SMS_logo.png" id="logo"></img>
+			<a href="/">STOCK MARKET SIMULATOR</a>
+		</h3>
+		<li>
+			<form method="post" action=/logout>
+				<button class="logoutBtn" id="logout">Logout</button>
+			</form>	
 		</li>
 		<li class="navbar adminSideNav" onclick="openNav()" &>Menu</li>
 		<li class="navbar">
-			<a href="/user">$username</a>
 		#if (!$admin)
 			<a href="/userPage">$username</a>
-
 			<a href="/TransactionAccount">My Trading Account</a>
 		#else
+			<a href="/adminPage">$username</a>
 		#end
 		</li>
 	</ul>
