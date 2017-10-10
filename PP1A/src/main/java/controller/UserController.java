@@ -40,16 +40,6 @@ public class UserController {
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
 	};
 	
-	public static Route adminPage = (req, res) -> {
-		Map<String, Object> model = new HashMap<>();
-		
-		LoginController.loadToModel(model, req);
-		model.put("userTemplate", "/users/admin.vtl");
-		model.put("admin", req.session().attribute("adminObj"));
-		
-		return new VelocityTemplateEngine().render(new ModelAndView(model, "users/samplePlayerProfile.vtl"));
-	};
-	
 	public static Route confirmEditProfile = (req, res) -> {
 		Map<String, Object> model = editProfile(req);
 		

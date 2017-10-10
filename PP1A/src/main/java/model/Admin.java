@@ -80,7 +80,7 @@ public class Admin extends User{
 	}
 	
 	//All transaction from one user
-	public List<String[]> viewUserTrans(String user_ID, String filePath) throws IOException{
+	public static List<String[]> viewUserTrans(String user_ID, String filePath) throws IOException{
 		FileTools ft = new FileTools();
 		
 		List<String[]> userTrans = ft.readCSV(FileTools.USER_TRANSACTION_LOG);
@@ -117,7 +117,7 @@ public class Admin extends User{
 		return matchingList;
 	}
 	
-	public List<String[]> viewAllTrans(String filePath) throws IOException{
+	public static List<String[]> viewAllTrans(String filePath) throws IOException{
 		FileTools ft = new FileTools();
 		//Load all their transactions into the list and return
 		List<String[]> userTrans = ft.readCSV(FileTools.USER_TRANSACTION_LOG);

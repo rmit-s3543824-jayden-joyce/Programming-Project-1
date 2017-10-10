@@ -1,6 +1,12 @@
+img#logo{
+	width: 32px;
+	height: 32px;
+	vertical-align: middle;
+}
 body {
 	padding-top: 50px;
 	min-height: 600px;
+	height: auto;
 	margin: 0;
 }
 
@@ -30,7 +36,7 @@ button.logoutBtn:hover{
 
 /*The Navigation bar before login*/
 ul.navbar{
-	z-index: 1;
+	z-index: 10;
 	list-style-type: none;
 	background-color: #039be5;
 	position: fixed;
@@ -57,9 +63,17 @@ li.title{
 	float: left;
 	font-weight: bold;
 }
-
+a:hover, a:visited, a:link, a:active{
+	text-decoration: none;
+	color: white;
+}
 li.navbar a:hover{
 	background-color: #81d4fa;
+}
+li#navButton{
+	display: inline-block;
+	float: right;
+	padding: 6px;
 }
 
 h3.userTitle {
@@ -236,7 +250,7 @@ footer {
 	margin: 0;
 	height: 200px;
 	font-size: 80%;
-	z-index: 1;
+	z-index: 10;
 }
 
 footer h3{
