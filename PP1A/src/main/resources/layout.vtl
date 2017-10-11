@@ -1,28 +1,29 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<link rel="icon" href="SMS_logo.png">
 		<title>Stock Market Simulator</title>
 		<link rel="stylesheet" href="../style/layout.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="Scripts/jquery.min.js"></script>
 	</head>
 
 	<body>
 		<!-- navbar -->
 		<ul class="navbar">
 		#if ($username)
-			<li class="navbar"><a href="#">Logout</a></li>
+			<li class="navbar" id="navButton"><a href="#">Logout</a></li>
 			#if (!$admin)
-				<li class="navbar"><a href="/TransactionAccount">My Trading Account</a></li>
-				<li class="navbar"><a href="/userPage">$username</a></li>
+				<li class="navbar" id="navButton"><a href="/TransactionAccount">My Trading Account</a></li>
+				<li class="navbar" id="navButton"><a href="/userPage">$username</a></li>
 			#else
-				<li class="navbar"><a href="/adminPage">$username</a></li>
+				<li class="navbar" id="navButton"><a href="/adminPage">$username</a></li>
 			#end
 		#else
-			<li class="navbar"><a href="/register">Sign up</a></li>
-			<li class="navbar"><a href="/login">Login</a></li>
+			<li class="navbar" id="navButton"><a href="/register">Sign up</a></li>
+			<li class="navbar" id="navButton"><a href="/login">Login</a></li>
 		#end
 			<li class="navbar title">
-				<a href="/">Stock Market Simulator</a>
+				<a href="/"><img src="SMS_logo.png" id="logo"></img> Stock Market Simulator</a>
 			</li>
 		</ul>
 

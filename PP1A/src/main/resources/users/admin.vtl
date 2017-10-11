@@ -1,5 +1,16 @@
-
 <link rel="stylesheet" href="../style/userTemplate.css">
+<!-- paging -->
+<link rel="stylesheet" href="style/table/jquery.dataTables.min.css">
+<script src="Scripts/jquery.min.js"></script>
+<script src="Scripts/table/jquery.dataTables.min.js"></script>
+<script>
+setTimeout(function(){
+	$(".paging").DataTable( {
+	    "scrollX": true,
+	    "pagingType": "full_numbers"
+	} );
+}, 500);
+</script>
 
 <!-- Side Navbar -->
 <div class="wrapper">
@@ -11,34 +22,36 @@
 		<p onclick="hideFunc(); showD3();">Delete Player</p>
 		<p onclick="hideFunc(); showD4();">Player Transactions</p>
 		<p onclick="hideFunc(); showD5();">All Transactions</p>
-		<a href='/adminPage'>Home page</a>
+		<p onclick="hideFunc(); showD0();">Home</p>
 	</div>
 
 	<!-- body content -->
 	<div class="userCenter">
-		<h1>Welcome Administrator</h1>
-		<h2 class="func">$firstname $lastname</h2>
-		<p>
-		<table>
-			<tr>
-				<th class="userDet">Username:</th>
-				<td>$username</td>
-			</tr>
-			<tr>
-				<th class="userDet">First name:</th>
-				<td>$firstname</td>
-			</tr>
-			<tr>
-				<th class="userDet">Last name:</th>
-				<td>$lastname</td>
-			</tr>
-			<tr>
-				<th class="userDet">Age:</th>
-				<td>$age</td>
-			</tr>
-		</table>
-		<br>
-		</p>
+		<div id=div0 style="display:block;">
+			<h1>Welcome Administrator</h1>
+			<h2 class="func">$firstname $lastname</h2>
+			<p>
+			<table>
+				<tr>
+					<th class="userDet">Username:</th>
+					<td>$username</td>
+				</tr>
+				<tr>
+					<th class="userDet">First name:</th>
+					<td>$firstname</td>
+				</tr>
+				<tr>
+					<th class="userDet">Last name:</th>
+					<td>$lastname</td>
+				</tr>
+				<tr>
+					<th class="userDet">Age:</th>
+					<td>$age</td>
+				</tr>
+			</table>
+			<br>
+			</p>
+		</div>
 
 		<!-- Functions -->
 		<!-- Search for player -->
@@ -89,7 +102,7 @@
 			#if($listPlayers)
 				<link rel='stylesheet' href='style/datagrid.css'>
 				<div class="datagrid">
-					<table class="display">
+					<table class="display paging">
 						<thead>
 							<tr>
 								<th>Username</th>
@@ -141,7 +154,7 @@
 			#if($userTransactions)
 				<link rel='stylesheet' href='style/datagrid.css'>
 				<div class="datagrid">
-					<table class="display">
+					<table class="display paging">
 						<thead>
 							<tr>
 								<th>Username</th>
@@ -180,16 +193,6 @@
 			<br>
 			#if($allTransactions)
 				<link rel='stylesheet' href='style/datagrid.css'>
-				<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
-				<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js">
-				setTimeout(function(){
-					$(".paging").DataTable( {
-					    "scrollX": true,
-					    "pagingType": "full_numbers"
-					} );
-					document.getElementById("tableStatus").innerHTML = null;
-				}, 500);
-				</script>
 				<div class="datagrid">
 					<table class="display paging">
 						<thead>
@@ -283,12 +286,16 @@
 	}
 
 	function hideFunc() {
+		var d0 = document.getElementById("div0");
 		var d1 = document.getElementById("div1");
 		var d2 = document.getElementById("div2");
 		var d3 = document.getElementById("div3");
 		var d4 = document.getElementById("div4");
 		var d5 = document.getElementById("div5");
 
+		if (d0.style.display === 'block') {
+			d0.style.display = 'none';
+		}
 		if (d1.style.display === 'block') {
 			d1.style.display = 'none';
 		}
@@ -306,6 +313,9 @@
 		}
 	}
 
+	function showD0() {
+		document.getElementById("div0").style.display = 'block';
+	}
 	function showD1() {
 		document.getElementById("div1").style.display = 'block';
 	}
